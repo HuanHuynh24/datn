@@ -1,0 +1,404 @@
+{
+  "source_sha256": "f007c0c680fef98a7933a2001bd9963c8ba783a1d0b4c79123f02dbc20d2e8d2",
+  "source_counts": [
+    16,
+    136,
+    23
+  ],
+  "tables": {
+    "taikhoan": [
+      {
+        "name": "idtaikhoan",
+        "type": "bigint",
+        "nullable": false,
+        "primary_key": true,
+        "unique": false
+      },
+      {
+        "name": "vaitro",
+        "type": "varchar(30)",
+        "nullable": false,
+        "primary_key": false,
+        "unique": false
+      },
+      {
+        "name": "email",
+        "type": "varchar(255)",
+        "nullable": false,
+        "primary_key": false,
+        "unique": true
+      },
+      {
+        "name": "matkhaubam",
+        "type": "varchar(255)",
+        "nullable": false,
+        "primary_key": false,
+        "unique": false
+      },
+      {
+        "name": "hovaten",
+        "type": "varchar(255)",
+        "nullable": false,
+        "primary_key": false,
+        "unique": false
+      },
+      {
+        "name": "trangthai",
+        "type": "varchar(30)",
+        "nullable": false,
+        "primary_key": false,
+        "unique": false
+      },
+      {
+        "name": "daxacthucemail",
+        "type": "boolean",
+        "nullable": false,
+        "primary_key": false,
+        "unique": false
+      },
+      {
+        "name": "solandangsai",
+        "type": "int",
+        "nullable": null,
+        "primary_key": false,
+        "unique": false
+      },
+      {
+        "name": "khoaden",
+        "type": "datetime",
+        "nullable": true,
+        "primary_key": false,
+        "unique": false
+      },
+      {
+        "name": "nhanemail",
+        "type": "boolean",
+        "nullable": null,
+        "primary_key": false,
+        "unique": false
+      },
+      {
+        "name": "thoigiantao",
+        "type": "datetime",
+        "nullable": false,
+        "primary_key": false,
+        "unique": false
+      }
+    ],
+    "hosoungvien": [
+      {
+        "name": "idungvien",
+        "type": "bigint",
+        "nullable": false,
+        "primary_key": true,
+        "unique": false
+      },
+      {
+        "name": "idtaikhoan",
+        "type": "bigint",
+        "nullable": false,
+        "primary_key": false,
+        "unique": true,
+        "references": [
+          "taikhoan",
+          "idtaikhoan"
+        ]
+      },
+      {
+        "name": "sodienthoai",
+        "type": "varchar(20)",
+        "nullable": null,
+        "primary_key": false,
+        "unique": false
+      },
+      {
+        "name": "diachi",
+        "type": "varchar(255)",
+        "nullable": null,
+        "primary_key": false,
+        "unique": false
+      },
+      {
+        "name": "gioithieu",
+        "type": "text",
+        "nullable": null,
+        "primary_key": false,
+        "unique": false
+      },
+      {
+        "name": "anhdaidien",
+        "type": "varchar(500)",
+        "nullable": null,
+        "primary_key": false,
+        "unique": false
+      },
+      {
+        "name": "congkhaihoso",
+        "type": "boolean",
+        "nullable": null,
+        "primary_key": false,
+        "unique": false
+      },
+      {
+        "name": "thoigiancapnhat",
+        "type": "datetime",
+        "nullable": null,
+        "primary_key": false,
+        "unique": false
+      },
+      {
+        "name": "hocvan",
+        "type": "json",
+        "nullable": null,
+        "primary_key": false,
+        "unique": false
+      },
+      {
+        "name": "kinhnghiem",
+        "type": "json",
+        "nullable": null,
+        "primary_key": false,
+        "unique": false
+      },
+      {
+        "name": "vitrimongmuon",
+        "type": "varchar(255)",
+        "nullable": null,
+        "primary_key": false,
+        "unique": false
+      },
+      {
+        "name": "idtinhthanh",
+        "type": "bigint",
+        "nullable": true,
+        "primary_key": false,
+        "unique": false,
+        "references": [
+          "tinhthanh",
+          "idtinhthanh"
+        ]
+      },
+      {
+        "name": "luongmongmuontoithieu",
+        "type": "decimal(15,2)",
+        "nullable": null,
+        "primary_key": false,
+        "unique": false
+      },
+      {
+        "name": "luongmongmuontoida",
+        "type": "decimal(15,2)",
+        "nullable": null,
+        "primary_key": false,
+        "unique": false
+      },
+      {
+        "name": "hinhthuclamviecmongmuon",
+        "type": "varchar(60)",
+        "nullable": null,
+        "primary_key": false,
+        "unique": false
+      }
+    ],
+    "doanhnghiep": [
+      {
+        "name": "iddoanhnghiep",
+        "type": "bigint",
+        "nullable": false,
+        "primary_key": true,
+        "unique": false
+      },
+      {
+        "name": "idgoi",
+        "type": "bigint",
+        "nullable": false,
+        "primary_key": false,
+        "unique": false,
+        "references": [
+          "goidoanhnghiep",
+          "idgoi"
+        ]
+      },
+      {
+        "name": "tencongty",
+        "type": "varchar(255)",
+        "nullable": false,
+        "primary_key": false,
+        "unique": false
+      },
+      {
+        "name": "masothue",
+        "type": "varchar(30)",
+        "nullable": false,
+        "primary_key": false,
+        "unique": true
+      },
+      {
+        "name": "linhvuc",
+        "type": "varchar(200)",
+        "nullable": null,
+        "primary_key": false,
+        "unique": false
+      },
+      {
+        "name": "quymo",
+        "type": "varchar(60)",
+        "nullable": null,
+        "primary_key": false,
+        "unique": false
+      },
+      {
+        "name": "diachi",
+        "type": "varchar(255)",
+        "nullable": null,
+        "primary_key": false,
+        "unique": false
+      },
+      {
+        "name": "website",
+        "type": "varchar(255)",
+        "nullable": null,
+        "primary_key": false,
+        "unique": false
+      },
+      {
+        "name": "logo",
+        "type": "varchar(500)",
+        "nullable": null,
+        "primary_key": false,
+        "unique": false
+      },
+      {
+        "name": "gioithieu",
+        "type": "text",
+        "nullable": null,
+        "primary_key": false,
+        "unique": false
+      },
+      {
+        "name": "trangthaiduyet",
+        "type": "varchar(30)",
+        "nullable": false,
+        "primary_key": false,
+        "unique": false
+      },
+      {
+        "name": "thoigiantao",
+        "type": "datetime",
+        "nullable": null,
+        "primary_key": false,
+        "unique": false
+      },
+      {
+        "name": "duongdanprofile",
+        "type": "varchar(500)",
+        "nullable": true,
+        "primary_key": false,
+        "unique": false
+      },
+      {
+        "name": "ngaybatdaugoi",
+        "type": "date",
+        "nullable": null,
+        "primary_key": false,
+        "unique": false
+      },
+      {
+        "name": "ngayhethan",
+        "type": "date",
+        "nullable": true,
+        "primary_key": false,
+        "unique": false
+      }
+    ],
+    "thanhviendoanhnghiep": [
+      {
+        "name": "iddoanhnghiep",
+        "type": "bigint",
+        "nullable": false,
+        "primary_key": false,
+        "unique": false,
+        "references": [
+          "doanhnghiep",
+          "iddoanhnghiep"
+        ]
+      },
+      {
+        "name": "idtaikhoan",
+        "type": "bigint",
+        "nullable": false,
+        "primary_key": true,
+        "unique": false,
+        "references": [
+          "taikhoan",
+          "idtaikhoan"
+        ]
+      },
+      {
+        "name": "chucvunoibo",
+        "type": "varchar(100)",
+        "nullable": false,
+        "primary_key": false,
+        "unique": false
+      },
+      {
+        "name": "trangthai",
+        "type": "varchar(30)",
+        "nullable": false,
+        "primary_key": false,
+        "unique": false
+      },
+      {
+        "name": "thoigianthem",
+        "type": "datetime",
+        "nullable": null,
+        "primary_key": false,
+        "unique": false
+      }
+    ],
+    "goidoanhnghiep": [
+      {
+        "name": "idgoi",
+        "type": "bigint",
+        "nullable": false,
+        "primary_key": true,
+        "unique": false
+      },
+      {
+        "name": "magoi",
+        "type": "varchar(30)",
+        "nullable": null,
+        "primary_key": false,
+        "unique": true
+      },
+      {
+        "name": "tengoi",
+        "type": "varchar(80)",
+        "nullable": null,
+        "primary_key": false,
+        "unique": false
+      },
+      {
+        "name": "sotaikhoantoida",
+        "type": "int",
+        "nullable": true,
+        "primary_key": false,
+        "unique": false
+      },
+      {
+        "name": "giathang",
+        "type": "decimal(15,2)",
+        "nullable": null,
+        "primary_key": false,
+        "unique": false
+      },
+      {
+        "name": "mota",
+        "type": "text",
+        "nullable": null,
+        "primary_key": false,
+        "unique": false
+      }
+    ]
+  }
+}

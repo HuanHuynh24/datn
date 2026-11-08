@@ -1,0 +1,506 @@
+{
+  "jobs": [
+    {
+      "title": "GIÁO VIÊN TIẾNG ANH LUYỆN THI KET, PET, IELTS ( LƯƠNG CAO)",
+      "company": "Công Ty Tư Vấn Giáo Dục Và Đào Tạo SMART BEE",
+      "logo": "/images/careerlink/asset-4.png",
+      "location": "Hồ Chí Minh",
+      "posted": "5 ngày trước",
+      "salary": "Cạnh tranh"
+    },
+    {
+      "title": "Nhân Viên Kinh Doanh (Khu Vực Đông Bắc Bộ) - Không Yêu Cầu Kinh Nghiệm - Thu Nhập Lên Đến 20Tr",
+      "company": "CÔNG TY TNHH YAKULT VIỆT NAM",
+      "logo": "/images/careerlink/asset-5.png",
+      "location": "Lạng Sơn Phú Thọ Thái Nguyên",
+      "posted": "4 ngày trước",
+      "salary": "14 triệu - 20 triệu"
+    },
+    {
+      "title": "Nhân Viên Kinh Doanh Ban Phát Triển Miền Đông (Bình Dương, Đồng Nai)",
+      "company": "CÔNG TY TNHH YAKULT VIỆT NAM",
+      "logo": "/images/careerlink/asset-5.png",
+      "location": "Hồ Chí Minh Đồng Nai",
+      "posted": "một ngày trước",
+      "salary": "11 triệu - 19 triệu"
+    },
+    {
+      "title": "THỦ KHO",
+      "company": "Công Ty Cổ Phần CIEC Toàn Cầu",
+      "logo": "/images/careerlink/asset-6.jpg",
+      "location": "Cần Thơ Bà Rịa - Vũng Tàu",
+      "posted": "một ngày trước",
+      "salary": "Thương lượng"
+    },
+    {
+      "title": "NHÂN VIÊN THIẾT KẾ",
+      "company": "Công ty TNHH TM DV và SX Văn Bá Thiên",
+      "logo": "/images/careerlink/asset-7.jpg",
+      "location": "Đồng Nai",
+      "posted": "một ngày trước",
+      "salary": "9 triệu - 12 triệu"
+    },
+    {
+      "title": "NHÂN VIÊN CƠ ĐIỆN TỬ CHUYÊN PLC",
+      "company": "CÔNG TY TNHH DAIJIN VINA",
+      "logo": "/images/careerlink/asset-8.png",
+      "location": "Đà Nẵng",
+      "posted": "3 ngày trước",
+      "salary": "Thương lượng"
+    },
+    {
+      "title": "Chuyên Viên Shop Drawing (Vũng Tàu / TP.HCM)",
+      "company": "Công Ty TNHH MTV Phê Nguyễn",
+      "logo": "/images/careerlink/asset-9.png",
+      "location": "Bà Rịa - Vũng Tàu Đà Nẵng",
+      "posted": "7 giờ trước",
+      "salary": "15 triệu - 25 triệu"
+    },
+    {
+      "title": "Nhân viên Xuất Nhập Khẩu – Thu mua/ Im-Export & Purchasing Staff ( Hợp đồng 5 tháng )",
+      "company": "SAMHWA – VH CO.,LTD",
+      "logo": "/images/careerlink/asset-10.png",
+      "location": "Đồng Nai",
+      "posted": "2 ngày trước",
+      "salary": "Thương lượng"
+    },
+    {
+      "title": "NHÂN VIÊN VẬN HÀNH MÁY",
+      "company": "Công Ty TNHH Ống Thép Hòa Phát Đà Nẵng",
+      "logo": "/images/careerlink/asset-11.png",
+      "location": "Đà Nẵng",
+      "posted": "một ngày trước",
+      "salary": "12 triệu - 18 triệu"
+    },
+    {
+      "title": "Nhân Viên Kế Toán (Không Cần Kinh Nghiệm)",
+      "company": "CÔNG TY TNHH TƯ VẤN KẾ TOÁN THUẾ ACO",
+      "logo": "/images/careerlink/asset-12.png",
+      "location": "Hồ Chí Minh",
+      "posted": "13 giờ trước",
+      "salary": "8 triệu - 15 triệu"
+    },
+    {
+      "title": "Nhân Viên Thống Kê / Thu Thập Dữ Liệu (Ngành May Mặc - Sản Xuất)",
+      "company": "CÔNG TY MAY MẶC PROMINENT GARMENT",
+      "logo": "/images/careerlink/asset-13.png",
+      "location": "Bình Dương",
+      "posted": "7 giờ trước",
+      "salary": "10 triệu - 15 triệu"
+    },
+    {
+      "title": "NHÂN VIÊN VẬN HÀNH MÁY MC, PHAY (Số lượng: 05)-KHÔNG CẦN KINH NGHIỆM",
+      "company": "DAITOH INDUSTRY VIETNAM CO.,LTD",
+      "logo": "/images/careerlink/asset-14.png",
+      "location": "Đồng Nai",
+      "posted": "một ngày trước",
+      "salary": "7.7 triệu - 10.4 triệu"
+    },
+    {
+      "title": "09 Nhân Viên Quản Lý Vận Hành Đường Dây 220kV-500kV",
+      "company": "Công Ty Truyền Tải Điện 4 (PTC4)",
+      "logo": "/images/careerlink/asset-15.png",
+      "location": "Bình Dương Hồ Chí Minh Tây Ninh Bình Phước",
+      "posted": "3 ngày trước",
+      "salary": "Thương lượng"
+    },
+    {
+      "title": "NAM THỦ KHO DƯỢC – LÀM VIỆC TẠI TP.HCM",
+      "company": "CÔNG TY TNHH DƯỢC PHẨM NGUYÊN ANH KHOA",
+      "logo": "/images/careerlink/asset-16.png",
+      "location": "Hồ Chí Minh",
+      "posted": "một ngày trước",
+      "salary": "Thương lượng"
+    },
+    {
+      "title": "Kỹ Sư Thiết Kế Công Trình Giao Thông",
+      "company": "CÔNG TY CỔ PHẦN KỸ THUẬT XÂY DỰNG TOYO",
+      "logo": "/images/careerlink/asset-17.png",
+      "location": "Hồ Chí Minh",
+      "posted": "2 ngày trước",
+      "salary": "Thương lượng"
+    },
+    {
+      "title": "TẬP SỰ NGÂN HÀNG TP BANK - Ưu Tiên Mới Tốt Nghiệp",
+      "company": "Ngân Hàng Thương Mại Cổ Phần Tiên Phong (TP Bank) - Chi nhánh Bắc Đà Nẵng",
+      "logo": "/images/careerlink/asset-18.png",
+      "location": "Đà Nẵng",
+      "posted": "3 ngày trước",
+      "salary": "15 triệu"
+    },
+    {
+      "title": "Nhân Viên QC - Ngành hàng Cơ Khí",
+      "company": "Công ty TNHH TM DV và SX Văn Bá Thiên",
+      "logo": "/images/careerlink/asset-7.jpg",
+      "location": "Đồng Nai",
+      "posted": "12 giờ trước",
+      "salary": "8 triệu - 10 triệu"
+    },
+    {
+      "title": "Nhân Viên Hành Chính Nhân Sự Kiêm Thủ Kho",
+      "company": "MHY VIETNAM COMPANY LIMITED",
+      "logo": "/images/careerlink/asset-19.png",
+      "location": "Bình Dương",
+      "posted": "một ngày trước",
+      "salary": "9 triệu - 9.5 triệu"
+    },
+    {
+      "title": "Nhân Viên Giám Sát Và Kiểm Tra Chất Lượng Sản Phẩm Cơ Khí (QC) - Tiếng Nhật N4 Trở Lên",
+      "company": "CÔNG TY TNHH TAIHEI VIỆT NAM",
+      "logo": "/images/careerlink/asset-20.png",
+      "location": "Hà Nội",
+      "posted": "9 giờ trước",
+      "salary": "550 USD - 700 USD"
+    },
+    {
+      "title": "Trưởng Bộ Phận Bê Tông",
+      "company": "CÔNG TY TNHH HS",
+      "logo": "/images/careerlink/asset-21.png",
+      "location": "Long An",
+      "posted": "2 ngày trước",
+      "salary": "15 triệu - 20 triệu"
+    },
+    {
+      "title": "Nhân Viên Thiết Kế Và Giám Sát MEP Kiêm PCCC",
+      "company": "CÔNG TY CỔ PHẦN ROBOTCOM",
+      "logo": "/images/careerlink/asset-22.png",
+      "location": "Đà Nẵng",
+      "posted": "2 ngày trước",
+      "salary": "Trên 20 triệu"
+    },
+    {
+      "title": "Kỹ Thuật Sửa Chữa Ô Tô",
+      "company": "Công ty Cổ Phần TH Auto Care",
+      "logo": "/images/careerlink/asset-23.png",
+      "location": "Hải Phòng",
+      "posted": "5 ngày trước",
+      "salary": "15 triệu - 18 triệu"
+    },
+    {
+      "title": "Nhân Viên Media",
+      "company": "CÔNG TY TNHH MACHINERY CARNO VIỆT NAM",
+      "logo": "/images/careerlink/asset-24.png",
+      "location": "Bình Dương",
+      "posted": "13 giờ trước",
+      "salary": "Trên 10 triệu"
+    }
+  ],
+  "categories": [
+    {
+      "label": "Kế toán / Kiểm toán",
+      "image": "/images/careerlink/asset-31.svg",
+      "count": "1724 việc làm"
+    },
+    {
+      "label": "Quảng cáo / Khuyến mãi / Đối ngoại",
+      "image": "/images/careerlink/asset-32.svg",
+      "count": "682 việc làm"
+    },
+    {
+      "label": "Nông nghiệp / Lâm nghiệp",
+      "image": "/images/careerlink/asset-33.svg",
+      "count": "1895 việc làm"
+    },
+    {
+      "label": "Nghệ thuật / Thiết kế / Giải trí",
+      "image": "/images/careerlink/asset-34.svg",
+      "count": "602 việc làm"
+    },
+    {
+      "label": "Ngân hàng / Chứng khoán",
+      "image": "/images/careerlink/asset-35.svg",
+      "count": "922 việc làm"
+    },
+    {
+      "label": "Thư ký / Hành chánh",
+      "image": "/images/careerlink/asset-36.svg",
+      "count": "1400 việc làm"
+    },
+    {
+      "label": "Tư vấn dịch vụ khách hàng",
+      "image": "/images/careerlink/asset-37.svg",
+      "count": "8228 việc làm"
+    },
+    {
+      "label": "Xây dựng",
+      "image": "/images/careerlink/asset-38.svg",
+      "count": "2270 việc làm"
+    },
+    {
+      "label": "Dịch vụ khách hàng",
+      "image": "/images/careerlink/asset-39.svg",
+      "count": "5113 việc làm"
+    },
+    {
+      "label": "Giáo dục / Đào tạo / Thư viện",
+      "image": "/images/careerlink/asset-40.svg",
+      "count": "2198 việc làm"
+    },
+    {
+      "label": "Kỹ thuật ứng dụng / Cơ khí",
+      "image": "/images/careerlink/asset-41.svg",
+      "count": "2050 việc làm"
+    },
+    {
+      "label": "Người nước ngoài",
+      "image": "/images/careerlink/asset-42.svg",
+      "count": "2 việc làm"
+    },
+    {
+      "label": "Xuất nhập khẩu / Ngoại thương",
+      "image": "/images/careerlink/asset-43.svg",
+      "count": "324 việc làm"
+    },
+    {
+      "label": "Chăm sóc sức khỏe / Y tế",
+      "image": "/images/careerlink/asset-44.svg",
+      "count": "2133 việc làm"
+    },
+    {
+      "label": "Du lịch",
+      "image": "/images/careerlink/asset-45.svg",
+      "count": "94 việc làm"
+    },
+    {
+      "label": "Nhân sự",
+      "image": "/images/careerlink/asset-46.svg",
+      "count": "798 việc làm"
+    },
+    {
+      "label": "Bảo hiểm",
+      "image": "/images/careerlink/asset-47.svg",
+      "count": "843 việc làm"
+    },
+    {
+      "label": "Biên phiên dịch / Thông dịch viên",
+      "image": "/images/careerlink/asset-48.svg",
+      "count": "1550 việc làm"
+    },
+    {
+      "label": "CNTT - Phần mềm",
+      "image": "/images/careerlink/asset-49.svg",
+      "count": "468 việc làm"
+    },
+    {
+      "label": "Lao động phổ thông",
+      "image": "/images/careerlink/asset-50.svg",
+      "count": "488 việc làm"
+    },
+    {
+      "label": "Pháp lý / Luật",
+      "image": "/images/careerlink/asset-51.svg",
+      "count": "292 việc làm"
+    },
+    {
+      "label": "Quản lý điều hành",
+      "image": "/images/careerlink/asset-52.svg",
+      "count": "213 việc làm"
+    },
+    {
+      "label": "Sản xuất / Vận hành sản xuất",
+      "image": "/images/careerlink/asset-53.svg",
+      "count": "1772 việc làm"
+    },
+    {
+      "label": "Báo chí / Biên tập viên / Xuất bản",
+      "image": "/images/careerlink/asset-54.svg",
+      "count": "143 việc làm"
+    },
+    {
+      "label": "Phi chính phủ / Phi lợi nhuận",
+      "image": "/images/careerlink/asset-25.svg",
+      "count": "0 việc làm"
+    },
+    {
+      "label": "Dầu khí / Khoáng sản",
+      "image": "/images/careerlink/asset-26.svg",
+      "count": "40 việc làm"
+    },
+    {
+      "label": "Vật tư / Thu mua",
+      "image": "/images/careerlink/asset-27.svg",
+      "count": "477 việc làm"
+    },
+    {
+      "label": "Dược / Sinh học",
+      "image": "/images/careerlink/asset-28.svg",
+      "count": "4636 việc làm"
+    },
+    {
+      "label": "Bất động sản",
+      "image": "/images/careerlink/asset-29.svg",
+      "count": "728 việc làm"
+    },
+    {
+      "label": "Nhà hàng / Dịch vụ ăn uống",
+      "image": "/images/careerlink/asset-30.svg",
+      "count": "783 việc làm"
+    }
+  ],
+  "companies": [
+    {
+      "name": "Công ty Cổ phần Nụ Cười Mới Việt Nam",
+      "image": "/images/careerlink/asset-63.svg",
+      "logo": "/images/careerlink/asset-64.png",
+      "hiring": "Đang tuyển: [Nha Khoa Medlatec] Kế Toán Thuế [Nha Khoa Medlatec] Bác Sĩ Răng Hàm Mặt (Bác sĩ phẫu thuật)",
+      "count": "6 việc đang tuyển",
+      "location": "Hà Nội"
+    },
+    {
+      "name": "Công Ty TNHH Aeon Delight Việt Nam",
+      "image": "/images/careerlink/asset-65.jpg",
+      "logo": "/images/careerlink/asset-66.jpg",
+      "hiring": "Đang tuyển: [LONG BIÊN - HÀ NỘI] NHÂN VIÊN CHĂM SÓC KHÁCH HÀNG (Ưu tiên sinh viên) [ Aeon Mall Long Biên] Nhân Viên Kỹ Thuật",
+      "count": "27 việc đang tuyển",
+      "location": "Hà Nội"
+    },
+    {
+      "name": "Công Ty TNHH Vietnam Concentrix Services",
+      "image": "/images/careerlink/asset-67.svg",
+      "logo": "/images/careerlink/asset-68.png",
+      "hiring": "Đang tuyển:",
+      "count": "0 việc đang tuyển",
+      "location": ""
+    },
+    {
+      "name": "Công ty TNHH Công nghiệp Fullwei Việt Nam",
+      "image": "/images/careerlink/asset-69.jpg",
+      "logo": "/images/careerlink/asset-70.png",
+      "hiring": "Đang tuyển: [Bắc Ninh] TRỢ LÝ TIẾNG TRUNG [302 CẦU GIẤY- HÀ NỘI] NHÂN VIÊN HÀNH CHÍNH- KHÔNG YÊU CẦU TIẾNG",
+      "count": "7 việc đang tuyển",
+      "location": "Bắc Ninh, Hà Nội"
+    },
+    {
+      "name": "VIETNAM CONCENTRIX SERVICES COMPANY LIMITED",
+      "image": "/images/careerlink/asset-71.jpg",
+      "logo": "/images/careerlink/asset-72.png",
+      "hiring": "Đang tuyển: [HCM] Nhân Viên Tiếp Thị Sản Phẩm – Hưởng 100% Lương Thử Việc [HCM] Nhân Viên Tư Vấn Bán Hàng – Thu Nhập Hấp Dẫn, Full Lương Thử Việc",
+      "count": "1420 việc đang tuyển",
+      "location": "Hồ Chí Minh"
+    },
+    {
+      "name": "CÔNG TY TNHH NITTO DENKO VIỆT NAM",
+      "image": "/images/careerlink/asset-63.svg",
+      "logo": "/images/careerlink/asset-73.png",
+      "hiring": "Đang tuyển: Nhân Viên Mua Hàng (Purchasing) Production Group Leader ( Tiếng Nhật)",
+      "count": "11 việc đang tuyển",
+      "location": "Bình Dương, Hồ Chí Minh"
+    },
+    {
+      "name": "Công Ty CP Chuỗi Thực Phẩm TH",
+      "image": "/images/careerlink/asset-74.png",
+      "logo": "/images/careerlink/asset-75.png",
+      "hiring": "Đang tuyển: Chuyên Viên Kinh Doanh Thị Trường (Mảng Xi Măng) Chuyên Viên Kinh Doanh Thị Trường (Mảng Xi Măng)",
+      "count": "24 việc đang tuyển",
+      "location": "Hồ Chí Minh, Gia Lai, Thanh Hóa"
+    },
+    {
+      "name": "CÔNG TY TNHH ĐIỆN TỬ THÔNG MINH TCL (VIỆT NAM)",
+      "image": "/images/careerlink/asset-76.jpg",
+      "logo": "/images/careerlink/asset-77.png",
+      "hiring": "Đang tuyển: KỸ SƯ AN TOÀN - TIẾNG TRUNG Nhân viên An toàn Kho",
+      "count": "6 việc đang tuyển",
+      "location": "Bình Dương, Vĩnh Phúc"
+    },
+    {
+      "name": "Công Ty Cổ Phần TM – DV – SX Hương Thủy",
+      "image": "/images/careerlink/asset-55.jpg",
+      "logo": "/images/careerlink/asset-56.png",
+      "hiring": "Đang tuyển: Nhân Viên Admin Admin Staff (IT Master)",
+      "count": "4 việc đang tuyển",
+      "location": "Bình Dương, Hồ Chí Minh"
+    },
+    {
+      "name": "Công Ty TNHH Transcosmos Vietnam",
+      "image": "/images/careerlink/asset-57.jpg",
+      "logo": "/images/careerlink/asset-58.png",
+      "hiring": "Đang tuyển:",
+      "count": "0 việc đang tuyển",
+      "location": ""
+    },
+    {
+      "name": "CÔNG TY TNHH THẨM MỸ NGỌC DUNG",
+      "image": "/images/careerlink/asset-59.jpg",
+      "logo": "/images/careerlink/asset-60.png",
+      "hiring": "Đang tuyển:",
+      "count": "0 việc đang tuyển",
+      "location": ""
+    },
+    {
+      "name": "CÔNG TY TNHH MTV THỰC PHẨM BÌNH VINH SÀI GÒN",
+      "image": "/images/careerlink/asset-61.jpg",
+      "logo": "/images/careerlink/asset-62.png",
+      "hiring": "Đang tuyển:",
+      "count": "0 việc đang tuyển",
+      "location": ""
+    }
+  ],
+  "articles": [
+    {
+      "title": "Câu Hỏi Phỏng Vấn Tư Vấn Viên Bảo Hiểm Giúp Ghi điểm Cao",
+      "image": "/images/careerlink/asset-83.jpg",
+      "tag": "Phỏng vấn việc làm",
+      "description": "Câu hỏi phỏng vấn tư vấn viên bảo hiểm thường gặp: tìm khách, xử lý từ chối, đạo đức tư vấn, chứng chỉ đại lý, thu nhập. Xem ý trả lời và câu nên hỏi lại."
+    },
+    {
+      "title": "Cách Chọn ảnh CV Phù Hợp để Tạo ấn Tượng Khi ứng Tuyển",
+      "image": "/images/careerlink/asset-84.jpg",
+      "tag": "Viết CV / Resume",
+      "description": "Cách chọn ảnh CV đúng: khi nào cần ảnh, tiêu chí rõ mặt, nền, trang phục theo ngành, lỗi cần tránh và mẹo chụp bằng điện thoại. Xem bảng nên – không nên."
+    },
+    {
+      "title": "Câu Hỏi Phỏng Vấn Môi Giới Bất động Sản Sát Thực Tế Nhất",
+      "image": "/images/careerlink/asset-85.jpg",
+      "tag": "Phỏng vấn việc làm",
+      "description": "Câu hỏi phỏng vấn môi giới bất động sản về nguồn khách, pháp lý dự án, áp lực doanh số, chứng chỉ hành nghề. Xem ý trả lời gợi ý và câu nên hỏi lại sàn."
+    },
+    {
+      "title": "Nên Làm CV 1 Trang Hay 2 Trang để Ghi điểm Khi ứng Tuyển",
+      "image": "/images/careerlink/asset-86.jpg",
+      "tag": "Viết CV / Resume",
+      "description": "Nên làm CV 1 trang hay 2 trang? Xem độ dài gợi ý theo số năm kinh nghiệm, ngành nghề, cách rút gọn và trang đầu cần có gì. Đọc ngay để sửa CV hôm nay."
+    },
+    {
+      "title": "Câu Hỏi Phỏng Vấn Nhân Viên An Toàn Lao động HSE Thực Tế",
+      "image": "/images/careerlink/asset-87.jpg",
+      "tag": "Phỏng vấn việc làm",
+      "description": "Câu hỏi phỏng vấn nhân viên an toàn lao động HSE: đánh giá rủi ro, huấn luyện ATVSLĐ, work permit, điều tra tai nạn, ISO 45001. Xem ý trả lời để luyện ngay."
+    },
+    {
+      "title": "Cách đặt Tên File CV Giúp Nhà Tuyển Dụng Dễ Nhận Diện Hồ Sơ",
+      "image": "/images/careerlink/asset-78.jpg",
+      "tag": "Viết CV / Resume",
+      "description": "Cách đặt tên file CV: công thức Họ tên – Vị trí – CV, có dấu hay không dấu, PDF hay Word, tên file khi nộp email, ATS. Xem bảng sai – đúng và sửa ngay."
+    },
+    {
+      "title": "Câu Hỏi Phỏng Vấn Quản Lý Sản Xuất Theo Tình Huống Thực Tế",
+      "image": "/images/careerlink/asset-79.jpg",
+      "tag": "Phỏng vấn việc làm",
+      "description": "Câu hỏi phỏng vấn quản lý sản xuất về kế hoạch, OEE, an toàn, ca kíp và tình huống công nhân nghỉ sau Tết. Xem ý trả lời và chuẩn bị số liệu của bạn ngay."
+    },
+    {
+      "title": "Tìm Việc Qua Facebook An Toàn Nhờ Nhận Biết Tin Lừa đảo",
+      "image": "/images/careerlink/asset-80.jpg",
+      "tag": "Tìm việc",
+      "description": "Tìm việc qua Facebook an toàn: dấu hiệu tin tuyển dụng lừa đảo, cách tra mã số thuế, bảo vệ CCCD khi gửi CV và nơi báo cáo. Đọc ngay trước khi ứng tuyển."
+    },
+    {
+      "title": "Câu Hỏi Phỏng Vấn Nhân Viên Supply Chain Giúp Ghi điểm",
+      "image": "/images/careerlink/asset-81.jpg",
+      "tag": "Phỏng vấn việc làm",
+      "description": "Câu hỏi phỏng vấn nhân viên supply chain theo mảng planning, procurement, logistics: tồn kho an toàn, lead time, Excel, ERP. Xem ý trả lời và luyện ngay."
+    },
+    {
+      "title": "Có Nên Tìm Việc Qua Người Quen để Mở Rộng Cơ Hội ứng Tuyển",
+      "image": "/images/careerlink/asset-82.jpg",
+      "tag": "Tìm việc",
+      "description": "Có nên tìm việc qua người quen? Xem lợi, hại, cách nhờ giới thiệu mà vẫn đi đủ vòng tuyển và giữ quan hệ khi không được nhận. Đọc ngay trước khi nhờ ai đó."
+    }
+  ],
+  "banners": [
+    "/images/careerlink/asset-0.jpg",
+    "/images/careerlink/asset-1.jpg"
+  ],
+  "discovery": "/images/careerlink/asset-2.png",
+  "sidebar": "/images/careerlink/asset-3.png"
+}

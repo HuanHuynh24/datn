@@ -1,0 +1,80 @@
+/* One listing style for search, saved jobs, recommendations and recruitment. */
+.cl-job-collection { display: flex; flex-direction: column; gap: 0; min-width: 0; background: var(--color-surface); }
+.cl-job-list {
+  display: grid;
+  grid-template-columns: 90px minmax(0, 1fr);
+  align-items: center;
+  column-gap: 16px;
+  row-gap: 0;
+  min-height: 144px;
+  padding: 24px;
+  background: var(--color-surface);
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+}
+.cl-job-collection > .cl-job + .cl-job { border-top: 1px solid var(--ui-line); }
+.cl-job-list:hover { background: var(--ui-hover); }
+.cl-job-list .cl-job-logo { width: 90px; height: 90px; border: 0; border-radius: 4px; }
+.cl-job-list .cl-job-heading { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+.cl-job-list .cl-job-title { flex: 1; min-width: 0; font-size: 20px; font-weight: 600; line-height: 26px; letter-spacing: 0; margin: 0 0 4px; }
+.cl-job-list .cl-job-title button { display: block; width: 100%; text-align: left; white-space: normal; overflow-wrap: anywhere; }
+.cl-job-list .cl-job-title button:hover { color: var(--color-brand); }
+.cl-job-list .cl-job-company { color: var(--ui-muted); text-transform: none; font-size: 14px; line-height: 21px; margin-bottom: 3px; }
+.cl-job-list .cl-job-meta { font-size: 14px; line-height: 20px; color: var(--ui-muted); gap: 8px; }
+.cl-job-list .cl-job-meta > span { gap: 4px; }
+.cl-job-list .cl-job-meta time { display: block; }
+.cl-job-list .cl-job-bottom { margin-top: 3px; padding-right: 80px; flex-wrap: wrap; gap: 4px 8px; }
+.cl-job-list .cl-job-salary { color: var(--ui-text); font-size: 14px; font-weight: 600; line-height: 21px; white-space: normal; }
+.cl-job-list .cl-job-salary svg { display: none; }
+.cl-job-list .cl-job-level { color: var(--ui-muted); font-size: 14px; }
+.cl-job-list .cl-save { right: 24px; bottom: 20px; min-height: 32px; }
+.cl-job-match { margin-top: 8px; }
+.cl-job-heading > .ui-badge { flex-shrink: 0; margin-top: 2px; }
+.cl-job-details { grid-column: 2; padding-top: 16px; color: var(--ui-body); font-size: 13px; }
+.cl-job-details .ui-actions { gap: 8px; }
+.cl-job-details .ui-btn { font-size: 13px; min-height: 36px; padding: 7px 12px; }
+.cl-job-details .ui-application-steps { margin-top: 16px; }
+.cl-job-details .ui-interview { margin-top: 16px; }
+.cl-job-management-actions { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+.cl-job-with-details .cl-job-logo { align-self: start; }
+.cl-job-with-details .cl-job-bottom { padding-right: 0; }
+@media (max-width: 767px) {
+  .cl-job-list { grid-template-columns: 65px minmax(0, 1fr); padding: 16px 12px; column-gap: 12px; min-height: 142px; }
+  .cl-job-list .cl-job-logo { width: 65px; height: 65px; }
+  .cl-job-list .cl-job-title { font-size: 16px; line-height: 22px; }
+  .cl-job-list .cl-job-company { font-size: 12px; line-height: 18px; margin-bottom: 6px; }
+  .cl-job-list .cl-job-meta { font-size: 11px; }
+  .cl-job-list .cl-job-meta time { display: none; }
+  .cl-job-list .cl-job-salary { font-size: 13px; }
+  .cl-job-list .cl-job-bottom { padding-right: 28px; }
+  .cl-job-list .cl-job-level { display: none; }
+  .cl-job-list .cl-job-heading { flex-direction: column; gap: 4px; }
+  .cl-job-heading > .ui-badge { margin: 0 0 6px; }
+  .cl-job-list .cl-save { right: 6px; bottom: 8px; width: 36px; height: 36px; justify-content: center; }
+  .cl-job-list .cl-save span { display: none; }
+  .cl-job-details { grid-column: 1 / -1; }
+}
+
+/* Compact cards are shared by the public, candidate and recruiter homepages. */
+.cl-job-compact .cl-job-heading { display:block; }
+.cl-job-compact .cl-job-title { font-size:16px; line-height:24px; font-weight:700; letter-spacing:-.45px; margin-bottom:5px; }
+.cl-job-compact .cl-job-title button { display:block; width:100%; text-overflow:ellipsis; overflow:hidden; white-space:nowrap; text-align:left; }
+.cl-job-compact .cl-job-title button:hover { color:var(--color-brand); }
+.cl-job-compact.cl-job-labelled .cl-job-title { padding-right:70px; }
+.cl-job-compact:not(.cl-job-labelled) .cl-job-title { padding-right:0; }
+.cl-job-corner { position:absolute; top:0; right:0; }
+.cl-job-corner>span { display:block; font-size:11px; line-height:18px; padding:2px 6px; border-radius:0 3px 0 3px; }
+.cl-job-compact .cl-save { width:28px; height:28px; right:8px; bottom:7px; justify-content:center; }
+
+/* Candidate search reuses the homepage cards across the full results area. */
+.cl-results-wrap-grid { grid-template-columns:minmax(0,1fr); }
+.cl-results-grid { grid-template-columns:repeat(3,minmax(0,1fr)); margin:0; }
+@media(max-width:1199px) {
+  .cl-results-grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
+}
+@media(max-width:767px) {
+  .cl-results-grid { grid-template-columns:minmax(0,1fr); }
+  .cl-job-compact .cl-job-title { font-size:14px; line-height:21px; }
+  .cl-job-compact .cl-save { width:36px; height:36px; right:4px; bottom:3px; }
+}

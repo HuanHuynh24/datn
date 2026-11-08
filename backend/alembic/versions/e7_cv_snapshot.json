@@ -1,0 +1,280 @@
+[
+  {
+    "name": "hosocv",
+    "columns": [
+      {
+        "name": "idcv",
+        "type": "BIGINT",
+        "nullable": false,
+        "primary_key": true,
+        "unique": false,
+        "autoincrement": true,
+        "info": {
+          "erd_r2": true,
+          "nullable_review": "CONFIRMED",
+          "default_review": "CONFIRMED_NO_DEFAULT",
+          "approval_reference": "CV_APPLICATION_E7_2026-11-05",
+          "decision_id": "E7_hosocv_idcv"
+        },
+        "foreign_keys": []
+      },
+      {
+        "name": "idungvien",
+        "type": "BIGINT",
+        "nullable": false,
+        "primary_key": false,
+        "unique": false,
+        "autoincrement": false,
+        "info": {
+          "erd_r2": true,
+          "nullable_review": "CONFIRMED",
+          "default_review": "CONFIRMED_NO_DEFAULT",
+          "approval_reference": "CV_APPLICATION_E7_2026-11-05",
+          "decision_id": "E7_hosocv_idungvien"
+        },
+        "foreign_keys": [
+          {
+            "target": "hosoungvien.idungvien",
+            "name": "fk_hosocv_idungvien",
+            "ondelete": "RESTRICT",
+            "onupdate": "RESTRICT"
+          }
+        ]
+      },
+      {
+        "name": "duongdantep",
+        "type": "VARCHAR(500)",
+        "nullable": false,
+        "primary_key": false,
+        "unique": false,
+        "autoincrement": false,
+        "info": {
+          "erd_r2": true,
+          "nullable_review": "CONFIRMED",
+          "default_review": "CONFIRMED_NO_DEFAULT",
+          "approval_reference": "CV_APPLICATION_E7_2026-11-05",
+          "decision_id": "E7_hosocv_duongdantep"
+        },
+        "foreign_keys": []
+      },
+      {
+        "name": "cvchinh",
+        "type": "BOOLEAN",
+        "nullable": false,
+        "primary_key": false,
+        "unique": false,
+        "autoincrement": false,
+        "info": {
+          "erd_r2": true,
+          "nullable_review": "CONFIRMED",
+          "default_review": "CONFIRMED_NO_DEFAULT",
+          "approval_reference": "CV_APPLICATION_E7_2026-11-05",
+          "decision_id": "E7_hosocv_cvchinh"
+        },
+        "foreign_keys": []
+      },
+      {
+        "name": "trangthai",
+        "type": "VARCHAR(30)",
+        "nullable": false,
+        "primary_key": false,
+        "unique": false,
+        "autoincrement": false,
+        "info": {
+          "erd_r2": true,
+          "nullable_review": "CONFIRMED",
+          "default_review": "CONFIRMED_NO_DEFAULT",
+          "approval_reference": "CV_APPLICATION_E7_2026-11-05",
+          "decision_id": "E7_hosocv_trangthai"
+        },
+        "foreign_keys": []
+      },
+      {
+        "name": "thoigiantao",
+        "type": "DATETIME",
+        "nullable": false,
+        "primary_key": false,
+        "unique": false,
+        "autoincrement": false,
+        "info": {
+          "erd_r2": true,
+          "nullable_review": "CONFIRMED",
+          "default_review": "CONFIRMED_NO_DEFAULT",
+          "approval_reference": "CV_APPLICATION_E7_2026-11-05",
+          "decision_id": "E7_hosocv_thoigiantao"
+        },
+        "foreign_keys": []
+      }
+    ]
+  },
+  {
+    "name": "donungtuyen",
+    "columns": [
+      {
+        "name": "iddon",
+        "type": "BIGINT",
+        "nullable": false,
+        "primary_key": true,
+        "unique": false,
+        "autoincrement": true,
+        "info": {
+          "erd_r2": true,
+          "nullable_review": "CONFIRMED",
+          "default_review": "CONFIRMED_NO_DEFAULT",
+          "approval_reference": "CV_APPLICATION_E7_2026-11-05",
+          "decision_id": "E7_donungtuyen_iddon"
+        },
+        "foreign_keys": []
+      },
+      {
+        "name": "idungvien",
+        "type": "BIGINT",
+        "nullable": false,
+        "primary_key": false,
+        "unique": false,
+        "autoincrement": false,
+        "info": {
+          "erd_r2": true,
+          "nullable_review": "CONFIRMED",
+          "default_review": "CONFIRMED_NO_DEFAULT",
+          "approval_reference": "CV_APPLICATION_E7_2026-11-05",
+          "decision_id": "E7_donungtuyen_idungvien"
+        },
+        "foreign_keys": [
+          {
+            "target": "hosoungvien.idungvien",
+            "name": "fk_donungtuyen_idungvien",
+            "ondelete": "RESTRICT",
+            "onupdate": "RESTRICT"
+          }
+        ]
+      },
+      {
+        "name": "idtin",
+        "type": "BIGINT",
+        "nullable": false,
+        "primary_key": false,
+        "unique": false,
+        "autoincrement": false,
+        "info": {
+          "erd_r2": true,
+          "nullable_review": "CONFIRMED",
+          "default_review": "CONFIRMED_NO_DEFAULT",
+          "approval_reference": "CV_APPLICATION_E7_2026-11-05",
+          "decision_id": "E7_donungtuyen_idtin"
+        },
+        "foreign_keys": [
+          {
+            "target": "tintuyendung.idtin",
+            "name": "fk_donungtuyen_idtin",
+            "ondelete": "RESTRICT",
+            "onupdate": "RESTRICT"
+          }
+        ]
+      },
+      {
+        "name": "idcv",
+        "type": "BIGINT",
+        "nullable": true,
+        "primary_key": false,
+        "unique": false,
+        "autoincrement": false,
+        "info": {
+          "erd_r2": true,
+          "nullable_review": "CONFIRMED",
+          "default_review": "CONFIRMED_NO_DEFAULT",
+          "approval_reference": "CV_APPLICATION_E7_2026-11-05",
+          "decision_id": "E7_donungtuyen_idcv"
+        },
+        "foreign_keys": [
+          {
+            "target": "hosocv.idcv",
+            "name": "fk_donungtuyen_idcv",
+            "ondelete": "RESTRICT",
+            "onupdate": "RESTRICT"
+          }
+        ]
+      },
+      {
+        "name": "duongdanbanluucv",
+        "type": "VARCHAR(500)",
+        "nullable": true,
+        "primary_key": false,
+        "unique": false,
+        "autoincrement": false,
+        "info": {
+          "erd_r2": true,
+          "nullable_review": "CONFIRMED",
+          "default_review": "CONFIRMED_NO_DEFAULT",
+          "approval_reference": "CV_APPLICATION_E7_2026-11-05",
+          "decision_id": "E7_donungtuyen_duongdanbanluucv"
+        },
+        "foreign_keys": []
+      },
+      {
+        "name": "thugiothieu",
+        "type": "TEXT",
+        "nullable": true,
+        "primary_key": false,
+        "unique": false,
+        "autoincrement": false,
+        "info": {
+          "erd_r2": true,
+          "nullable_review": "CONFIRMED",
+          "default_review": "CONFIRMED_NO_DEFAULT",
+          "approval_reference": "CV_APPLICATION_E7_2026-11-05",
+          "decision_id": "E7_donungtuyen_thugiothieu"
+        },
+        "foreign_keys": []
+      },
+      {
+        "name": "trangthai",
+        "type": "VARCHAR(40)",
+        "nullable": false,
+        "primary_key": false,
+        "unique": false,
+        "autoincrement": false,
+        "info": {
+          "erd_r2": true,
+          "nullable_review": "CONFIRMED",
+          "default_review": "CONFIRMED_NO_DEFAULT",
+          "approval_reference": "CV_APPLICATION_E7_2026-11-05",
+          "decision_id": "E7_donungtuyen_trangthai"
+        },
+        "foreign_keys": []
+      },
+      {
+        "name": "thoigiannop",
+        "type": "DATETIME",
+        "nullable": false,
+        "primary_key": false,
+        "unique": false,
+        "autoincrement": false,
+        "info": {
+          "erd_r2": true,
+          "nullable_review": "CONFIRMED",
+          "default_review": "CONFIRMED_NO_DEFAULT",
+          "approval_reference": "CV_APPLICATION_E7_2026-11-05",
+          "decision_id": "E7_donungtuyen_thoigiannop"
+        },
+        "foreign_keys": []
+      },
+      {
+        "name": "thoigiancapnhat",
+        "type": "DATETIME",
+        "nullable": false,
+        "primary_key": false,
+        "unique": false,
+        "autoincrement": false,
+        "info": {
+          "erd_r2": true,
+          "nullable_review": "CONFIRMED",
+          "default_review": "CONFIRMED_NO_DEFAULT",
+          "approval_reference": "CV_APPLICATION_E7_2026-11-05",
+          "decision_id": "E7_donungtuyen_thoigiancapnhat"
+        },
+        "foreign_keys": []
+      }
+    ]
+  }
+]

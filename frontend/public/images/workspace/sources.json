@@ -1,0 +1,86 @@
+[
+  {
+    "file": "candidate-work.jpg",
+    "download": "https://images.pexels.com/photos/1181729/pexels-photo-1181729.jpeg?auto=compress&cs=tinysrgb&w=1200",
+    "photographer": "Christina Morillo",
+    "source": "https://www.pexels.com/photo/photography-of-woman-using-laptop-1181729/",
+    "license": "https://www.pexels.com/license/",
+    "usage": "Stock photograph illustrating a workplace; not a photograph of the demo company or its employees."
+  },
+  {
+    "file": "career-planning.jpg",
+    "download": "https://images.pexels.com/photos/6517089/pexels-photo-6517089.jpeg?auto=compress&cs=tinysrgb&w=900",
+    "photographer": "RDNE Stock project",
+    "source": "https://www.pexels.com/photo/a-woman-writing-while-smiling-in-front-of-the-laptop-6517089/",
+    "license": "https://www.pexels.com/license/",
+    "usage": "Stock photograph illustrating a workplace; not a photograph of the demo company or its employees."
+  },
+  {
+    "file": "team-collaboration.jpg",
+    "download": "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1400&q=85",
+    "photographer": "Annie Spratt",
+    "source": "https://unsplash.com/photos/group-of-people-using-laptop-computer-QckxruozjRg",
+    "license": "https://unsplash.com/license",
+    "usage": "Stock photograph illustrating a workplace; not a photograph of the demo company or its employees."
+  },
+  {
+    "file": "profile-minh-tuan.jpg",
+    "download": "https://images.pexels.com/photos/31268614/pexels-photo-31268614.jpeg?auto=compress&cs=tinysrgb&w=400",
+    "photographer": "Duy’s House of Photo",
+    "source": "https://www.pexels.com/photo/professional-asian-man-in-studio-portrait-setting-31268614/",
+    "license": "https://www.pexels.com/license/",
+    "usage": "Stock portrait illustrating a fictional demo profile. Names, employment and application data are fictional."
+  },
+  {
+    "file": "profile-duc-khai.jpg",
+    "download": "https://images.pexels.com/photos/9775543/pexels-photo-9775543.jpeg?auto=compress&cs=tinysrgb&w=400",
+    "photographer": "SHVETS production",
+    "source": "https://www.pexels.com/photo/close-up-shot-of-a-man-9775543/",
+    "license": "https://www.pexels.com/license/",
+    "usage": "Stock portrait illustrating a fictional demo profile. Names, employment and application data are fictional."
+  },
+  {
+    "file": "profile-thanh-long.jpg",
+    "download": "https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg?auto=compress&cs=tinysrgb&w=400",
+    "license": "https://www.pexels.com/license/",
+    "usage": "Stock portrait illustrating a fictional demo profile. Names, employment and application data are fictional."
+  },
+  {
+    "file": "team-meeting.jpg",
+    "download": "https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=1400&q=85",
+    "license": "https://unsplash.com/license",
+    "usage": "Stock photograph illustrating a workplace; not a photograph of the demo company or its employees."
+  },
+  {
+    "file": "profile-thu-huong.jpg",
+    "download": "https://images.pexels.com/photos/5435014/pexels-photo-5435014.jpeg?auto=compress&cs=tinysrgb&w=400",
+    "photographer": "Lê Hướng",
+    "source": "https://www.pexels.com/photo/woman-in-white-button-up-shirt-smiling-at-camera-5435014/",
+    "license": "https://www.pexels.com/license/",
+    "usage": "Stock portrait illustrating a fictional demo profile. Names, employment and application data are fictional."
+  },
+  {
+    "file": "profile-hoang-nam.jpg",
+    "download": "https://images.pexels.com/photos/7681951/pexels-photo-7681951.jpeg?auto=compress&cs=tinysrgb&w=400",
+    "photographer": "Mikhail Nilov",
+    "source": "https://www.pexels.com/photo/a-portrait-of-a-man-smiling-7681951/",
+    "license": "https://www.pexels.com/license/",
+    "usage": "Stock portrait illustrating a fictional demo profile. Names, employment and application data are fictional."
+  },
+  {
+    "file": "profile-lan-anh-office.jpg",
+    "download": "https://images.pexels.com/photos/8101358/pexels-photo-8101358.jpeg?auto=compress&cs=tinysrgb&w=640",
+    "photographer": "Mikhail Nilov",
+    "source": "https://www.pexels.com/photo/smiling-woman-on-the-phone-8101358/",
+    "license": "https://www.pexels.com/license/",
+    "usage": "Stock portrait illustrating a fictional demo profile. Names, employment and application data are fictional."
+  },
+  {
+    "file": "profile-alex.jpg",
+    "download": "https://images.pexels.com/photos/14615367/pexels-photo-14615367.jpeg?auto=compress&cs=tinysrgb&w=640",
+    "photographer": "lu luan",
+    "source": "https://www.pexels.com/photo/a-man-in-a-black-suit-sitting-on-a-chair-14615367/",
+    "license": "https://www.pexels.com/license/",
+    "usage": "Stock portrait illustrating a fictional demo profile. Names, employment and application data are fictional."
+  }
+]

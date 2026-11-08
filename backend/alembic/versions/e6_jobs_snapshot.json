@@ -1,0 +1,698 @@
+[
+  {
+    "name": "nganhnghe",
+    "columns": [
+      {
+        "name": "idnganhnghe",
+        "type": "BIGINT",
+        "nullable": false,
+        "primary_key": true,
+        "unique": false,
+        "autoincrement": true,
+        "info": {
+          "erd_r2": true,
+          "nullable_review": "CONFIRMED",
+          "default_review": "CONFIRMED_NO_DEFAULT",
+          "approval_reference": "JOBS_E6_2026-11-03",
+          "decision_id": "E6_nganhnghe_idnganhnghe"
+        },
+        "foreign_keys": []
+      },
+      {
+        "name": "tennganhnghe",
+        "type": "VARCHAR(150)",
+        "nullable": false,
+        "primary_key": false,
+        "unique": true,
+        "autoincrement": false,
+        "info": {
+          "erd_r2": true,
+          "nullable_review": "CONFIRMED",
+          "default_review": "CONFIRMED_NO_DEFAULT",
+          "approval_reference": "JOBS_E6_2026-11-03",
+          "decision_id": "E6_nganhnghe_tennganhnghe"
+        },
+        "foreign_keys": []
+      },
+      {
+        "name": "hinhanh",
+        "type": "VARCHAR(500)",
+        "nullable": true,
+        "primary_key": false,
+        "unique": false,
+        "autoincrement": false,
+        "info": {
+          "erd_r2": true,
+          "nullable_review": "CONFIRMED",
+          "default_review": "CONFIRMED_NO_DEFAULT",
+          "approval_reference": "JOBS_E6_2026-11-03",
+          "decision_id": "E6_nganhnghe_hinhanh"
+        },
+        "foreign_keys": []
+      },
+      {
+        "name": "trangthai",
+        "type": "VARCHAR(30)",
+        "nullable": false,
+        "primary_key": false,
+        "unique": false,
+        "autoincrement": false,
+        "info": {
+          "erd_r2": true,
+          "nullable_review": "CONFIRMED",
+          "default_review": "CONFIRMED_NO_DEFAULT",
+          "approval_reference": "JOBS_E6_2026-11-03",
+          "decision_id": "E6_nganhnghe_trangthai"
+        },
+        "foreign_keys": []
+      }
+    ]
+  },
+  {
+    "name": "xaphuong",
+    "columns": [
+      {
+        "name": "idxaphuong",
+        "type": "BIGINT",
+        "nullable": false,
+        "primary_key": true,
+        "unique": false,
+        "autoincrement": true,
+        "info": {
+          "erd_r2": true,
+          "nullable_review": "CONFIRMED",
+          "default_review": "CONFIRMED_NO_DEFAULT",
+          "approval_reference": "JOBS_E6_2026-11-03",
+          "decision_id": "E6_xaphuong_idxaphuong"
+        },
+        "foreign_keys": []
+      },
+      {
+        "name": "idtinhthanh",
+        "type": "BIGINT",
+        "nullable": false,
+        "primary_key": false,
+        "unique": false,
+        "autoincrement": false,
+        "info": {
+          "erd_r2": true,
+          "nullable_review": "CONFIRMED",
+          "default_review": "CONFIRMED_NO_DEFAULT",
+          "approval_reference": "JOBS_E6_2026-11-03",
+          "decision_id": "E6_xaphuong_idtinhthanh"
+        },
+        "foreign_keys": [
+          {
+            "target": "tinhthanh.idtinhthanh",
+            "name": "fk_xaphuong_idtinhthanh",
+            "ondelete": "RESTRICT",
+            "onupdate": "RESTRICT"
+          }
+        ]
+      },
+      {
+        "name": "tenxaphuong",
+        "type": "VARCHAR(150)",
+        "nullable": false,
+        "primary_key": false,
+        "unique": false,
+        "autoincrement": false,
+        "info": {
+          "erd_r2": true,
+          "nullable_review": "CONFIRMED",
+          "default_review": "CONFIRMED_NO_DEFAULT",
+          "approval_reference": "JOBS_E6_2026-11-03",
+          "decision_id": "E6_xaphuong_tenxaphuong"
+        },
+        "foreign_keys": []
+      }
+    ]
+  },
+  {
+    "name": "kynang",
+    "columns": [
+      {
+        "name": "idkynang",
+        "type": "BIGINT",
+        "nullable": false,
+        "primary_key": true,
+        "unique": false,
+        "autoincrement": true,
+        "info": {
+          "erd_r2": true,
+          "nullable_review": "CONFIRMED",
+          "default_review": "CONFIRMED_NO_DEFAULT",
+          "approval_reference": "JOBS_E6_2026-11-03",
+          "decision_id": "E6_kynang_idkynang"
+        },
+        "foreign_keys": []
+      },
+      {
+        "name": "tenkynang",
+        "type": "VARCHAR(120)",
+        "nullable": false,
+        "primary_key": false,
+        "unique": true,
+        "autoincrement": false,
+        "info": {
+          "erd_r2": true,
+          "nullable_review": "CONFIRMED",
+          "default_review": "CONFIRMED_NO_DEFAULT",
+          "approval_reference": "JOBS_E6_2026-11-03",
+          "decision_id": "E6_kynang_tenkynang"
+        },
+        "foreign_keys": []
+      },
+      {
+        "name": "trangthai",
+        "type": "VARCHAR(30)",
+        "nullable": false,
+        "primary_key": false,
+        "unique": false,
+        "autoincrement": false,
+        "info": {
+          "erd_r2": true,
+          "nullable_review": "CONFIRMED",
+          "default_review": "CONFIRMED_NO_DEFAULT",
+          "approval_reference": "JOBS_E6_2026-11-03",
+          "decision_id": "E6_kynang_trangthai"
+        },
+        "foreign_keys": []
+      },
+      {
+        "name": "mota",
+        "type": "TEXT",
+        "nullable": true,
+        "primary_key": false,
+        "unique": false,
+        "autoincrement": false,
+        "info": {
+          "erd_r2": true,
+          "nullable_review": "CONFIRMED",
+          "default_review": "CONFIRMED_NO_DEFAULT",
+          "approval_reference": "JOBS_E6_2026-11-03",
+          "decision_id": "E6_kynang_mota"
+        },
+        "foreign_keys": []
+      },
+      {
+        "name": "tudongnghia",
+        "type": "JSON",
+        "nullable": true,
+        "primary_key": false,
+        "unique": false,
+        "autoincrement": false,
+        "info": {
+          "erd_r2": true,
+          "nullable_review": "CONFIRMED",
+          "default_review": "CONFIRMED_NO_DEFAULT",
+          "approval_reference": "JOBS_E6_2026-11-03",
+          "decision_id": "E6_kynang_tudongnghia"
+        },
+        "foreign_keys": []
+      }
+    ]
+  },
+  {
+    "name": "tintuyendung",
+    "columns": [
+      {
+        "name": "idtin",
+        "type": "BIGINT",
+        "nullable": false,
+        "primary_key": true,
+        "unique": false,
+        "autoincrement": true,
+        "info": {
+          "erd_r2": true,
+          "nullable_review": "CONFIRMED",
+          "default_review": "CONFIRMED_NO_DEFAULT",
+          "approval_reference": "JOBS_E6_2026-11-03",
+          "decision_id": "E6_tintuyendung_idtin"
+        },
+        "foreign_keys": []
+      },
+      {
+        "name": "iddoanhnghiep",
+        "type": "BIGINT",
+        "nullable": false,
+        "primary_key": false,
+        "unique": false,
+        "autoincrement": false,
+        "info": {
+          "erd_r2": true,
+          "nullable_review": "CONFIRMED",
+          "default_review": "CONFIRMED_NO_DEFAULT",
+          "approval_reference": "JOBS_E6_2026-11-03",
+          "decision_id": "E6_tintuyendung_iddoanhnghiep"
+        },
+        "foreign_keys": [
+          {
+            "target": "doanhnghiep.iddoanhnghiep",
+            "name": "fk_tintuyendung_iddoanhnghiep",
+            "ondelete": "RESTRICT",
+            "onupdate": "RESTRICT"
+          }
+        ]
+      },
+      {
+        "name": "idnguoidang",
+        "type": "BIGINT",
+        "nullable": false,
+        "primary_key": false,
+        "unique": false,
+        "autoincrement": false,
+        "info": {
+          "erd_r2": true,
+          "nullable_review": "CONFIRMED",
+          "default_review": "CONFIRMED_NO_DEFAULT",
+          "approval_reference": "JOBS_E6_2026-11-03",
+          "decision_id": "E6_tintuyendung_idnguoidang"
+        },
+        "foreign_keys": [
+          {
+            "target": "thanhviendoanhnghiep.idtaikhoan",
+            "name": "fk_tintuyendung_idnguoidang",
+            "ondelete": "RESTRICT",
+            "onupdate": "RESTRICT"
+          }
+        ]
+      },
+      {
+        "name": "trangthai",
+        "type": "VARCHAR(30)",
+        "nullable": false,
+        "primary_key": false,
+        "unique": false,
+        "autoincrement": false,
+        "info": {
+          "erd_r2": true,
+          "nullable_review": "CONFIRMED",
+          "default_review": "CONFIRMED_NO_DEFAULT",
+          "approval_reference": "JOBS_E6_2026-11-03",
+          "decision_id": "E6_tintuyendung_trangthai"
+        },
+        "foreign_keys": []
+      },
+      {
+        "name": "thoigiantao",
+        "type": "DATETIME",
+        "nullable": false,
+        "primary_key": false,
+        "unique": false,
+        "autoincrement": false,
+        "info": {
+          "erd_r2": true,
+          "nullable_review": "CONFIRMED",
+          "default_review": "CONFIRMED_NO_DEFAULT",
+          "approval_reference": "JOBS_E6_2026-11-03",
+          "decision_id": "E6_tintuyendung_thoigiantao"
+        },
+        "foreign_keys": []
+      },
+      {
+        "name": "thoigiandong",
+        "type": "DATETIME",
+        "nullable": true,
+        "primary_key": false,
+        "unique": false,
+        "autoincrement": false,
+        "info": {
+          "erd_r2": true,
+          "nullable_review": "CONFIRMED",
+          "default_review": "CONFIRMED_NO_DEFAULT",
+          "approval_reference": "JOBS_E6_2026-11-03",
+          "decision_id": "E6_tintuyendung_thoigiandong"
+        },
+        "foreign_keys": []
+      },
+      {
+        "name": "tieude",
+        "type": "VARCHAR(255)",
+        "nullable": false,
+        "primary_key": false,
+        "unique": false,
+        "autoincrement": false,
+        "info": {
+          "erd_r2": true,
+          "nullable_review": "CONFIRMED",
+          "default_review": "CONFIRMED_NO_DEFAULT",
+          "approval_reference": "JOBS_E6_2026-11-03",
+          "decision_id": "E6_tintuyendung_tieude"
+        },
+        "foreign_keys": []
+      },
+      {
+        "name": "mota",
+        "type": "TEXT",
+        "nullable": true,
+        "primary_key": false,
+        "unique": false,
+        "autoincrement": false,
+        "info": {
+          "erd_r2": true,
+          "nullable_review": "CONFIRMED",
+          "default_review": "CONFIRMED_NO_DEFAULT",
+          "approval_reference": "JOBS_E6_2026-11-03",
+          "decision_id": "E6_tintuyendung_mota"
+        },
+        "foreign_keys": []
+      },
+      {
+        "name": "yeucau",
+        "type": "TEXT",
+        "nullable": true,
+        "primary_key": false,
+        "unique": false,
+        "autoincrement": false,
+        "info": {
+          "erd_r2": true,
+          "nullable_review": "CONFIRMED",
+          "default_review": "CONFIRMED_NO_DEFAULT",
+          "approval_reference": "JOBS_E6_2026-11-03",
+          "decision_id": "E6_tintuyendung_yeucau"
+        },
+        "foreign_keys": []
+      },
+      {
+        "name": "idnganhnghe",
+        "type": "BIGINT",
+        "nullable": false,
+        "primary_key": false,
+        "unique": false,
+        "autoincrement": false,
+        "info": {
+          "erd_r2": true,
+          "nullable_review": "CONFIRMED",
+          "default_review": "CONFIRMED_NO_DEFAULT",
+          "approval_reference": "JOBS_E6_2026-11-03",
+          "decision_id": "E6_tintuyendung_idnganhnghe"
+        },
+        "foreign_keys": [
+          {
+            "target": "nganhnghe.idnganhnghe",
+            "name": "fk_tintuyendung_idnganhnghe",
+            "ondelete": "RESTRICT",
+            "onupdate": "RESTRICT"
+          }
+        ]
+      },
+      {
+        "name": "idtinhthanh",
+        "type": "BIGINT",
+        "nullable": false,
+        "primary_key": false,
+        "unique": false,
+        "autoincrement": false,
+        "info": {
+          "erd_r2": true,
+          "nullable_review": "CONFIRMED",
+          "default_review": "CONFIRMED_NO_DEFAULT",
+          "approval_reference": "JOBS_E6_2026-11-03",
+          "decision_id": "E6_tintuyendung_idtinhthanh"
+        },
+        "foreign_keys": [
+          {
+            "target": "tinhthanh.idtinhthanh",
+            "name": "fk_tintuyendung_idtinhthanh",
+            "ondelete": "RESTRICT",
+            "onupdate": "RESTRICT"
+          }
+        ]
+      },
+      {
+        "name": "idxaphuong",
+        "type": "BIGINT",
+        "nullable": true,
+        "primary_key": false,
+        "unique": false,
+        "autoincrement": false,
+        "info": {
+          "erd_r2": true,
+          "nullable_review": "CONFIRMED",
+          "default_review": "CONFIRMED_NO_DEFAULT",
+          "approval_reference": "JOBS_E6_2026-11-03",
+          "decision_id": "E6_tintuyendung_idxaphuong"
+        },
+        "foreign_keys": [
+          {
+            "target": "xaphuong.idxaphuong",
+            "name": "fk_tintuyendung_idxaphuong",
+            "ondelete": "RESTRICT",
+            "onupdate": "RESTRICT"
+          }
+        ]
+      },
+      {
+        "name": "tenduong",
+        "type": "VARCHAR(255)",
+        "nullable": true,
+        "primary_key": false,
+        "unique": false,
+        "autoincrement": false,
+        "info": {
+          "erd_r2": true,
+          "nullable_review": "CONFIRMED",
+          "default_review": "CONFIRMED_NO_DEFAULT",
+          "approval_reference": "JOBS_E6_2026-11-03",
+          "decision_id": "E6_tintuyendung_tenduong"
+        },
+        "foreign_keys": []
+      },
+      {
+        "name": "capbac",
+        "type": "VARCHAR(100)",
+        "nullable": true,
+        "primary_key": false,
+        "unique": false,
+        "autoincrement": false,
+        "info": {
+          "erd_r2": true,
+          "nullable_review": "CONFIRMED",
+          "default_review": "CONFIRMED_NO_DEFAULT",
+          "approval_reference": "JOBS_E6_2026-11-03",
+          "decision_id": "E6_tintuyendung_capbac"
+        },
+        "foreign_keys": []
+      },
+      {
+        "name": "luongtoithieu",
+        "type": "DECIMAL(15, 2)",
+        "nullable": true,
+        "primary_key": false,
+        "unique": false,
+        "autoincrement": false,
+        "info": {
+          "erd_r2": true,
+          "nullable_review": "CONFIRMED",
+          "default_review": "CONFIRMED_NO_DEFAULT",
+          "approval_reference": "JOBS_E6_2026-11-03",
+          "decision_id": "E6_tintuyendung_luongtoithieu"
+        },
+        "foreign_keys": []
+      },
+      {
+        "name": "luongtoida",
+        "type": "DECIMAL(15, 2)",
+        "nullable": true,
+        "primary_key": false,
+        "unique": false,
+        "autoincrement": false,
+        "info": {
+          "erd_r2": true,
+          "nullable_review": "CONFIRMED",
+          "default_review": "CONFIRMED_NO_DEFAULT",
+          "approval_reference": "JOBS_E6_2026-11-03",
+          "decision_id": "E6_tintuyendung_luongtoida"
+        },
+        "foreign_keys": []
+      },
+      {
+        "name": "namkinhnghiem",
+        "type": "DECIMAL(4, 1)",
+        "nullable": true,
+        "primary_key": false,
+        "unique": false,
+        "autoincrement": false,
+        "info": {
+          "erd_r2": true,
+          "nullable_review": "CONFIRMED",
+          "default_review": "CONFIRMED_NO_DEFAULT",
+          "approval_reference": "JOBS_E6_2026-11-03",
+          "decision_id": "E6_tintuyendung_namkinhnghiem"
+        },
+        "foreign_keys": []
+      },
+      {
+        "name": "hinhthuclamviec",
+        "type": "VARCHAR(60)",
+        "nullable": true,
+        "primary_key": false,
+        "unique": false,
+        "autoincrement": false,
+        "info": {
+          "erd_r2": true,
+          "nullable_review": "CONFIRMED",
+          "default_review": "CONFIRMED_NO_DEFAULT",
+          "approval_reference": "JOBS_E6_2026-11-03",
+          "decision_id": "E6_tintuyendung_hinhthuclamviec"
+        },
+        "foreign_keys": []
+      },
+      {
+        "name": "hannophoso",
+        "type": "DATE",
+        "nullable": true,
+        "primary_key": false,
+        "unique": false,
+        "autoincrement": false,
+        "info": {
+          "erd_r2": true,
+          "nullable_review": "CONFIRMED",
+          "default_review": "CONFIRMED_NO_DEFAULT",
+          "approval_reference": "JOBS_E6_2026-11-03",
+          "decision_id": "E6_tintuyendung_hannophoso"
+        },
+        "foreign_keys": []
+      },
+      {
+        "name": "idnguoiduyet",
+        "type": "BIGINT",
+        "nullable": true,
+        "primary_key": false,
+        "unique": false,
+        "autoincrement": false,
+        "info": {
+          "erd_r2": true,
+          "nullable_review": "CONFIRMED",
+          "default_review": "CONFIRMED_NO_DEFAULT",
+          "approval_reference": "JOBS_E6_2026-11-03",
+          "decision_id": "E6_tintuyendung_idnguoiduyet"
+        },
+        "foreign_keys": [
+          {
+            "target": "taikhoan.idtaikhoan",
+            "name": "fk_tintuyendung_idnguoiduyet",
+            "ondelete": "RESTRICT",
+            "onupdate": "RESTRICT"
+          }
+        ]
+      },
+      {
+        "name": "lydotuchoi",
+        "type": "TEXT",
+        "nullable": true,
+        "primary_key": false,
+        "unique": false,
+        "autoincrement": false,
+        "info": {
+          "erd_r2": true,
+          "nullable_review": "CONFIRMED",
+          "default_review": "CONFIRMED_NO_DEFAULT",
+          "approval_reference": "JOBS_E6_2026-11-03",
+          "decision_id": "E6_tintuyendung_lydotuchoi"
+        },
+        "foreign_keys": []
+      },
+      {
+        "name": "thoigianduyet",
+        "type": "DATETIME",
+        "nullable": true,
+        "primary_key": false,
+        "unique": false,
+        "autoincrement": false,
+        "info": {
+          "erd_r2": true,
+          "nullable_review": "CONFIRMED",
+          "default_review": "CONFIRMED_NO_DEFAULT",
+          "approval_reference": "JOBS_E6_2026-11-03",
+          "decision_id": "E6_tintuyendung_thoigianduyet"
+        },
+        "foreign_keys": []
+      }
+    ]
+  },
+  {
+    "name": "kynangtin",
+    "columns": [
+      {
+        "name": "idtin",
+        "type": "BIGINT",
+        "nullable": false,
+        "primary_key": true,
+        "unique": false,
+        "autoincrement": false,
+        "info": {
+          "erd_r2": true,
+          "nullable_review": "CONFIRMED",
+          "default_review": "CONFIRMED_NO_DEFAULT",
+          "approval_reference": "JOBS_E6_2026-11-03",
+          "decision_id": "E6_kynangtin_idtin"
+        },
+        "foreign_keys": [
+          {
+            "target": "tintuyendung.idtin",
+            "name": "fk_kynangtin_idtin",
+            "ondelete": "RESTRICT",
+            "onupdate": "RESTRICT"
+          }
+        ]
+      },
+      {
+        "name": "idkynang",
+        "type": "BIGINT",
+        "nullable": false,
+        "primary_key": true,
+        "unique": false,
+        "autoincrement": false,
+        "info": {
+          "erd_r2": true,
+          "nullable_review": "CONFIRMED",
+          "default_review": "CONFIRMED_NO_DEFAULT",
+          "approval_reference": "JOBS_E6_2026-11-03",
+          "decision_id": "E6_kynangtin_idkynang"
+        },
+        "foreign_keys": [
+          {
+            "target": "kynang.idkynang",
+            "name": "fk_kynangtin_idkynang",
+            "ondelete": "RESTRICT",
+            "onupdate": "RESTRICT"
+          }
+        ]
+      },
+      {
+        "name": "batbuoc",
+        "type": "BOOL",
+        "nullable": false,
+        "primary_key": false,
+        "unique": false,
+        "autoincrement": false,
+        "info": {
+          "erd_r2": true,
+          "nullable_review": "CONFIRMED",
+          "default_review": "CONFIRMED_NO_DEFAULT",
+          "approval_reference": "JOBS_E6_2026-11-03",
+          "decision_id": "E6_kynangtin_batbuoc"
+        },
+        "foreign_keys": []
+      },
+      {
+        "name": "mucdouutien",
+        "type": "INTEGER",
+        "nullable": false,
+        "primary_key": false,
+        "unique": false,
+        "autoincrement": false,
+        "info": {
+          "erd_r2": true,
+          "nullable_review": "CONFIRMED",
+          "default_review": "CONFIRMED_NO_DEFAULT",
+          "approval_reference": "JOBS_E6_2026-11-03",
+          "decision_id": "E6_kynangtin_mucdouutien"
+        },
+        "foreign_keys": []
+      }
+    ]
+  }
+]

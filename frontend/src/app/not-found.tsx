@@ -1,0 +1,3 @@
+﻿import Link from 'next/link';
+import Brand from '../marketplace/components/Brand';
+export default function NotFound(){return <main className="ui-auth"><Link href="/" className="ui-auth-logo" aria-label="Talentiq - Trang chủ"><Brand/></Link><div className="ui-auth-card" style={{textAlign:'center'}}><p className="ui-eyebrow">Lỗi 404</p><h1>Không tìm thấy trang</h1><p className="ui-description">Đường dẫn có thể đã thay đổi hoặc không còn tồn tại. Bạn có thể tiếp tục tìm việc từ trang chủ.</p><div className="ui-actions" style={{justifyContent:'center'}}><Link className="ui-btn" href="/">Về trang chủ</Link><Link className="ui-btn ui-btn-primary" href="/jobs">Tìm việc làm</Link></div></div></main>;}

@@ -1,0 +1,5 @@
+{
+  "alembic/versions/20261102_01_auth_foundation.py": "3cef6cc58683733a9819648743bac2b703775d927e0faf5deea1da65991ee9ab",
+  "alembic/versions/20261103_02_jobs.py": "9133ab3079df23cab60e2c1af18708b4c9c9ef7fb900f27ddae0038745fa1c44",
+  "alembic/versions/e6_jobs_snapshot.json": "e1ba492a8668ef130f4c4c350655ee1040fcf9093e71fcee8cf926b8b95f50a0"
+}

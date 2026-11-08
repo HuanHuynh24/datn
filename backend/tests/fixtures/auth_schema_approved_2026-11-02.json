@@ -1,0 +1,449 @@
+{
+  "approval_reference": "AUTH_E3B_G1_G8_2026-11-02",
+  "revision": "20261102_01",
+  "groups": {
+    "G1": "CONFIRMED",
+    "G2": "CONFIRMED",
+    "G3": "CONFIRMED",
+    "G4": "CONFIRMED",
+    "G5": "CONFIRMED",
+    "G6": "CONFIRMED",
+    "G7": "CONFIRMED",
+    "G8": "CONFIRMED"
+  },
+  "database_applied": false,
+  "columns": {
+    "taikhoan.idtaikhoan": {
+      "id": "A01",
+      "erd_type": "bigint",
+      "source_nullable": false,
+      "nullable": false,
+      "server_default": "NO DEFAULT",
+      "status": "CONFIRMED"
+    },
+    "taikhoan.vaitro": {
+      "id": "A02",
+      "erd_type": "varchar(30)",
+      "source_nullable": false,
+      "nullable": false,
+      "server_default": "NO DEFAULT",
+      "status": "CONFIRMED"
+    },
+    "taikhoan.email": {
+      "id": "A03",
+      "erd_type": "varchar(255)",
+      "source_nullable": false,
+      "nullable": false,
+      "server_default": "NO DEFAULT",
+      "status": "CONFIRMED"
+    },
+    "taikhoan.matkhaubam": {
+      "id": "A04",
+      "erd_type": "varchar(255)",
+      "source_nullable": false,
+      "nullable": false,
+      "server_default": "NO DEFAULT",
+      "status": "CONFIRMED"
+    },
+    "taikhoan.hovaten": {
+      "id": "A05",
+      "erd_type": "varchar(255)",
+      "source_nullable": false,
+      "nullable": false,
+      "server_default": "NO DEFAULT",
+      "status": "CONFIRMED"
+    },
+    "taikhoan.trangthai": {
+      "id": "A06",
+      "erd_type": "varchar(30)",
+      "source_nullable": false,
+      "nullable": false,
+      "server_default": "NO DEFAULT",
+      "status": "CONFIRMED"
+    },
+    "taikhoan.daxacthucemail": {
+      "id": "A07",
+      "erd_type": "boolean",
+      "source_nullable": false,
+      "nullable": false,
+      "server_default": "0",
+      "status": "CONFIRMED"
+    },
+    "taikhoan.solandangsai": {
+      "id": "A08",
+      "erd_type": "int",
+      "source_nullable": null,
+      "nullable": false,
+      "server_default": "0",
+      "status": "CONFIRMED"
+    },
+    "taikhoan.khoaden": {
+      "id": "A09",
+      "erd_type": "datetime",
+      "source_nullable": true,
+      "nullable": true,
+      "server_default": "NO DEFAULT",
+      "status": "CONFIRMED"
+    },
+    "taikhoan.nhanemail": {
+      "id": "A10",
+      "erd_type": "boolean",
+      "source_nullable": null,
+      "nullable": false,
+      "server_default": "0",
+      "status": "CONFIRMED"
+    },
+    "taikhoan.thoigiantao": {
+      "id": "A11",
+      "erd_type": "datetime",
+      "source_nullable": false,
+      "nullable": false,
+      "server_default": "NO DEFAULT",
+      "status": "CONFIRMED"
+    },
+    "hosoungvien.idungvien": {
+      "id": "A12",
+      "erd_type": "bigint",
+      "source_nullable": false,
+      "nullable": false,
+      "server_default": "NO DEFAULT",
+      "status": "CONFIRMED"
+    },
+    "hosoungvien.idtaikhoan": {
+      "id": "A13",
+      "erd_type": "bigint",
+      "source_nullable": false,
+      "nullable": false,
+      "server_default": "NO DEFAULT",
+      "status": "CONFIRMED"
+    },
+    "hosoungvien.sodienthoai": {
+      "id": "A14",
+      "erd_type": "varchar(20)",
+      "source_nullable": null,
+      "nullable": true,
+      "server_default": "NO DEFAULT",
+      "status": "CONFIRMED"
+    },
+    "hosoungvien.diachi": {
+      "id": "A15",
+      "erd_type": "varchar(255)",
+      "source_nullable": null,
+      "nullable": true,
+      "server_default": "NO DEFAULT",
+      "status": "CONFIRMED"
+    },
+    "hosoungvien.gioithieu": {
+      "id": "A16",
+      "erd_type": "text",
+      "source_nullable": null,
+      "nullable": true,
+      "server_default": "NO DEFAULT",
+      "status": "CONFIRMED"
+    },
+    "hosoungvien.anhdaidien": {
+      "id": "A17",
+      "erd_type": "varchar(500)",
+      "source_nullable": null,
+      "nullable": true,
+      "server_default": "NO DEFAULT",
+      "status": "CONFIRMED"
+    },
+    "hosoungvien.congkhaihoso": {
+      "id": "A18",
+      "erd_type": "boolean",
+      "source_nullable": null,
+      "nullable": false,
+      "server_default": "0",
+      "status": "CONFIRMED"
+    },
+    "hosoungvien.thoigiancapnhat": {
+      "id": "A19",
+      "erd_type": "datetime",
+      "source_nullable": null,
+      "nullable": false,
+      "server_default": "NO DEFAULT",
+      "status": "CONFIRMED"
+    },
+    "hosoungvien.hocvan": {
+      "id": "A20",
+      "erd_type": "json",
+      "source_nullable": null,
+      "nullable": true,
+      "server_default": "NO DEFAULT",
+      "status": "CONFIRMED"
+    },
+    "hosoungvien.kinhnghiem": {
+      "id": "A21",
+      "erd_type": "json",
+      "source_nullable": null,
+      "nullable": true,
+      "server_default": "NO DEFAULT",
+      "status": "CONFIRMED"
+    },
+    "hosoungvien.vitrimongmuon": {
+      "id": "A22",
+      "erd_type": "varchar(255)",
+      "source_nullable": null,
+      "nullable": true,
+      "server_default": "NO DEFAULT",
+      "status": "CONFIRMED"
+    },
+    "hosoungvien.idtinhthanh": {
+      "id": "A23",
+      "erd_type": "bigint",
+      "source_nullable": true,
+      "nullable": true,
+      "server_default": "NO DEFAULT",
+      "status": "CONFIRMED"
+    },
+    "hosoungvien.luongmongmuontoithieu": {
+      "id": "A24",
+      "erd_type": "decimal(15,2)",
+      "source_nullable": null,
+      "nullable": true,
+      "server_default": "NO DEFAULT",
+      "status": "CONFIRMED"
+    },
+    "hosoungvien.luongmongmuontoida": {
+      "id": "A25",
+      "erd_type": "decimal(15,2)",
+      "source_nullable": null,
+      "nullable": true,
+      "server_default": "NO DEFAULT",
+      "status": "CONFIRMED"
+    },
+    "hosoungvien.hinhthuclamviecmongmuon": {
+      "id": "A26",
+      "erd_type": "varchar(60)",
+      "source_nullable": null,
+      "nullable": true,
+      "server_default": "NO DEFAULT",
+      "status": "CONFIRMED"
+    },
+    "doanhnghiep.iddoanhnghiep": {
+      "id": "A27",
+      "erd_type": "bigint",
+      "source_nullable": false,
+      "nullable": false,
+      "server_default": "NO DEFAULT",
+      "status": "CONFIRMED"
+    },
+    "doanhnghiep.idgoi": {
+      "id": "A28",
+      "erd_type": "bigint",
+      "source_nullable": false,
+      "nullable": false,
+      "server_default": "NO DEFAULT",
+      "status": "CONFIRMED"
+    },
+    "doanhnghiep.tencongty": {
+      "id": "A29",
+      "erd_type": "varchar(255)",
+      "source_nullable": false,
+      "nullable": false,
+      "server_default": "NO DEFAULT",
+      "status": "CONFIRMED"
+    },
+    "doanhnghiep.masothue": {
+      "id": "A30",
+      "erd_type": "varchar(30)",
+      "source_nullable": false,
+      "nullable": false,
+      "server_default": "NO DEFAULT",
+      "status": "CONFIRMED"
+    },
+    "doanhnghiep.linhvuc": {
+      "id": "A31",
+      "erd_type": "varchar(200)",
+      "source_nullable": null,
+      "nullable": true,
+      "server_default": "NO DEFAULT",
+      "status": "CONFIRMED"
+    },
+    "doanhnghiep.quymo": {
+      "id": "A32",
+      "erd_type": "varchar(60)",
+      "source_nullable": null,
+      "nullable": true,
+      "server_default": "NO DEFAULT",
+      "status": "CONFIRMED"
+    },
+    "doanhnghiep.diachi": {
+      "id": "A33",
+      "erd_type": "varchar(255)",
+      "source_nullable": null,
+      "nullable": true,
+      "server_default": "NO DEFAULT",
+      "status": "CONFIRMED"
+    },
+    "doanhnghiep.website": {
+      "id": "A34",
+      "erd_type": "varchar(255)",
+      "source_nullable": null,
+      "nullable": true,
+      "server_default": "NO DEFAULT",
+      "status": "CONFIRMED"
+    },
+    "doanhnghiep.logo": {
+      "id": "A35",
+      "erd_type": "varchar(500)",
+      "source_nullable": null,
+      "nullable": true,
+      "server_default": "NO DEFAULT",
+      "status": "CONFIRMED"
+    },
+    "doanhnghiep.gioithieu": {
+      "id": "A36",
+      "erd_type": "text",
+      "source_nullable": null,
+      "nullable": true,
+      "server_default": "NO DEFAULT",
+      "status": "CONFIRMED"
+    },
+    "doanhnghiep.trangthaiduyet": {
+      "id": "A37",
+      "erd_type": "varchar(30)",
+      "source_nullable": false,
+      "nullable": false,
+      "server_default": "NO DEFAULT",
+      "status": "CONFIRMED"
+    },
+    "doanhnghiep.thoigiantao": {
+      "id": "A38",
+      "erd_type": "datetime",
+      "source_nullable": null,
+      "nullable": false,
+      "server_default": "NO DEFAULT",
+      "status": "CONFIRMED"
+    },
+    "doanhnghiep.duongdanprofile": {
+      "id": "A39",
+      "erd_type": "varchar(500)",
+      "source_nullable": true,
+      "nullable": true,
+      "server_default": "NO DEFAULT",
+      "status": "CONFIRMED"
+    },
+    "doanhnghiep.ngaybatdaugoi": {
+      "id": "A40",
+      "erd_type": "date",
+      "source_nullable": null,
+      "nullable": true,
+      "server_default": "NO DEFAULT",
+      "status": "CONFIRMED"
+    },
+    "doanhnghiep.ngayhethan": {
+      "id": "A41",
+      "erd_type": "date",
+      "source_nullable": true,
+      "nullable": true,
+      "server_default": "NO DEFAULT",
+      "status": "CONFIRMED"
+    },
+    "thanhviendoanhnghiep.iddoanhnghiep": {
+      "id": "A42",
+      "erd_type": "bigint",
+      "source_nullable": false,
+      "nullable": false,
+      "server_default": "NO DEFAULT",
+      "status": "CONFIRMED"
+    },
+    "thanhviendoanhnghiep.idtaikhoan": {
+      "id": "A43",
+      "erd_type": "bigint",
+      "source_nullable": false,
+      "nullable": false,
+      "server_default": "NO DEFAULT",
+      "status": "CONFIRMED"
+    },
+    "thanhviendoanhnghiep.chucvunoibo": {
+      "id": "A44",
+      "erd_type": "varchar(100)",
+      "source_nullable": false,
+      "nullable": false,
+      "server_default": "NO DEFAULT",
+      "status": "CONFIRMED"
+    },
+    "thanhviendoanhnghiep.trangthai": {
+      "id": "A45",
+      "erd_type": "varchar(30)",
+      "source_nullable": false,
+      "nullable": false,
+      "server_default": "NO DEFAULT",
+      "status": "CONFIRMED"
+    },
+    "thanhviendoanhnghiep.thoigianthem": {
+      "id": "A46",
+      "erd_type": "datetime",
+      "source_nullable": null,
+      "nullable": false,
+      "server_default": "NO DEFAULT",
+      "status": "CONFIRMED"
+    },
+    "goidoanhnghiep.idgoi": {
+      "id": "A47",
+      "erd_type": "bigint",
+      "source_nullable": false,
+      "nullable": false,
+      "server_default": "NO DEFAULT",
+      "status": "CONFIRMED"
+    },
+    "goidoanhnghiep.magoi": {
+      "id": "A48",
+      "erd_type": "varchar(30)",
+      "source_nullable": null,
+      "nullable": false,
+      "server_default": "NO DEFAULT",
+      "status": "CONFIRMED"
+    },
+    "goidoanhnghiep.tengoi": {
+      "id": "A49",
+      "erd_type": "varchar(80)",
+      "source_nullable": null,
+      "nullable": false,
+      "server_default": "NO DEFAULT",
+      "status": "CONFIRMED"
+    },
+    "goidoanhnghiep.sotaikhoantoida": {
+      "id": "A50",
+      "erd_type": "int",
+      "source_nullable": true,
+      "nullable": true,
+      "server_default": "NO DEFAULT",
+      "status": "CONFIRMED"
+    },
+    "goidoanhnghiep.giathang": {
+      "id": "A51",
+      "erd_type": "decimal(15,2)",
+      "source_nullable": null,
+      "nullable": false,
+      "server_default": "NO DEFAULT",
+      "status": "CONFIRMED"
+    },
+    "goidoanhnghiep.mota": {
+      "id": "A52",
+      "erd_type": "text",
+      "source_nullable": null,
+      "nullable": true,
+      "server_default": "NO DEFAULT",
+      "status": "CONFIRMED"
+    },
+    "tinhthanh.idtinhthanh": {
+      "id": "A53",
+      "erd_type": "bigint",
+      "source_nullable": false,
+      "nullable": false,
+      "server_default": "NO DEFAULT",
+      "status": "CONFIRMED"
+    },
+    "tinhthanh.tentinhthanh": {
+      "id": "A54",
+      "erd_type": "varchar(150)",
+      "source_nullable": null,
+      "nullable": false,
+      "server_default": "NO DEFAULT",
+      "status": "CONFIRMED"
+    }
+  }
+}

@@ -1,0 +1,115 @@
+@import url('https://fonts.googleapis.com/css?family=Nunito+Sans:300,400,600,700,800&display=swap');
+@import 'tailwindcss';
+@import './careerlink.css';
+@import './components.css';
+@import './workspace.css';
+@import './workspace-visuals.css';
+@import './job-cards.css';
+@import './header.css';
+
+@theme {
+  /* Shared CareerLink-inspired palette for public and dashboard screens. */
+  --color-brand:       #0069DB;
+  --color-brand-dark:  #0054B0;
+  --color-brand-light: #EDF5FF;
+  --color-brand-mid:   #3588E5;
+
+  /* Backgrounds */
+  --color-bg:           #FFFFFF;
+  --color-bg-secondary: #F5F5F4;
+  --color-surface:      #FFFFFF;
+
+  /* Text */
+  --color-text:  #25282C;
+  --color-body:  #464B52;
+  --color-muted: #6B7078;
+
+  /* Structural */
+  --color-border:  #E6E7E9;
+
+  /* Feedback */
+  --color-success:       #15803D;
+  --color-success-light: #F0FDF4;
+  --color-warning:       #F59E0B;
+  --color-warning-light: #FFF7ED;
+  --color-danger:        #DC2626;
+  --color-danger-light:  #FEF2F2;
+
+  /* Typography */
+  --font-sans:    'Nunito Sans', ui-sans-serif, system-ui, sans-serif;
+  --font-display: 'Nunito Sans', ui-sans-serif, system-ui, sans-serif;
+
+  /* Radii */
+  --radius-card:  6px;
+  --radius-btn:   4px;
+  --radius-input: 4px;
+  --radius-pill:  999px;
+}
+
+:root {
+  --layout-content: 1110px;
+  --layout-shell: 1158px;
+  --layout-sidebar: 253px;
+  --layout-gap: 32px;
+  --ui-hover: #fafafa;
+  --ui-canvas: #f5f5f4;
+  --ui-subtle: #f3f4f5;
+  --ui-input-border: #c8ccd1;
+  --ui-line: #e6e7e9;
+  --ui-text: #25282c;
+  --ui-body: #464b52;
+  --ui-muted: #6b7078;
+  --ui-shadow-menu: 0 8px 24px rgb(24 28 33 / 12%), 0 2px 6px rgb(24 28 33 / 4%);
+  --ui-shadow-dialog: 0 24px 64px rgb(24 28 33 / 20%);
+}
+
+html { min-height: 100%; }
+body { min-height: 100vh; }
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--color-bg);
+  color: var(--color-body);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+
+.font-display {
+  font-family: var(--font-display);
+}
+
+@layer base {
+  body { font-size: 16px; font-weight: 400; }
+  button, input, select, textarea { font-family: inherit; }
+  h1, h2, h3, h4 { color: var(--color-text); }
+}
+
+/* Content stays flat; floating menus and dialogs carry elevation. */
+.transition-card {
+  transition: background-color 150ms ease;
+}
+.transition-card:hover {
+  background-color: #fafafa;
+}
+
+.kanban-scroll {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+@layer base {
+  button:not(:disabled), select { cursor: pointer; }
+  button:disabled { cursor: not-allowed; }
+  :focus-visible { outline: 2px solid var(--color-brand); outline-offset: 3px; }
+  summary { cursor: pointer; list-style: none; }
+  summary::-webkit-details-marker { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}

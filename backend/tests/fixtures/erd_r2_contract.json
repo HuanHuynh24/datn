@@ -1,0 +1,2384 @@
+{
+  "source_sha256": "f007c0c680fef98a7933a2001bd9963c8ba783a1d0b4c79123f02dbc20d2e8d2",
+  "entities": [
+    {
+      "_id": "AAAAAAGhbQycXOfnw2Y=",
+      "name": "taikhoan",
+      "columns": [
+        {
+          "_type": "ERDColumn",
+          "_id": "AAAAAAGhbRE9JOf4sFI=",
+          "_parent": {
+            "$ref": "AAAAAAGhbQycXOfnw2Y="
+          },
+          "name": "idtaikhoan",
+          "type": "bigint",
+          "length": 0,
+          "primaryKey": true,
+          "nullable": false
+        },
+        {
+          "_type": "ERDColumn",
+          "_id": "AAAAAAGhbRjE5uf/iSA=",
+          "_parent": {
+            "$ref": "AAAAAAGhbQycXOfnw2Y="
+          },
+          "name": "vaitro",
+          "type": "varchar(30)",
+          "length": 0,
+          "nullable": false
+        },
+        {
+          "_type": "ERDColumn",
+          "_id": "AAAAAAGhbRnrKOgKKUg=",
+          "_parent": {
+            "$ref": "AAAAAAGhbQycXOfnw2Y="
+          },
+          "name": "email",
+          "type": "varchar(255)",
+          "length": 0,
+          "unique": true,
+          "nullable": false
+        },
+        {
+          "_type": "ERDColumn",
+          "_id": "AAAAAAGhbRnvcegQCro=",
+          "_parent": {
+            "$ref": "AAAAAAGhbQycXOfnw2Y="
+          },
+          "name": "matkhaubam",
+          "type": "varchar(255)",
+          "length": 0,
+          "nullable": false
+        },
+        {
+          "_type": "ERDColumn",
+          "_id": "AAAAAAGhbRny+egW+YM=",
+          "_parent": {
+            "$ref": "AAAAAAGhbQycXOfnw2Y="
+          },
+          "name": "hovaten",
+          "type": "varchar(255)",
+          "length": 0,
+          "nullable": false
+        },
+        {
+          "_type": "ERDColumn",
+          "_id": "AAAAAAGhbRn29egc/iQ=",
+          "_parent": {
+            "$ref": "AAAAAAGhbQycXOfnw2Y="
+          },
+          "name": "trangthai",
+          "type": "varchar(30)",
+          "length": 0,
+          "nullable": false
+        },
+        {
+          "_type": "ERDColumn",
+          "_id": "AAAAAAGhbRoTxOgib2E=",
+          "_parent": {
+            "$ref": "AAAAAAGhbQycXOfnw2Y="
+          },
+          "name": "daxacthucemail",
+          "type": "boolean",
+          "length": 0,
+          "nullable": false
+        },
+        {
+          "_type": "ERDColumn",
+          "_id": "AAAAAAGhbRoXcOgoKak=",
+          "_parent": {
+            "$ref": "AAAAAAGhbQycXOfnw2Y="
+          },
+          "name": "solandangsai",
+          "type": "int",
+          "length": 0
+        },
+        {
+          "_type": "ERDColumn",
+          "_id": "AAAAAAGhbRoaw+guA9s=",
+          "_parent": {
+            "$ref": "AAAAAAGhbQycXOfnw2Y="
+          },
+          "name": "khoaden",
+          "type": "datetime",
+          "length": 0,
+          "nullable": true
+        },
+        {
+          "_type": "ERDColumn",
+          "_id": "AAAAAAGhbRoefOg0HB0=",
+          "_parent": {
+            "$ref": "AAAAAAGhbQycXOfnw2Y="
+          },
+          "name": "nhanemail",
+          "type": "boolean",
+          "length": 0
+        },
+        {
+          "_type": "ERDColumn",
+          "_id": "AAAAAAGhbRoiHeg6WdQ=",
+          "_parent": {
+            "$ref": "AAAAAAGhbQycXOfnw2Y="
+          },
+          "name": "thoigiantao",
+          "type": "datetime",
+          "length": 0,
+          "nullable": false
+        }
+      ]
+    },
+    {
+      "_id": "AAAAAAGhbR6hPOhssno=",
+      "name": "tintuyendung",
+      "columns": [
+        {
+          "_type": "ERDColumn",
+          "_id": "AAAAAAGhbR+QoOh84ec=",
+          "_parent": {
+            "$ref": "AAAAAAGhbR6hPOhssno="
+          },
+          "name": "idtin",
+          "type": "bigint",
+          "length": 0,
+          "primaryKey": true,
+          "nullable": false
+        },
+        {
+          "_type": "ERDColumn",
+          "_id": "AAAAAAGhbR+WRuiCpsU=",
+          "_parent": {
+            "$ref": "AAAAAAGhbR6hPOhssno="
+          },
+          "name": "iddoanhnghiep",
+          "type": "bigint",
+          "length": 0,
+          "foreignKey": true,
+          "referenceTo": {
+            "$ref": "AAAAAAGhbTtc+umKf70="
+          },
+          "nullable": false
+        },
+        {
+          "_type": "ERDColumn",
+          "_id": "AAAAAAGhbR+aGuiIdsw=",
+          "_parent": {
+            "$ref": "AAAAAAGhbR6hPOhssno="
+          },
+          "name": "idnguoidang",
+          "type": "bigint",
+          "length": 0,
+          "foreignKey": true,
+          "referenceTo": {
+            "$ref": "AAAAAAGhbVaOa+raub0="
+          },
+          "nullable": false
+        },
+        {
+          "_type": "ERDColumn",
+          "_id": "AAAAAAGhbR+daOiOtc4=",
+          "_parent": {
+            "$ref": "AAAAAAGhbR6hPOhssno="
+          },
+          "name": "trangthai",
+          "type": "varchar(30)",
+          "length": 0,
+          "nullable": false
+        },
+        {
+          "_type": "ERDColumn",
+          "_id": "AAAAAAGhbR+jzOiUAAM=",
+          "_parent": {
+            "$ref": "AAAAAAGhbR6hPOhssno="
+          },
+          "name": "thoigiantao",
+          "type": "datetime",
+          "length": 0,
+          "nullable": false
+        },
+        {
+          "_type": "ERDColumn",
+          "_id": "AAAAAAGhbR+nVuiap0g=",
+          "_parent": {
+            "$ref": "AAAAAAGhbR6hPOhssno="
+          },
+          "name": "thoigiandong",
+          "type": "datetime",
+          "length": 0,
+          "nullable": true
+        },
+        {
+          "_type": "ERDColumn",
+          "_id": "AAAAAAGhbR+qduig6ac=",
+          "_parent": {
+            "$ref": "AAAAAAGhbR6hPOhssno="
+          },
+          "name": "tieude",
+          "type": "varchar(255)",
+          "length": 0,
+          "nullable": false
+        },
+        {
+          "_type": "ERDColumn",
+          "_id": "AAAAAAGhbR+tsOimH3c=",
+          "_parent": {
+            "$ref": "AAAAAAGhbR6hPOhssno="
+          },
+          "name": "mota",
+          "type": "text",
+          "length": 0
+        },
+        {
+          "_type": "ERDColumn",
+          "_id": "AAAAAAGhbR+w7+isqwQ=",
+          "_parent": {
+            "$ref": "AAAAAAGhbR6hPOhssno="
+          },
+          "name": "yeucau",
+          "type": "text",
+          "length": 0
+        },
+        {
+          "_type": "ERDColumn",
+          "_id": "AAAAAAGhbR+0G+iyE4Y=",
+          "_parent": {
+            "$ref": "AAAAAAGhbR6hPOhssno="
+          },
+          "name": "idnganhnghe",
+          "type": "bigint",
+          "length": 0,
+          "foreignKey": true,
+          "referenceTo": {
+            "$ref": "AAAAAAGhbVfKpOsNdMo="
+          },
+          "nullable": false
+        },
+        {
+          "_type": "ERDColumn",
+          "_id": "AAAAAAGhbR+5Cei4ERI=",
+          "_parent": {
+            "$ref": "AAAAAAGhbR6hPOhssno="
+          },
+          "name": "idtinhthanh",
+          "type": "bigint",
+          "length": 0,
+          "foreignKey": true,
+          "referenceTo": {
+            "$ref": "AAAAAAGhbVuDDet7C0w="
+          },
+          "nullable": false
+        },
+        {
+          "_type": "ERDColumn",
+          "_id": "AAAAAAGhbR+8Jei+JOI=",
+          "_parent": {
+            "$ref": "AAAAAAGhbR6hPOhssno="
+          },
+          "name": "idxaphuong",
+          "type": "bigint",
+          "length": 0,
+          "foreignKey": true,
+          "nullable": true,
+          "referenceTo": {
+            "$ref": "AAAAAAGhbVxXzOuZpWI="
+          }
+        },
+        {
+          "_type": "ERDColumn",
+          "_id": "AAAAAAGhbR+/LujE6rk=",
+          "_parent": {
+            "$ref": "AAAAAAGhbR6hPOhssno="
+          },
+          "name": "tenduong",
+          "type": "varchar(255)",
+          "length": 0,
+          "nullable": true
+        },
+        {
+          "_type": "ERDColumn",
+          "_id": "AAAAAAGhbR/CP+jKGro=",
+          "_parent": {
+            "$ref": "AAAAAAGhbR6hPOhssno="
+          },
+          "name": "capbac",
+          "type": "varchar(100)",
+          "length": 0
+        },
+        {
+          "_type": "ERDColumn",
+          "_id": "AAAAAAGhbR/FM+jQi40=",
+          "_parent": {
+            "$ref": "AAAAAAGhbR6hPOhssno="
+          },
+          "name": "luongtoithieu",
+          "type": "decimal(15,2)",
+          "length": 0
+        },
+        {
+          "_type": "ERDColumn",
+          "_id": "AAAAAAGhbR/INujWSks=",
+          "_parent": {
+            "$ref": "AAAAAAGhbR6hPOhssno="
+          },
+          "name": "luongtoida",
+          "type": "decimal(15,2)",
+          "length": 0
+        },
+        {
+          "_type": "ERDColumn",
+          "_id": "AAAAAAGhbR/LaOjcsGQ=",
+          "_parent": {
+            "$ref": "AAAAAAGhbR6hPOhssno="
+          },
+          "name": "namkinhnghiem",
+          "type": "decimal(4,1)",
+          "length": 0
+        },
+        {
+          "_type": "ERDColumn",
+          "_id": "AAAAAAGhbR/OOejiWis=",
+          "_parent": {
+            "$ref": "AAAAAAGhbR6hPOhssno="
+          },
+          "name": "hinhthuclamviec",
+          "type": "varchar(60)",
+          "length": 0
+        },
+        {
+          "_type": "ERDColumn",
+          "_id": "AAAAAAGhbR/RRujowjg=",
+          "_parent": {
+            "$ref": "AAAAAAGhbR6hPOhssno="
+          },
+          "name": "hannophoso",
+          "type": "date",
+          "length": 0
+        },
+        {
+          "_type": "ERDColumn",
+          "_id": "AAAAAAGhbR/UhOjuAi8=",
+          "_parent": {
+            "$ref": "AAAAAAGhbR6hPOhssno="
+          },
+          "name": "idnguoiduyet",
+          "type": "bigint",
+          "length": 0,
+          "foreignKey": true,
+          "nullable": true,
+          "referenceTo": {
+            "$ref": "AAAAAAGhbRE9JOf4sFI="
+          }
+        },
+        {
+          "_type": "ERDColumn",
+          "_id": "AAAAAAGhbR/Xw+j0RtE=",
+          "_parent": {
+            "$ref": "AAAAAAGhbR6hPOhssno="
+          },
+          "name": "lydotuchoi",
+          "type": "text",
+          "length": 0,
+          "nullable": true
+        },
+        {
+          "_type": "ERDColumn",
+          "_id": "AAAAAAGhbR/bFOj6YFw=",
+          "_parent": {
+            "$ref": "AAAAAAGhbR6hPOhssno="
+          },
+          "name": "thoigianduyet",
+          "type": "datetime",
+          "length": 0,
+          "nullable": true
+        }
+      ]
+    },
+    {
+      "_id": "AAAAAAGhbSUwb+k49Hk=",
+      "name": "goidoanhnghiep",
+      "columns": [
+        {
+          "_type": "ERDColumn",
+          "_id": "AAAAAAGhbTLWiOlK8I8=",
+          "_parent": {
+            "$ref": "AAAAAAGhbSUwb+k49Hk="
+          },
+          "name": "idgoi",
+          "type": "bigint",
+          "length": 0,
+          "primaryKey": true,
+          "nullable": false
+        },
+        {
+          "_type": "ERDColumn",
+          "_id": "AAAAAAGhbTLw9elQTUk=",
+          "_parent": {
+            "$ref": "AAAAAAGhbSUwb+k49Hk="
+          },
+          "name": "magoi",
+          "type": "varchar(30)",
+          "length": 0,
+          "unique": true
+        },
+        {
+          "_type": "ERDColumn",
+          "_id": "AAAAAAGhbTL1LelWC3U=",
+          "_parent": {
+            "$ref": "AAAAAAGhbSUwb+k49Hk="
+          },
+          "name": "tengoi",
+          "type": "varchar(80)",
+          "length": 0
+        },
+        {
+          "_type": "ERDColumn",
+          "_id": "AAAAAAGhbTL4zulcU1E=",
+          "_parent": {
+            "$ref": "AAAAAAGhbSUwb+k49Hk="
+          },
+          "name": "sotaikhoantoida",
+          "type": "int",
+          "length": 0,
+          "nullable": true
+        },
+        {
+          "_type": "ERDColumn",
+          "_id": "AAAAAAGhbTL8Geli+IE=",
+          "_parent": {
+            "$ref": "AAAAAAGhbSUwb+k49Hk="
+          },
+          "name": "giathang",
+          "type": "decimal(15,2)",
+          "length": 0
+        },
+        {
+          "_type": "ERDColumn",
+          "_id": "AAAAAAGhbTL/tuloUXA=",
+          "_parent": {
+            "$ref": "AAAAAAGhbSUwb+k49Hk="
+          },
+          "name": "mota",
+          "type": "text",
+          "length": 0
+        }
+      ]
+    },
+    {
+      "_id": "AAAAAAGhbTrguel8CUQ=",
+      "name": "doanhnghiep",
+      "columns": [
+        {
+          "_type": "ERDColumn",
+          "_id": "AAAAAAGhbTtc+umKf70=",
+          "_parent": {
+            "$ref": "AAAAAAGhbTrguel8CUQ="
+          },
+          "name": "iddoanhnghiep",
+          "type": "bigint",
+          "length": 0,
+          "primaryKey": true,
+          "nullable": false
+        },
+        {
+          "_type": "ERDColumn",
+          "_id": "AAAAAAGhbTthS+mQe7c=",
+          "_parent": {
+            "$ref": "AAAAAAGhbTrguel8CUQ="
+          },
+          "name": "idgoi",
+          "type": "bigint",
+          "length": 0,
+          "foreignKey": true,
+          "referenceTo": {
+            "$ref": "AAAAAAGhbTLWiOlK8I8="
+          },
+          "nullable": false
+        },
+        {
+          "_type": "ERDColumn",
+          "_id": "AAAAAAGhbTtkqOmWjCE=",
+          "_parent": {
+            "$ref": "AAAAAAGhbTrguel8CUQ="
+          },
+          "name": "tencongty",
+          "type": "varchar(255)",
+          "length": 0,
+          "nullable": false
+        },
+        {
+          "_type": "ERDColumn",
+          "_id": "AAAAAAGhbTtoFemc1vM=",
+          "_parent": {
+            "$ref": "AAAAAAGhbTrguel8CUQ="
+          },
+          "name": "masothue",
+          "type": "varchar(30)",
+          "length": 0,
+          "unique": true,
+          "nullable": false
+        },
+        {
+          "_type": "ERDColumn",
+          "_id": "AAAAAAGhbTtrnumiCi4=",
+          "_parent": {
+            "$ref": "AAAAAAGhbTrguel8CUQ="
+          },
+          "name": "linhvuc",
+          "type": "varchar(200)",
+          "length": 0
+        },
+        {
+          "_type": "ERDColumn",
+          "_id": "AAAAAAGhbTtu3OmobWA=",
+          "_parent": {
+            "$ref": "AAAAAAGhbTrguel8CUQ="
+          },
+          "name": "quymo",
+          "type": "varchar(60)",
+          "length": 0
+        },
+        {
+          "_type": "ERDColumn",
+          "_id": "AAAAAAGhbTtyGumuN1I=",
+          "_parent": {
+            "$ref": "AAAAAAGhbTrguel8CUQ="
+          },
+          "name": "diachi",
+          "type": "varchar(255)",
+          "length": 0
+        },
+        {
+          "_type": "ERDColumn",
+          "_id": "AAAAAAGhbTt1V+m0oog=",
+          "_parent": {
+            "$ref": "AAAAAAGhbTrguel8CUQ="
+          },
+          "name": "website",
+          "type": "varchar(255)",
+          "length": 0
+        },
+        {
+          "_type": "ERDColumn",
+          "_id": "AAAAAAGhbTt4n+m6MZ8=",
+          "_parent": {
+            "$ref": "AAAAAAGhbTrguel8CUQ="
+          },
+          "name": "logo",
+          "type": "varchar(500)",
+          "length": 0
+        },
+        {
+          "_type": "ERDColumn",
+          "_id": "AAAAAAGhbTt7genAOU0=",
+          "_parent": {
+            "$ref": "AAAAAAGhbTrguel8CUQ="
+          },
+          "name": "gioithieu",
+          "type": "text",
+          "length": 0
+        },
+        {
+          "_type": "ERDColumn",
+          "_id": "AAAAAAGhbTt+punGoTQ=",
+          "_parent": {
+            "$ref": "AAAAAAGhbTrguel8CUQ="
+          },
+          "name": "trangthaiduyet",
+          "type": "varchar(30)",
+          "length": 0,
+          "nullable": false
+        },
+        {
+          "_type": "ERDColumn",
+          "_id": "AAAAAAGhbTuB7+nMIM4=",
+          "_parent": {
+            "$ref": "AAAAAAGhbTrguel8CUQ="
+          },
+          "name": "thoigiantao",
+          "type": "datetime",
+          "length": 0
+        },
+        {
+          "_type": "ERDColumn",
+          "_id": "AAAAAAGhbTuFJunSv5w=",
+          "_parent": {
+            "$ref": "AAAAAAGhbTrguel8CUQ="
+          },
+          "name": "duongdanprofile",
+          "type": "varchar(500)",
+          "length": 0,
+          "nullable": true
+        },
+        {
+          "_type": "ERDColumn",
+          "_id": "AAAAAAGhbTuImenY0x4=",
+          "_parent": {
+            "$ref": "AAAAAAGhbTrguel8CUQ="
+          },
+          "name": "ngaybatdaugoi",
+          "type": "date",
+          "length": 0
+        },
+        {
+          "_type": "ERDColumn",
+          "_id": "AAAAAAGhbTuMJOneOH4=",
+          "_parent": {
+            "$ref": "AAAAAAGhbTrguel8CUQ="
+          },
+          "name": "ngayhethan",
+          "type": "date",
+          "length": 0,
+          "nullable": true
+        }
+      ]
+    },
+    {
+      "_id": "AAAAAAGhbUNDH+oFiec=",
+      "name": "hosoungvien",
+      "columns": [
+        {
+          "_type": "ERDColumn",
+          "_id": "AAAAAAGhbUPDfOoSgZo=",
+          "_parent": {
+            "$ref": "AAAAAAGhbUNDH+oFiec="
+          },
+          "name": "idungvien",
+          "type": "bigint",
+          "length": 0,
+          "primaryKey": true,
+          "nullable": false
+        },
+        {
+          "_type": "ERDColumn",
+          "_id": "AAAAAAGhbUPHe+oYLgk=",
+          "_parent": {
+            "$ref": "AAAAAAGhbUNDH+oFiec="
+          },
+          "name": "idtaikhoan",
+          "type": "bigint",
+          "length": 0,
+          "foreignKey": true,
+          "unique": true,
+          "referenceTo": {
+            "$ref": "AAAAAAGhbRE9JOf4sFI="
+          },
+          "nullable": false
+        },
+        {
+          "_type": "ERDColumn",
+          "_id": "AAAAAAGhbUPK0eoe4HU=",
+          "_parent": {
+            "$ref": "AAAAAAGhbUNDH+oFiec="
+          },
+          "name": "sodienthoai",
+          "type": "varchar(20)",
+          "length": 0
+        },
+        {
+          "_type": "ERDColumn",
+          "_id": "AAAAAAGhbUPOCuok+JM=",
+          "_parent": {
+            "$ref": "AAAAAAGhbUNDH+oFiec="
+          },
+          "name": "diachi",
+          "type": "varchar(255)",
+          "length": 0
+        },
+        {
+          "_type": "ERDColumn",
+          "_id": "AAAAAAGhbUPRZeoq7os=",
+          "_parent": {
+            "$ref": "AAAAAAGhbUNDH+oFiec="
+          },
+          "name": "gioithieu",
+          "type": "text",
+          "length": 0
+        },
+        {
+          "_type": "ERDColumn",
+          "_id": "AAAAAAGhbUPXTOow87k=",
+          "_parent": {
+            "$ref": "AAAAAAGhbUNDH+oFiec="
+          },
+          "name": "anhdaidien",
+          "type": "varchar(500)",
+          "length": 0
+        },
+        {
+          "_type": "ERDColumn",
+          "_id": "AAAAAAGhbUPa++o25OU=",
+          "_parent": {
+            "$ref": "AAAAAAGhbUNDH+oFiec="
+          },
+          "name": "congkhaihoso",
+          "type": "boolean",
+          "length": 0
+        },
+        {
+          "_type": "ERDColumn",
+          "_id": "AAAAAAGhbUPe4+o82bo=",
+          "_parent": {
+            "$ref": "AAAAAAGhbUNDH+oFiec="
+          },
+          "name": "thoigiancapnhat",
+          "type": "datetime",
+          "length": 0
+        },
+        {
+          "_type": "ERDColumn",
+          "_id": "AAAAAAGhbUPiPOpCUgE=",
+          "_parent": {
+            "$ref": "AAAAAAGhbUNDH+oFiec="
+          },
+          "name": "hocvan",
+          "type": "json",
+          "length": 0
+        },
+        {
+          "_type": "ERDColumn",
+          "_id": "AAAAAAGhbUPla+pItro=",
+          "_parent": {
+            "$ref": "AAAAAAGhbUNDH+oFiec="
+          },
+          "name": "kinhnghiem",
+          "type": "json",
+          "length": 0
+        },
+        {
+          "_type": "ERDColumn",
+          "_id": "AAAAAAGhbUPop+pOsmw=",
+          "_parent": {
+            "$ref": "AAAAAAGhbUNDH+oFiec="
+          },
+          "name": "vitrimongmuon",
+          "type": "varchar(255)",
+          "length": 0
+        },
+        {
+          "_type": "ERDColumn",
+          "_id": "AAAAAAGhbUPsKepUh94=",
+          "_parent": {
+            "$ref": "AAAAAAGhbUNDH+oFiec="
+          },
+          "name": "idtinhthanh",
+          "type": "bigint",
+          "length": 0,
+          "foreignKey": true,
+          "nullable": true,
+          "referenceTo": {
+            "$ref": "AAAAAAGhbVuDDet7C0w="
+          }
+        },
+        {
+          "_type": "ERDColumn",
+          "_id": "AAAAAAGhbUPwqOpaAQI=",
+          "_parent": {
+            "$ref": "AAAAAAGhbUNDH+oFiec="
+          },
+          "name": "luongmongmuontoithieu",
+          "type": "decimal(15,2)",
+          "length": 0
+        },
+        {
+          "_type": "ERDColumn",
+          "_id": "AAAAAAGhbUPz5upg6ZI=",
+          "_parent": {
+            "$ref": "AAAAAAGhbUNDH+oFiec="
+          },
+          "name": "luongmongmuontoida",
+          "type": "decimal(15,2)",
+          "length": 0
+        },
+        {
+          "_type": "ERDColumn",
+          "_id": "AAAAAAGhbUP3rupmwZE=",
+          "_parent": {
+            "$ref": "AAAAAAGhbUNDH+oFiec="
+          },
+          "name": "hinhthuclamviecmongmuon",
+          "type": "varchar(60)",
+          "length": 0
+        }
+      ]
+    },
+    {
+      "_id": "AAAAAAGhbVSuD+qO1hI=",
+      "name": "ungvienkynang",
+      "columns": [
+        {
+          "_type": "ERDColumn",
+          "_id": "AAAAAAGhbVTdAOqb45c=",
+          "_parent": {
+            "$ref": "AAAAAAGhbVSuD+qO1hI="
+          },
+          "name": "idungvien",
+          "type": "bigint",
+          "length": 0,
+          "primaryKey": true,
+          "foreignKey": true,
+          "nullable": false,
+          "referenceTo": {
+            "$ref": "AAAAAAGhbUPDfOoSgZo="
+          }
+        },
+        {
+          "_type": "ERDColumn",
+          "_id": "AAAAAAGhbVTh0eqhGSw=",
+          "_parent": {
+            "$ref": "AAAAAAGhbVSuD+qO1hI="
+          },
+          "name": "idkynang",
+          "type": "bigint",
+          "length": 0,
+          "primaryKey": true,
+          "foreignKey": true,
+          "nullable": false,
+          "referenceTo": {
+            "$ref": "AAAAAAGhbV2nj+v4vvg="
+          }
+        },
+        {
+          "_type": "ERDColumn",
+          "_id": "AAAAAAGhbVTk9eqnLVY=",
+          "_parent": {
+            "$ref": "AAAAAAGhbVSuD+qO1hI="
+          },
+          "name": "mucdothanhthao",
+          "type": "varchar(60)",
+          "length": 0
+        },
+        {
+          "_type": "ERDColumn",
+          "_id": "AAAAAAGhbVTnxeqtKX0=",
+          "_parent": {
+            "$ref": "AAAAAAGhbVSuD+qO1hI="
+          },
+          "name": "nguoncapnhat",
+          "type": "varchar(60)",
+          "length": 0
+        },
+        {
+          "_type": "ERDColumn",
+          "_id": "AAAAAAGhbVTqteqzN6E=",
+          "_parent": {
+            "$ref": "AAAAAAGhbVSuD+qO1hI="
+          },
+          "name": "thoigiancapnhat",
+          "type": "datetime",
+          "length": 0
+        }
+      ]
+    },
+    {
+      "_id": "AAAAAAGhbVY+XOrHcy4=",
+      "name": "thanhviendoanhnghiep",
+      "columns": [
+        {
+          "_type": "ERDColumn",
+          "_id": "AAAAAAGhbVaH5+rU2uI=",
+          "_parent": {
+            "$ref": "AAAAAAGhbVY+XOrHcy4="
+          },
+          "name": "iddoanhnghiep",
+          "type": "bigint",
+          "length": 0,
+          "primaryKey": false,
+          "foreignKey": true,
+          "referenceTo": {
+            "$ref": "AAAAAAGhbTtc+umKf70="
+          },
+          "nullable": false
+        },
+        {
+          "_type": "ERDColumn",
+          "_id": "AAAAAAGhbVaOa+raub0=",
+          "_parent": {
+            "$ref": "AAAAAAGhbVY+XOrHcy4="
+          },
+          "name": "idtaikhoan",
+          "type": "bigint",
+          "length": 0,
+          "primaryKey": true,
+          "foreignKey": true,
+          "nullable": false,
+          "referenceTo": {
+            "$ref": "AAAAAAGhbRE9JOf4sFI="
+          }
+        },
+        {
+          "_type": "ERDColumn",
+          "_id": "AAAAAAGhbVaSn+rgvwE=",
+          "_parent": {
+            "$ref": "AAAAAAGhbVY+XOrHcy4="
+          },
+          "name": "chucvunoibo",
+          "type": "varchar(100)",
+          "length": 0,
+          "nullable": false
+        },
+        {
+          "_type": "ERDColumn",
+          "_id": "AAAAAAGhbVahKOrmuBc=",
+          "_parent": {
+            "$ref": "AAAAAAGhbVY+XOrHcy4="
+          },
+          "name": "trangthai",
+          "type": "varchar(30)",
+          "length": 0,
+          "nullable": false
+        },
+        {
+          "_type": "ERDColumn",
+          "_id": "AAAAAAGhbVak1ersjEo=",
+          "_parent": {
+            "$ref": "AAAAAAGhbVY+XOrHcy4="
+          },
+          "name": "thoigianthem",
+          "type": "datetime",
+          "length": 0
+        }
+      ]
+    },
+    {
+      "_id": "AAAAAAGhbVfEc+sAsUk=",
+      "name": "nganhnghe",
+      "columns": [
+        {
+          "_type": "ERDColumn",
+          "_id": "AAAAAAGhbVfKpOsNdMo=",
+          "_parent": {
+            "$ref": "AAAAAAGhbVfEc+sAsUk="
+          },
+          "name": "idnganhnghe",
+          "type": "bigint",
+          "length": 0,
+          "primaryKey": true,
+          "nullable": false
+        },
+        {
+          "_type": "ERDColumn",
+          "_id": "AAAAAAGhbVfOTOsT7R8=",
+          "_parent": {
+            "$ref": "AAAAAAGhbVfEc+sAsUk="
+          },
+          "name": "tennganhnghe",
+          "type": "varchar(150)",
+          "length": 0,
+          "unique": true
+        },
+        {
+          "_type": "ERDColumn",
+          "_id": "AAAAAAGhbVfRtusZfpQ=",
+          "_parent": {
+            "$ref": "AAAAAAGhbVfEc+sAsUk="
+          },
+          "name": "hinhanh",
+          "type": "varchar(500)",
+          "length": 0
+        },
+        {
+          "_type": "ERDColumn",
+          "_id": "AAAAAAGhbVfUkesfmd4=",
+          "_parent": {
+            "$ref": "AAAAAAGhbVfEc+sAsUk="
+          },
+          "name": "trangthai",
+          "type": "varchar(30)",
+          "length": 0
+        }
+      ]
+    },
+    {
+      "_id": "AAAAAAGhbVlEFusvgHQ=",
+      "name": "hosocv",
+      "columns": [
+        {
+          "_type": "ERDColumn",
+          "_id": "AAAAAAGhbVl5r+s8GNY=",
+          "_parent": {
+            "$ref": "AAAAAAGhbVlEFusvgHQ="
+          },
+          "name": "idcv",
+          "type": "bigint",
+          "length": 0,
+          "primaryKey": true,
+          "nullable": false
+        },
+        {
+          "_type": "ERDColumn",
+          "_id": "AAAAAAGhbVl+4utCIaQ=",
+          "_parent": {
+            "$ref": "AAAAAAGhbVlEFusvgHQ="
+          },
+          "name": "idungvien",
+          "type": "bigint",
+          "length": 0,
+          "foreignKey": true,
+          "referenceTo": {
+            "$ref": "AAAAAAGhbUPDfOoSgZo="
+          },
+          "nullable": false
+        },
+        {
+          "_type": "ERDColumn",
+          "_id": "AAAAAAGhbVmCmutII4k=",
+          "_parent": {
+            "$ref": "AAAAAAGhbVlEFusvgHQ="
+          },
+          "name": "duongdantep",
+          "type": "varchar(500)",
+          "length": 0
+        },
+        {
+          "_type": "ERDColumn",
+          "_id": "AAAAAAGhbVmGU+tOJs4=",
+          "_parent": {
+            "$ref": "AAAAAAGhbVlEFusvgHQ="
+          },
+          "name": "cvchinh",
+          "type": "boolean",
+          "length": 0
+        },
+        {
+          "_type": "ERDColumn",
+          "_id": "AAAAAAGhbVmKCOtUisY=",
+          "_parent": {
+            "$ref": "AAAAAAGhbVlEFusvgHQ="
+          },
+          "name": "trangthai",
+          "type": "varchar(30)",
+          "length": 0
+        },
+        {
+          "_type": "ERDColumn",
+          "_id": "AAAAAAGhbVmO8utaMPI=",
+          "_parent": {
+            "$ref": "AAAAAAGhbVlEFusvgHQ="
+          },
+          "name": "thoigiantao",
+          "type": "datetime",
+          "length": 0
+        }
+      ]
+    },
+    {
+      "_id": "AAAAAAGhbVtctOturBU=",
+      "name": "tinhthanh",
+      "columns": [
+        {
+          "_type": "ERDColumn",
+          "_id": "AAAAAAGhbVuDDet7C0w=",
+          "_parent": {
+            "$ref": "AAAAAAGhbVtctOturBU="
+          },
+          "name": "idtinhthanh",
+          "type": "bigint",
+          "length": 0,
+          "primaryKey": true,
+          "nullable": false
+        },
+        {
+          "_type": "ERDColumn",
+          "_id": "AAAAAAGhbVuHBeuBzqs=",
+          "_parent": {
+            "$ref": "AAAAAAGhbVtctOturBU="
+          },
+          "name": "tentinhthanh",
+          "type": "varchar(150)",
+          "length": 0
+        }
+      ]
+    },
+    {
+      "_id": "AAAAAAGhbVw6kOuMGEs=",
+      "name": "xaphuong",
+      "columns": [
+        {
+          "_type": "ERDColumn",
+          "_id": "AAAAAAGhbVxXzOuZpWI=",
+          "_parent": {
+            "$ref": "AAAAAAGhbVw6kOuMGEs="
+          },
+          "name": "idxaphuong",
+          "type": "bigint",
+          "length": 0,
+          "primaryKey": true,
+          "nullable": false
+        },
+        {
+          "_type": "ERDColumn",
+          "_id": "AAAAAAGhbVxb4+ufsbo=",
+          "_parent": {
+            "$ref": "AAAAAAGhbVw6kOuMGEs="
+          },
+          "name": "idtinhthanh",
+          "type": "bigint",
+          "length": 0,
+          "foreignKey": true,
+          "referenceTo": {
+            "$ref": "AAAAAAGhbVuDDet7C0w="
+          },
+          "nullable": false
+        },
+        {
+          "_type": "ERDColumn",
+          "_id": "AAAAAAGhbVxfR+ulQB8=",
+          "_parent": {
+            "$ref": "AAAAAAGhbVw6kOuMGEs="
+          },
+          "name": "tenxaphuong",
+          "type": "varchar(150)",
+          "length": 0
+        }
+      ]
+    },
+    {
+      "_id": "AAAAAAGhbV11wuvrFZk=",
+      "name": "kynang",
+      "columns": [
+        {
+          "_type": "ERDColumn",
+          "_id": "AAAAAAGhbV2nj+v4vvg=",
+          "_parent": {
+            "$ref": "AAAAAAGhbV11wuvrFZk="
+          },
+          "name": "idkynang",
+          "type": "bigint",
+          "length": 0,
+          "primaryKey": true,
+          "nullable": false
+        },
+        {
+          "_type": "ERDColumn",
+          "_id": "AAAAAAGhbV2r7Ov+Qd8=",
+          "_parent": {
+            "$ref": "AAAAAAGhbV11wuvrFZk="
+          },
+          "name": "tenkynang",
+          "type": "varchar(120)",
+          "length": 0,
+          "unique": true
+        },
+        {
+          "_type": "ERDColumn",
+          "_id": "AAAAAAGhbV2vFuwE0RQ=",
+          "_parent": {
+            "$ref": "AAAAAAGhbV11wuvrFZk="
+          },
+          "name": "trangthai",
+          "type": "varchar(30)",
+          "length": 0
+        },
+        {
+          "_type": "ERDColumn",
+          "_id": "AAAAAAGhbV2yJOwKkyI=",
+          "_parent": {
+            "$ref": "AAAAAAGhbV11wuvrFZk="
+          },
+          "name": "mota",
+          "type": "text",
+          "length": 0
+        },
+        {
+          "_type": "ERDColumn",
+          "_id": "AAAAAAGhbV21zOwQiEU=",
+          "_parent": {
+            "$ref": "AAAAAAGhbV11wuvrFZk="
+          },
+          "name": "tudongnghia",
+          "type": "json",
+          "length": 0
+        }
+      ]
+    },
+    {
+      "_id": "AAAAAAGhbebiVaEUb6Q=",
+      "name": "donungtuyen",
+      "columns": [
+        {
+          "_type": "ERDColumn",
+          "_id": "AAAAAAGhbectoaEh+C8=",
+          "_parent": {
+            "$ref": "AAAAAAGhbebiVaEUb6Q="
+          },
+          "name": "iddon",
+          "type": "bigint",
+          "length": 0,
+          "primaryKey": true,
+          "nullable": false
+        },
+        {
+          "_type": "ERDColumn",
+          "_id": "AAAAAAGhbecwtaEnrGo=",
+          "_parent": {
+            "$ref": "AAAAAAGhbebiVaEUb6Q="
+          },
+          "name": "idungvien",
+          "type": "bigint",
+          "length": 0,
+          "foreignKey": true,
+          "referenceTo": {
+            "$ref": "AAAAAAGhbUPDfOoSgZo="
+          },
+          "nullable": false
+        },
+        {
+          "_type": "ERDColumn",
+          "_id": "AAAAAAGhbecypaEtEmE=",
+          "_parent": {
+            "$ref": "AAAAAAGhbebiVaEUb6Q="
+          },
+          "name": "idtin",
+          "type": "bigint",
+          "length": 0,
+          "foreignKey": true,
+          "referenceTo": {
+            "$ref": "AAAAAAGhbR+QoOh84ec="
+          },
+          "nullable": false
+        },
+        {
+          "_type": "ERDColumn",
+          "_id": "AAAAAAGhbec0i6EzJqg=",
+          "_parent": {
+            "$ref": "AAAAAAGhbebiVaEUb6Q="
+          },
+          "name": "idcv",
+          "type": "bigint",
+          "length": 0,
+          "foreignKey": true,
+          "nullable": true,
+          "referenceTo": {
+            "$ref": "AAAAAAGhbVl5r+s8GNY="
+          }
+        },
+        {
+          "_type": "ERDColumn",
+          "_id": "AAAAAAGhbec1sKE59zg=",
+          "_parent": {
+            "$ref": "AAAAAAGhbebiVaEUb6Q="
+          },
+          "name": "duongdanbanluucv",
+          "type": "varchar(500)",
+          "length": 0,
+          "nullable": true
+        },
+        {
+          "_type": "ERDColumn",
+          "_id": "AAAAAAGhbec3h6E/Pjc=",
+          "_parent": {
+            "$ref": "AAAAAAGhbebiVaEUb6Q="
+          },
+          "name": "thugiothieu",
+          "type": "text",
+          "length": 0,
+          "nullable": true
+        },
+        {
+          "_type": "ERDColumn",
+          "_id": "AAAAAAGhbec656FF0FQ=",
+          "_parent": {
+            "$ref": "AAAAAAGhbebiVaEUb6Q="
+          },
+          "name": "trangthai",
+          "type": "varchar(40)",
+          "length": 0,
+          "nullable": false
+        },
+        {
+          "_type": "ERDColumn",
+          "_id": "AAAAAAGhbec9gaFLNpI=",
+          "_parent": {
+            "$ref": "AAAAAAGhbebiVaEUb6Q="
+          },
+          "name": "thoigiannop",
+          "type": "datetime",
+          "length": 0,
+          "nullable": false
+        },
+        {
+          "_type": "ERDColumn",
+          "_id": "AAAAAAGhbec/6qFRZlQ=",
+          "_parent": {
+            "$ref": "AAAAAAGhbebiVaEUb6Q="
+          },
+          "name": "thoigiancapnhat",
+          "type": "datetime",
+          "length": 0
+        }
+      ]
+    },
+    {
+      "_id": "AAAAAAGhbejnWaFvXMc=",
+      "name": "ketquamatching",
+      "columns": [
+        {
+          "_type": "ERDColumn",
+          "_id": "AAAAAAGhbekduaF8uvg=",
+          "_parent": {
+            "$ref": "AAAAAAGhbejnWaFvXMc="
+          },
+          "name": "idmatching",
+          "type": "bigint",
+          "length": 0,
+          "primaryKey": true,
+          "nullable": false
+        },
+        {
+          "_type": "ERDColumn",
+          "_id": "AAAAAAGhbekfxKGC6D4=",
+          "_parent": {
+            "$ref": "AAAAAAGhbejnWaFvXMc="
+          },
+          "name": "idcv",
+          "type": "bigint",
+          "length": 0,
+          "foreignKey": true,
+          "referenceTo": {
+            "$ref": "AAAAAAGhbVl5r+s8GNY="
+          },
+          "nullable": false
+        },
+        {
+          "_type": "ERDColumn",
+          "_id": "AAAAAAGhbekh46GIRWs=",
+          "_parent": {
+            "$ref": "AAAAAAGhbejnWaFvXMc="
+          },
+          "name": "idtin",
+          "type": "bigint",
+          "length": 0,
+          "foreignKey": true,
+          "referenceTo": {
+            "$ref": "AAAAAAGhbR+QoOh84ec="
+          },
+          "nullable": false
+        },
+        {
+          "_type": "ERDColumn",
+          "_id": "AAAAAAGhbekkAqGO1cQ=",
+          "_parent": {
+            "$ref": "AAAAAAGhbejnWaFvXMc="
+          },
+          "name": "diemtong",
+          "type": "decimal(5,2)",
+          "length": 0
+        },
+        {
+          "_type": "ERDColumn",
+          "_id": "AAAAAAGhbekmKKGU158=",
+          "_parent": {
+            "$ref": "AAAAAAGhbejnWaFvXMc="
+          },
+          "name": "diemkynang",
+          "type": "decimal(5,2)",
+          "length": 0
+        },
+        {
+          "_type": "ERDColumn",
+          "_id": "AAAAAAGhbekqzKGaDxg=",
+          "_parent": {
+            "$ref": "AAAAAAGhbejnWaFvXMc="
+          },
+          "name": "diemkinhnghiem",
+          "type": "decimal(5,2)",
+          "length": 0
+        },
+        {
+          "_type": "ERDColumn",
+          "_id": "AAAAAAGhbektbaGgQy8=",
+          "_parent": {
+            "$ref": "AAAAAAGhbejnWaFvXMc="
+          },
+          "name": "diemhocvan",
+          "type": "decimal(5,2)",
+          "length": 0
+        },
+        {
+          "_type": "ERDColumn",
+          "_id": "AAAAAAGhbekvnKGmzcI=",
+          "_parent": {
+            "$ref": "AAAAAAGhbejnWaFvXMc="
+          },
+          "name": "diemvitri",
+          "type": "decimal(5,2)",
+          "length": 0
+        },
+        {
+          "_type": "ERDColumn",
+          "_id": "AAAAAAGhbekx1KGs3uU=",
+          "_parent": {
+            "$ref": "AAAAAAGhbejnWaFvXMc="
+          },
+          "name": "thieudulieu",
+          "type": "boolean",
+          "length": 0
+        },
+        {
+          "_type": "ERDColumn",
+          "_id": "AAAAAAGhbekz8aGyO3A=",
+          "_parent": {
+            "$ref": "AAAAAAGhbejnWaFvXMc="
+          },
+          "name": "lydogiaithich",
+          "type": "text",
+          "length": 0
+        },
+        {
+          "_type": "ERDColumn",
+          "_id": "AAAAAAGhbek2IaG4R/g=",
+          "_parent": {
+            "$ref": "AAAAAAGhbejnWaFvXMc="
+          },
+          "name": "thoigiantinh",
+          "type": "datetime",
+          "length": 0
+        },
+        {
+          "_type": "ERDColumn",
+          "_id": "AAAAAAGhbek4IaG+F48=",
+          "_parent": {
+            "$ref": "AAAAAAGhbejnWaFvXMc="
+          },
+          "name": "chitietkynang",
+          "type": "json",
+          "length": 0
+        }
+      ]
+    },
+    {
+      "_id": "AAAAAAGhbfKDq6HQiXA=",
+      "name": "lantrichxuat",
+      "columns": [
+        {
+          "_type": "ERDColumn",
+          "_id": "AAAAAAGhbfLPHaHeeok=",
+          "_parent": {
+            "$ref": "AAAAAAGhbfKDq6HQiXA="
+          },
+          "name": "idlantrichxuat",
+          "type": "bigint",
+          "length": 0,
+          "primaryKey": true,
+          "nullable": false
+        },
+        {
+          "_type": "ERDColumn",
+          "_id": "AAAAAAGhbfLRBaHkYX8=",
+          "_parent": {
+            "$ref": "AAAAAAGhbfKDq6HQiXA="
+          },
+          "name": "idcv",
+          "type": "bigint",
+          "length": 0,
+          "foreignKey": true,
+          "referenceTo": {
+            "$ref": "AAAAAAGhbVl5r+s8GNY="
+          },
+          "nullable": false
+        },
+        {
+          "_type": "ERDColumn",
+          "_id": "AAAAAAGhbfLq1KHq62Q=",
+          "_parent": {
+            "$ref": "AAAAAAGhbfKDq6HQiXA="
+          },
+          "name": "trangthai",
+          "type": "varchar(30)",
+          "length": 0
+        },
+        {
+          "_type": "ERDColumn",
+          "_id": "AAAAAAGhbfLs6aHw1as=",
+          "_parent": {
+            "$ref": "AAAAAAGhbfKDq6HQiXA="
+          },
+          "name": "noidungtho",
+          "type": "text",
+          "length": 0,
+          "nullable": true
+        },
+        {
+          "_type": "ERDColumn",
+          "_id": "AAAAAAGhbfLum6H27uw=",
+          "_parent": {
+            "$ref": "AAAAAAGhbfKDq6HQiXA="
+          },
+          "name": "thoigianbatdau",
+          "type": "datetime",
+          "length": 0
+        },
+        {
+          "_type": "ERDColumn",
+          "_id": "AAAAAAGhbfLwI6H8otU=",
+          "_parent": {
+            "$ref": "AAAAAAGhbfKDq6HQiXA="
+          },
+          "name": "thoigianketthuc",
+          "type": "datetime",
+          "length": 0,
+          "nullable": true
+        },
+        {
+          "_type": "ERDColumn",
+          "_id": "AAAAAAGhbfLxpqICv1c=",
+          "_parent": {
+            "$ref": "AAAAAAGhbfKDq6HQiXA="
+          },
+          "name": "thongbaoloi",
+          "type": "text",
+          "length": 0,
+          "nullable": true
+        },
+        {
+          "_type": "ERDColumn",
+          "_id": "AAAAAAGhbfLzNqIImH4=",
+          "_parent": {
+            "$ref": "AAAAAAGhbfKDq6HQiXA="
+          },
+          "name": "daxacnhan",
+          "type": "boolean",
+          "length": 0
+        },
+        {
+          "_type": "ERDColumn",
+          "_id": "AAAAAAGhbfL0zqIObwM=",
+          "_parent": {
+            "$ref": "AAAAAAGhbfKDq6HQiXA="
+          },
+          "name": "thoigianxacnhan",
+          "type": "datetime",
+          "length": 0,
+          "nullable": true
+        },
+        {
+          "_type": "ERDColumn",
+          "_id": "AAAAAAGhbfL2nqIUQKo=",
+          "_parent": {
+            "$ref": "AAAAAAGhbfKDq6HQiXA="
+          },
+          "name": "dulieutrichxuat",
+          "type": "json",
+          "length": 0
+        },
+        {
+          "_type": "ERDColumn",
+          "_id": "AAAAAAGhbfL5m6IafTs=",
+          "_parent": {
+            "$ref": "AAAAAAGhbfKDq6HQiXA="
+          },
+          "name": "dulieudachinh",
+          "type": "json",
+          "length": 0,
+          "nullable": true
+        },
+        {
+          "_type": "ERDColumn",
+          "_id": "AAAAAAGhbfL76qIgR4Y=",
+          "_parent": {
+            "$ref": "AAAAAAGhbfKDq6HQiXA="
+          },
+          "name": "truongcankiemtra",
+          "type": "json",
+          "length": 0
+        }
+      ]
+    },
+    {
+      "_id": "AAAAAAGhbfb07KJRK/8=",
+      "name": "kynangtin",
+      "columns": [
+        {
+          "_type": "ERDColumn",
+          "_id": "AAAAAAGhbfcvMqJezMA=",
+          "_parent": {
+            "$ref": "AAAAAAGhbfb07KJRK/8="
+          },
+          "name": "idtin",
+          "type": "bigint",
+          "length": 0,
+          "primaryKey": true,
+          "foreignKey": true,
+          "nullable": false,
+          "referenceTo": {
+            "$ref": "AAAAAAGhbR+QoOh84ec="
+          }
+        },
+        {
+          "_type": "ERDColumn",
+          "_id": "AAAAAAGhbfcx16JkhBE=",
+          "_parent": {
+            "$ref": "AAAAAAGhbfb07KJRK/8="
+          },
+          "name": "idkynang",
+          "type": "bigint",
+          "length": 0,
+          "primaryKey": true,
+          "foreignKey": true,
+          "nullable": false,
+          "referenceTo": {
+            "$ref": "AAAAAAGhbV2nj+v4vvg="
+          }
+        },
+        {
+          "_type": "ERDColumn",
+          "_id": "AAAAAAGhbfczc6JqKf0=",
+          "_parent": {
+            "$ref": "AAAAAAGhbfb07KJRK/8="
+          },
+          "name": "batbuoc",
+          "type": "boolean",
+          "length": 0
+        },
+        {
+          "_type": "ERDColumn",
+          "_id": "AAAAAAGhbfc1AqJwIgA=",
+          "_parent": {
+            "$ref": "AAAAAAGhbfb07KJRK/8="
+          },
+          "name": "mucdouutien",
+          "type": "int",
+          "length": 0
+        }
+      ]
+    }
+  ],
+  "relationships": [
+    {
+      "_type": "ERDRelationship",
+      "_id": "AAAAAAGhbjrvdKPWDmQ=",
+      "_parent": {
+        "$ref": "AAAAAAGhbQycXOfnw2Y="
+      },
+      "name": "hoso_ungvien",
+      "foreignKeyName": "fk_hosoungvien_idtaikhoan",
+      "identifying": false,
+      "end1": {
+        "_type": "ERDRelationshipEnd",
+        "_id": "AAAAAAGhbjrvdKPXfAc=",
+        "_parent": {
+          "$ref": "AAAAAAGhbjrvdKPWDmQ="
+        },
+        "reference": {
+          "$ref": "AAAAAAGhbQycXOfnw2Y="
+        },
+        "cardinality": "1"
+      },
+      "end2": {
+        "_type": "ERDRelationshipEnd",
+        "_id": "AAAAAAGhbjrvdKPYC5Q=",
+        "_parent": {
+          "$ref": "AAAAAAGhbjrvdKPWDmQ="
+        },
+        "reference": {
+          "$ref": "AAAAAAGhbUNDH+oFiec="
+        },
+        "cardinality": "0..1"
+      }
+    },
+    {
+      "_type": "ERDRelationship",
+      "_id": "AAAAAAGhbk7tIaQw6O0=",
+      "_parent": {
+        "$ref": "AAAAAAGhbQycXOfnw2Y="
+      },
+      "name": "thanh_vien_theo_vai_tro",
+      "foreignKeyName": "fk_thanhviendoanhnghiep_idtaikhoan",
+      "identifying": true,
+      "end1": {
+        "_type": "ERDRelationshipEnd",
+        "_id": "AAAAAAGhbk7tIaQxsck=",
+        "_parent": {
+          "$ref": "AAAAAAGhbk7tIaQw6O0="
+        },
+        "reference": {
+          "$ref": "AAAAAAGhbQycXOfnw2Y="
+        },
+        "cardinality": "1"
+      },
+      "end2": {
+        "_type": "ERDRelationshipEnd",
+        "_id": "AAAAAAGhbk7tIaQyGeE=",
+        "_parent": {
+          "$ref": "AAAAAAGhbk7tIaQw6O0="
+        },
+        "reference": {
+          "$ref": "AAAAAAGhbVY+XOrHcy4="
+        },
+        "cardinality": "0..1"
+      }
+    },
+    {
+      "_type": "ERDRelationship",
+      "_id": "Ydj936xeTwC5XQ9I0SNY+Q==",
+      "_parent": {
+        "$ref": "AAAAAAGhbQycXOfnw2Y="
+      },
+      "name": "nguoi_duyet",
+      "foreignKeyName": "fk_tintuyendung_idnguoiduyet",
+      "identifying": false,
+      "end1": {
+        "_type": "ERDRelationshipEnd",
+        "_id": "OgmF9VNWRNG6o46c7IGKpQ==",
+        "_parent": {
+          "$ref": "Ydj936xeTwC5XQ9I0SNY+Q=="
+        },
+        "reference": {
+          "$ref": "AAAAAAGhbQycXOfnw2Y="
+        },
+        "cardinality": "0..1"
+      },
+      "end2": {
+        "_type": "ERDRelationshipEnd",
+        "_id": "t0hT069aTqOx5a6bQ4bnaQ==",
+        "_parent": {
+          "$ref": "Ydj936xeTwC5XQ9I0SNY+Q=="
+        },
+        "reference": {
+          "$ref": "AAAAAAGhbR6hPOhssno="
+        },
+        "cardinality": "0..*"
+      }
+    },
+    {
+      "_type": "ERDRelationship",
+      "_id": "AAAAAAGhblCDCKReSA0=",
+      "_parent": {
+        "$ref": "AAAAAAGhbR6hPOhssno="
+      },
+      "name": "ky_nang_tin",
+      "foreignKeyName": "fk_kynangtin_idtin",
+      "identifying": true,
+      "end1": {
+        "_type": "ERDRelationshipEnd",
+        "_id": "AAAAAAGhblCDCKRfTuw=",
+        "_parent": {
+          "$ref": "AAAAAAGhblCDCKReSA0="
+        },
+        "reference": {
+          "$ref": "AAAAAAGhbR6hPOhssno="
+        },
+        "cardinality": "1"
+      },
+      "end2": {
+        "_type": "ERDRelationshipEnd",
+        "_id": "AAAAAAGhblCDCKRgQHs=",
+        "_parent": {
+          "$ref": "AAAAAAGhblCDCKReSA0="
+        },
+        "reference": {
+          "$ref": "AAAAAAGhbfb07KJRK/8="
+        },
+        "cardinality": "0..*"
+      }
+    },
+    {
+      "_type": "ERDRelationship",
+      "_id": "AAAAAAGhbmbqJqSolpY=",
+      "_parent": {
+        "$ref": "AAAAAAGhbR6hPOhssno="
+      },
+      "name": "tin_matching",
+      "foreignKeyName": "fk_ketquamatching_idtin",
+      "identifying": false,
+      "end1": {
+        "_type": "ERDRelationshipEnd",
+        "_id": "AAAAAAGhbmbqJqSp8q0=",
+        "_parent": {
+          "$ref": "AAAAAAGhbmbqJqSolpY="
+        },
+        "reference": {
+          "$ref": "AAAAAAGhbR6hPOhssno="
+        },
+        "cardinality": "1"
+      },
+      "end2": {
+        "_type": "ERDRelationshipEnd",
+        "_id": "AAAAAAGhbmbqJqSqok0=",
+        "_parent": {
+          "$ref": "AAAAAAGhbmbqJqSolpY="
+        },
+        "reference": {
+          "$ref": "AAAAAAGhbejnWaFvXMc="
+        },
+        "cardinality": "0..*"
+      }
+    },
+    {
+      "_type": "ERDRelationship",
+      "_id": "mVnejW+2SmyGdWjeChsKKQ==",
+      "_parent": {
+        "$ref": "AAAAAAGhbR6hPOhssno="
+      },
+      "name": "don_cua_tin",
+      "foreignKeyName": "fk_donungtuyen_idtin",
+      "identifying": false,
+      "end1": {
+        "_type": "ERDRelationshipEnd",
+        "_id": "7N4eIJ6vSjmNX84dLhl37A==",
+        "_parent": {
+          "$ref": "mVnejW+2SmyGdWjeChsKKQ=="
+        },
+        "reference": {
+          "$ref": "AAAAAAGhbR6hPOhssno="
+        },
+        "cardinality": "1"
+      },
+      "end2": {
+        "_type": "ERDRelationshipEnd",
+        "_id": "GgmSIhUCRjic+QtxKjLYbg==",
+        "_parent": {
+          "$ref": "mVnejW+2SmyGdWjeChsKKQ=="
+        },
+        "reference": {
+          "$ref": "AAAAAAGhbebiVaEUb6Q="
+        },
+        "cardinality": "0..*"
+      }
+    },
+    {
+      "_type": "ERDRelationship",
+      "_id": "AAAAAAGhbhN396OVZ8o=",
+      "_parent": {
+        "$ref": "AAAAAAGhbSUwb+k49Hk="
+      },
+      "name": "goi_dich_vu",
+      "foreignKeyName": "fk_doanhnghiep_idgoi",
+      "identifying": false,
+      "end1": {
+        "_type": "ERDRelationshipEnd",
+        "_id": "AAAAAAGhbhN3+KOWEKU=",
+        "_parent": {
+          "$ref": "AAAAAAGhbhN396OVZ8o="
+        },
+        "reference": {
+          "$ref": "AAAAAAGhbSUwb+k49Hk="
+        },
+        "cardinality": "1"
+      },
+      "end2": {
+        "_type": "ERDRelationshipEnd",
+        "_id": "AAAAAAGhbhN3+KOX7NE=",
+        "_parent": {
+          "$ref": "AAAAAAGhbhN396OVZ8o="
+        },
+        "reference": {
+          "$ref": "AAAAAAGhbTrguel8CUQ="
+        },
+        "cardinality": "0..*"
+      }
+    },
+    {
+      "_type": "ERDRelationship",
+      "_id": "AAAAAAGhbhRCeqO/DhA=",
+      "_parent": {
+        "$ref": "AAAAAAGhbTrguel8CUQ="
+      },
+      "name": "thanh_vien_doanh_nghiep",
+      "foreignKeyName": "fk_thanhviendoanhnghiep_iddoanhnghiep",
+      "identifying": false,
+      "end1": {
+        "_type": "ERDRelationshipEnd",
+        "_id": "AAAAAAGhbhRCeqPA2rE=",
+        "_parent": {
+          "$ref": "AAAAAAGhbhRCeqO/DhA="
+        },
+        "reference": {
+          "$ref": "AAAAAAGhbTrguel8CUQ="
+        },
+        "cardinality": "1"
+      },
+      "end2": {
+        "_type": "ERDRelationshipEnd",
+        "_id": "AAAAAAGhbhRCeqPBHHA=",
+        "_parent": {
+          "$ref": "AAAAAAGhbhRCeqO/DhA="
+        },
+        "reference": {
+          "$ref": "AAAAAAGhbVY+XOrHcy4="
+        },
+        "cardinality": "0..*"
+      }
+    },
+    {
+      "_type": "ERDRelationship",
+      "_id": "7odStEPhTmaGrho05UNi5Q==",
+      "_parent": {
+        "$ref": "AAAAAAGhbTrguel8CUQ="
+      },
+      "name": "tin_cua_doanh_nghiep",
+      "foreignKeyName": "fk_tintuyendung_iddoanhnghiep",
+      "identifying": false,
+      "end1": {
+        "_type": "ERDRelationshipEnd",
+        "_id": "s714q7yzSu++skGkR+KEWQ==",
+        "_parent": {
+          "$ref": "7odStEPhTmaGrho05UNi5Q=="
+        },
+        "reference": {
+          "$ref": "AAAAAAGhbTrguel8CUQ="
+        },
+        "cardinality": "1"
+      },
+      "end2": {
+        "_type": "ERDRelationshipEnd",
+        "_id": "yD6NpmGMTSGiYCbVCHme0g==",
+        "_parent": {
+          "$ref": "7odStEPhTmaGrho05UNi5Q=="
+        },
+        "reference": {
+          "$ref": "AAAAAAGhbR6hPOhssno="
+        },
+        "cardinality": "0..*"
+      }
+    },
+    {
+      "_type": "ERDRelationship",
+      "_id": "74oV77uSShiIimYeNjcVCw==",
+      "_parent": {
+        "$ref": "AAAAAAGhbUNDH+oFiec="
+      },
+      "name": "cv_ung_vien",
+      "foreignKeyName": "fk_hosocv_idungvien",
+      "identifying": false,
+      "end1": {
+        "_type": "ERDRelationshipEnd",
+        "_id": "Pd9mfbygTeOUSu8i0iE3cQ==",
+        "_parent": {
+          "$ref": "74oV77uSShiIimYeNjcVCw=="
+        },
+        "reference": {
+          "$ref": "AAAAAAGhbUNDH+oFiec="
+        },
+        "cardinality": "1"
+      },
+      "end2": {
+        "_type": "ERDRelationshipEnd",
+        "_id": "kfyG647AQsucOIsHZD7sGw==",
+        "_parent": {
+          "$ref": "74oV77uSShiIimYeNjcVCw=="
+        },
+        "reference": {
+          "$ref": "AAAAAAGhbVlEFusvgHQ="
+        },
+        "cardinality": "0..*"
+      }
+    },
+    {
+      "_type": "ERDRelationship",
+      "_id": "ez3qbUVeRvSgwejGhOVKJA==",
+      "_parent": {
+        "$ref": "AAAAAAGhbUNDH+oFiec="
+      },
+      "name": "ky_nang_ung_vien",
+      "foreignKeyName": "fk_ungvienkynang_idungvien",
+      "identifying": true,
+      "end1": {
+        "_type": "ERDRelationshipEnd",
+        "_id": "2g8Yw456REiSo3vmbWcT3w==",
+        "_parent": {
+          "$ref": "ez3qbUVeRvSgwejGhOVKJA=="
+        },
+        "reference": {
+          "$ref": "AAAAAAGhbUNDH+oFiec="
+        },
+        "cardinality": "1"
+      },
+      "end2": {
+        "_type": "ERDRelationshipEnd",
+        "_id": "XO9FyvAeT2W7yDXRufxm2Q==",
+        "_parent": {
+          "$ref": "ez3qbUVeRvSgwejGhOVKJA=="
+        },
+        "reference": {
+          "$ref": "AAAAAAGhbVSuD+qO1hI="
+        },
+        "cardinality": "0..*"
+      }
+    },
+    {
+      "_type": "ERDRelationship",
+      "_id": "AAAAAAGhbjwjj6PtJo4=",
+      "_parent": {
+        "$ref": "AAAAAAGhbUNDH+oFiec="
+      },
+      "name": "don_cua_ung_vien",
+      "foreignKeyName": "fk_donungtuyen_idungvien",
+      "identifying": false,
+      "end1": {
+        "_type": "ERDRelationshipEnd",
+        "_id": "AAAAAAGhbjwjj6Puqxc=",
+        "_parent": {
+          "$ref": "AAAAAAGhbjwjj6PtJo4="
+        },
+        "reference": {
+          "$ref": "AAAAAAGhbUNDH+oFiec="
+        },
+        "cardinality": "1"
+      },
+      "end2": {
+        "_type": "ERDRelationshipEnd",
+        "_id": "AAAAAAGhbjwjj6PvtTM=",
+        "_parent": {
+          "$ref": "AAAAAAGhbjwjj6PtJo4="
+        },
+        "reference": {
+          "$ref": "AAAAAAGhbebiVaEUb6Q="
+        },
+        "cardinality": "0..*"
+      }
+    },
+    {
+      "_type": "ERDRelationship",
+      "_id": "AAAAAAGhbhPw9qOpHAw=",
+      "_parent": {
+        "$ref": "AAAAAAGhbVY+XOrHcy4="
+      },
+      "name": "thanh_vien_dang_tin",
+      "foreignKeyName": "fk_tintuyendung_idnguoidang",
+      "identifying": false,
+      "end1": {
+        "_type": "ERDRelationshipEnd",
+        "_id": "AAAAAAGhbhPw9qOqtnA=",
+        "_parent": {
+          "$ref": "AAAAAAGhbhPw9qOpHAw="
+        },
+        "reference": {
+          "$ref": "AAAAAAGhbVY+XOrHcy4="
+        },
+        "cardinality": "1"
+      },
+      "end2": {
+        "_type": "ERDRelationshipEnd",
+        "_id": "AAAAAAGhbhPw9qOrJ14=",
+        "_parent": {
+          "$ref": "AAAAAAGhbhPw9qOpHAw="
+        },
+        "reference": {
+          "$ref": "AAAAAAGhbR6hPOhssno="
+        },
+        "cardinality": "0..*"
+      }
+    },
+    {
+      "_type": "ERDRelationship",
+      "_id": "AAAAAAGhbgxkVqKviIw=",
+      "_parent": {
+        "$ref": "AAAAAAGhbVfEc+sAsUk="
+      },
+      "name": "nganh_cua_tin",
+      "foreignKeyName": "fk_tintuyendung_idnganhnghe",
+      "identifying": false,
+      "end1": {
+        "_type": "ERDRelationshipEnd",
+        "_id": "AAAAAAGhbgxkVqKwjfA=",
+        "_parent": {
+          "$ref": "AAAAAAGhbgxkVqKviIw="
+        },
+        "reference": {
+          "$ref": "AAAAAAGhbVfEc+sAsUk="
+        },
+        "cardinality": "1"
+      },
+      "end2": {
+        "_type": "ERDRelationshipEnd",
+        "_id": "AAAAAAGhbgxkVqKxe40=",
+        "_parent": {
+          "$ref": "AAAAAAGhbgxkVqKviIw="
+        },
+        "reference": {
+          "$ref": "AAAAAAGhbR6hPOhssno="
+        },
+        "cardinality": "0..*"
+      }
+    },
+    {
+      "_type": "ERDRelationship",
+      "_id": "AAAAAAGhbmY/TaR7gYk=",
+      "_parent": {
+        "$ref": "AAAAAAGhbVlEFusvgHQ="
+      },
+      "name": "lan_trich_xuat",
+      "foreignKeyName": "fk_lantrichxuat_idcv",
+      "identifying": false,
+      "end1": {
+        "_type": "ERDRelationshipEnd",
+        "_id": "AAAAAAGhbmY/TaR8wcY=",
+        "_parent": {
+          "$ref": "AAAAAAGhbmY/TaR7gYk="
+        },
+        "reference": {
+          "$ref": "AAAAAAGhbVlEFusvgHQ="
+        },
+        "cardinality": "1"
+      },
+      "end2": {
+        "_type": "ERDRelationshipEnd",
+        "_id": "AAAAAAGhbmY/TaR94UU=",
+        "_parent": {
+          "$ref": "AAAAAAGhbmY/TaR7gYk="
+        },
+        "reference": {
+          "$ref": "AAAAAAGhbfKDq6HQiXA="
+        },
+        "cardinality": "0..*"
+      }
+    },
+    {
+      "_type": "ERDRelationship",
+      "_id": "xMjtFn+wTUSHloJFqFAdBw==",
+      "_parent": {
+        "$ref": "AAAAAAGhbVlEFusvgHQ="
+      },
+      "name": "cv_matching",
+      "foreignKeyName": "fk_ketquamatching_idcv",
+      "identifying": false,
+      "end1": {
+        "_type": "ERDRelationshipEnd",
+        "_id": "0P/kaTe+Sl2x4UmZ0QEZTw==",
+        "_parent": {
+          "$ref": "xMjtFn+wTUSHloJFqFAdBw=="
+        },
+        "reference": {
+          "$ref": "AAAAAAGhbVlEFusvgHQ="
+        },
+        "cardinality": "1"
+      },
+      "end2": {
+        "_type": "ERDRelationshipEnd",
+        "_id": "QrOl0QTnSOyo97Sw6M68+Q==",
+        "_parent": {
+          "$ref": "xMjtFn+wTUSHloJFqFAdBw=="
+        },
+        "reference": {
+          "$ref": "AAAAAAGhbejnWaFvXMc="
+        },
+        "cardinality": "0..*"
+      }
+    },
+    {
+      "_type": "ERDRelationship",
+      "_id": "ahIjxV7tTc28LCKDzNSECQ==",
+      "_parent": {
+        "$ref": "AAAAAAGhbVlEFusvgHQ="
+      },
+      "name": "cv_da_nop",
+      "foreignKeyName": "fk_donungtuyen_idcv",
+      "identifying": false,
+      "end1": {
+        "_type": "ERDRelationshipEnd",
+        "_id": "uSdPrPIXQ2anZQnXngHqDQ==",
+        "_parent": {
+          "$ref": "ahIjxV7tTc28LCKDzNSECQ=="
+        },
+        "reference": {
+          "$ref": "AAAAAAGhbVlEFusvgHQ="
+        },
+        "cardinality": "0..1"
+      },
+      "end2": {
+        "_type": "ERDRelationshipEnd",
+        "_id": "LF29c735RS23nHAS0YhjvQ==",
+        "_parent": {
+          "$ref": "ahIjxV7tTc28LCKDzNSECQ=="
+        },
+        "reference": {
+          "$ref": "AAAAAAGhbebiVaEUb6Q="
+        },
+        "cardinality": "0..*"
+      }
+    },
+    {
+      "_type": "ERDRelationship",
+      "_id": "N9myd0ZxR/CFRCzlu9NtAw==",
+      "_parent": {
+        "$ref": "AAAAAAGhbVtctOturBU="
+      },
+      "name": "tinh_mong_muon",
+      "foreignKeyName": "fk_hosoungvien_idtinhthanh",
+      "identifying": false,
+      "end1": {
+        "_type": "ERDRelationshipEnd",
+        "_id": "TH/QVzPjRTyVDl9OMH4eMA==",
+        "_parent": {
+          "$ref": "N9myd0ZxR/CFRCzlu9NtAw=="
+        },
+        "reference": {
+          "$ref": "AAAAAAGhbVtctOturBU="
+        },
+        "cardinality": "0..1"
+      },
+      "end2": {
+        "_type": "ERDRelationshipEnd",
+        "_id": "Mm3iCF3zSQWe0Iz60lkNbw==",
+        "_parent": {
+          "$ref": "N9myd0ZxR/CFRCzlu9NtAw=="
+        },
+        "reference": {
+          "$ref": "AAAAAAGhbUNDH+oFiec="
+        },
+        "cardinality": "0..*"
+      }
+    },
+    {
+      "_type": "ERDRelationship",
+      "_id": "AAAAAAGhbhAwhaNesGU=",
+      "_parent": {
+        "$ref": "AAAAAAGhbVtctOturBU="
+      },
+      "name": "xa_trong_tinh",
+      "foreignKeyName": "fk_xaphuong_idtinhthanh",
+      "identifying": false,
+      "end1": {
+        "_type": "ERDRelationshipEnd",
+        "_id": "AAAAAAGhbhAwhaNfrjE=",
+        "_parent": {
+          "$ref": "AAAAAAGhbhAwhaNesGU="
+        },
+        "reference": {
+          "$ref": "AAAAAAGhbVtctOturBU="
+        },
+        "cardinality": "1"
+      },
+      "end2": {
+        "_type": "ERDRelationshipEnd",
+        "_id": "AAAAAAGhbhAwhaNgah0=",
+        "_parent": {
+          "$ref": "AAAAAAGhbhAwhaNesGU="
+        },
+        "reference": {
+          "$ref": "AAAAAAGhbVw6kOuMGEs="
+        },
+        "cardinality": "0..*"
+      }
+    },
+    {
+      "_type": "ERDRelationship",
+      "_id": "AAAAAAGhbg1OBaLMIwI=",
+      "_parent": {
+        "$ref": "AAAAAAGhbVtctOturBU="
+      },
+      "name": "tinh_tuyen_dung",
+      "foreignKeyName": "fk_tintuyendung_idtinhthanh",
+      "identifying": false,
+      "end1": {
+        "_type": "ERDRelationshipEnd",
+        "_id": "AAAAAAGhbg1OBaLNcYE=",
+        "_parent": {
+          "$ref": "AAAAAAGhbg1OBaLMIwI="
+        },
+        "reference": {
+          "$ref": "AAAAAAGhbVtctOturBU="
+        },
+        "cardinality": "1"
+      },
+      "end2": {
+        "_type": "ERDRelationshipEnd",
+        "_id": "AAAAAAGhbg1OBaLOZds=",
+        "_parent": {
+          "$ref": "AAAAAAGhbg1OBaLMIwI="
+        },
+        "reference": {
+          "$ref": "AAAAAAGhbR6hPOhssno="
+        },
+        "cardinality": "0..*"
+      }
+    },
+    {
+      "_type": "ERDRelationship",
+      "_id": "AAAAAAGhbhEIHKNzreo=",
+      "_parent": {
+        "$ref": "AAAAAAGhbVw6kOuMGEs="
+      },
+      "name": "xa_tuyen_dung",
+      "foreignKeyName": "fk_tintuyendung_idxaphuong",
+      "identifying": false,
+      "end1": {
+        "_type": "ERDRelationshipEnd",
+        "_id": "AAAAAAGhbhEIHKN0WCI=",
+        "_parent": {
+          "$ref": "AAAAAAGhbhEIHKNzreo="
+        },
+        "reference": {
+          "$ref": "AAAAAAGhbVw6kOuMGEs="
+        },
+        "cardinality": "0..1"
+      },
+      "end2": {
+        "_type": "ERDRelationshipEnd",
+        "_id": "AAAAAAGhbhEIHKN1nSY=",
+        "_parent": {
+          "$ref": "AAAAAAGhbhEIHKNzreo="
+        },
+        "reference": {
+          "$ref": "AAAAAAGhbR6hPOhssno="
+        },
+        "cardinality": "0..*"
+      }
+    },
+    {
+      "_type": "ERDRelationship",
+      "_id": "AAAAAAGhbk/L4KRJTXU=",
+      "_parent": {
+        "$ref": "AAAAAAGhbV11wuvrFZk="
+      },
+      "name": "ky_nang_yeu_cau",
+      "foreignKeyName": "fk_kynangtin_idkynang",
+      "identifying": true,
+      "end1": {
+        "_type": "ERDRelationshipEnd",
+        "_id": "AAAAAAGhbk/L4KRKe4c=",
+        "_parent": {
+          "$ref": "AAAAAAGhbk/L4KRJTXU="
+        },
+        "reference": {
+          "$ref": "AAAAAAGhbV11wuvrFZk="
+        },
+        "cardinality": "1"
+      },
+      "end2": {
+        "_type": "ERDRelationshipEnd",
+        "_id": "AAAAAAGhbk/L4KRLbZc=",
+        "_parent": {
+          "$ref": "AAAAAAGhbk/L4KRJTXU="
+        },
+        "reference": {
+          "$ref": "AAAAAAGhbfb07KJRK/8="
+        },
+        "cardinality": "0..*"
+      }
+    },
+    {
+      "_type": "ERDRelationship",
+      "_id": "AAAAAAGhbm8rK6UHkJc=",
+      "_parent": {
+        "$ref": "AAAAAAGhbV11wuvrFZk="
+      },
+      "name": "ky_nang_so_huu",
+      "foreignKeyName": "fk_ungvienkynang_idkynang",
+      "identifying": true,
+      "end1": {
+        "_type": "ERDRelationshipEnd",
+        "_id": "AAAAAAGhbm8rK6UIf0g=",
+        "_parent": {
+          "$ref": "AAAAAAGhbm8rK6UHkJc="
+        },
+        "reference": {
+          "$ref": "AAAAAAGhbV11wuvrFZk="
+        },
+        "cardinality": "1"
+      },
+      "end2": {
+        "_type": "ERDRelationshipEnd",
+        "_id": "AAAAAAGhbm8rK6UJJXg=",
+        "_parent": {
+          "$ref": "AAAAAAGhbm8rK6UHkJc="
+        },
+        "reference": {
+          "$ref": "AAAAAAGhbVSuD+qO1hI="
+        },
+        "cardinality": "0..*"
+      }
+    }
+  ]
+}

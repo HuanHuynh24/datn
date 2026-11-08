@@ -1,0 +1,56 @@
+# Repository allowlist: only Backend and Frontend source are versioned.
+/*
+!/.gitignore
+!/backend/
+!/frontend/
+
+# Secrets and local environment files.
+**/.env
+**/.env.*
+!backend/*.env.example
+!frontend/.env.example
+
+# Python generated/local files.
+**/__pycache__/
+**/*.py[cod]
+**/.venv/
+**/venv/
+**/.pytest_cache/
+**/.ruff_cache/
+backend/.coverage
+backend/.coverage.*
+backend/htmlcov/
+
+# Frontend dependencies and generated output.
+frontend/node_modules/
+frontend/.next/
+frontend/out/
+frontend/build/
+frontend/coverage/
+frontend/.artifacts/
+frontend/.vercel/
+frontend/*.tsbuildinfo
+frontend/next-env.d.ts
+
+# Local archives, logs, databases and runtime uploads.
+backend/uploads/
+backend/data/
+backend/storage/
+backend/media/
+backend/cv_storage/
+**/*.log
+**/*.zip
+**/*.tar
+**/*.tar.gz
+**/*.tgz
+**/*.bak
+**/*.dump
+**/*.sqlite
+**/*.sqlite3
+**/*.db
+
+# Editor and OS files.
+**/.idea/
+**/.vscode/
+**/.DS_Store
+**/Thumbs.db

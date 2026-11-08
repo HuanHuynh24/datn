@@ -1,0 +1,79 @@
+{
+  "columns": {
+    "hosocv.idcv": {
+      "id": "E7_hosocv_idcv",
+      "nullable": false,
+      "server_default": "NO DEFAULT"
+    },
+    "hosocv.idungvien": {
+      "id": "E7_hosocv_idungvien",
+      "nullable": false,
+      "server_default": "NO DEFAULT"
+    },
+    "hosocv.duongdantep": {
+      "id": "E7_hosocv_duongdantep",
+      "nullable": false,
+      "server_default": "NO DEFAULT"
+    },
+    "hosocv.cvchinh": {
+      "id": "E7_hosocv_cvchinh",
+      "nullable": false,
+      "server_default": "NO DEFAULT"
+    },
+    "hosocv.trangthai": {
+      "id": "E7_hosocv_trangthai",
+      "nullable": false,
+      "server_default": "NO DEFAULT"
+    },
+    "hosocv.thoigiantao": {
+      "id": "E7_hosocv_thoigiantao",
+      "nullable": false,
+      "server_default": "NO DEFAULT"
+    },
+    "donungtuyen.iddon": {
+      "id": "E7_donungtuyen_iddon",
+      "nullable": false,
+      "server_default": "NO DEFAULT"
+    },
+    "donungtuyen.idungvien": {
+      "id": "E7_donungtuyen_idungvien",
+      "nullable": false,
+      "server_default": "NO DEFAULT"
+    },
+    "donungtuyen.idtin": {
+      "id": "E7_donungtuyen_idtin",
+      "nullable": false,
+      "server_default": "NO DEFAULT"
+    },
+    "donungtuyen.idcv": {
+      "id": "E7_donungtuyen_idcv",
+      "nullable": true,
+      "server_default": "NO DEFAULT"
+    },
+    "donungtuyen.duongdanbanluucv": {
+      "id": "E7_donungtuyen_duongdanbanluucv",
+      "nullable": true,
+      "server_default": "NO DEFAULT"
+    },
+    "donungtuyen.thugiothieu": {
+      "id": "E7_donungtuyen_thugiothieu",
+      "nullable": true,
+      "server_default": "NO DEFAULT"
+    },
+    "donungtuyen.trangthai": {
+      "id": "E7_donungtuyen_trangthai",
+      "nullable": false,
+      "server_default": "NO DEFAULT"
+    },
+    "donungtuyen.thoigiannop": {
+      "id": "E7_donungtuyen_thoigiannop",
+      "nullable": false,
+      "server_default": "NO DEFAULT"
+    },
+    "donungtuyen.thoigiancapnhat": {
+      "id": "E7_donungtuyen_thoigiancapnhat",
+      "nullable": false,
+      "server_default": "NO DEFAULT"
+    }
+  }
+}

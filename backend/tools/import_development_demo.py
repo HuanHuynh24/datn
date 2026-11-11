@@ -4,6 +4,7 @@ import argparse
 import hashlib
 import json
 import os
+import re
 import secrets
 import subprocess
 import sys
@@ -170,9 +171,10 @@ def main():
             timeout=120,
             check=False,
         )
-    assert run.returncode == 0 and b"Dump completed" in backup.read_bytes(), (
-        "Backup failed; do not seed"
-    )
+    backup_bytes = backup.read_bytes()
+    assert run.returncode == 0 and b"Dump completed" in backup_bytes, "Backup failed; do not seed"
+    assert len(set(re.findall(rb"CREATE TABLE `([^`]+)`", backup_bytes))) == 14
+    assert b"DROP TABLE" not in backup_bytes
     assert backend({"operation": "preflight"})["fingerprint"] == before["fingerprint"], (
         "Database changed during backup"
     )

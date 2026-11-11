@@ -122,6 +122,9 @@ def test_account_endpoints_are_real_and_test_routes_absent(settings):
     with TestClient(create_app(settings)) as client:
         schema = client.get("/openapi.json").json()
         assert set(schema["paths"]) == {
+            "/api/v1/companies",
+            "/api/v1/companies/{company_id}",
+            "/api/v1/companies/{company_id}/jobs",
             "/api/v1/admin/accounts/{account_id}/status",
             "/api/v1/admin/catalog/{resource}",
             "/api/v1/admin/catalog/{resource}/{record_id}",

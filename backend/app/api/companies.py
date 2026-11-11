@@ -1,7 +1,7 @@
 from collections.abc import Callable
 from typing import Annotated
 
-from fastapi import APIRouter, Depends, HTTPException, Response
+from fastapi import APIRouter, Depends, HTTPException, Query, Response
 from sqlalchemy.exc import IntegrityError, SQLAlchemyError
 from sqlalchemy.orm import Session
 
@@ -17,9 +17,13 @@ from app.companies.schemas import (
     MemberResponse,
     MemberUpdate,
     PackageResponse,
+    PublicCompanyPage,
+    PublicCompanyResponse,
 )
 from app.companies.service import CompanyError, CompanyNotFound, CompanyService
 from app.db.session import get_db
+from app.jobs.schemas import JobPage
+from app.jobs.service import JobService
 
 router = APIRouter(tags=["Companies"])
 Database = Annotated[Session, Depends(get_db)]
@@ -193,3 +197,81 @@ def current_company(
         raise HTTPException(status_code=404, detail="Company not found") from None
     except SQLAlchemyError:
         raise HTTPException(status_code=503, detail="Company backend unavailable") from None
+
+
+PUBLIC_ERRORS = {
+    404: {"model": AuthErrorResponse, "description": "Approved company not found"},
+    503: {"model": AuthErrorResponse, "description": "Company backend unavailable"},
+}
+
+
+@router.get(
+    "/api/v1/companies",
+    response_model=PublicCompanyPage,
+    responses=PUBLIC_ERRORS,
+    summary="Public directory of approved companies",
+    description=(
+        "Search name/industry/address. Industry and location filter existing text fields; "
+        "no geographical FK is implied. Private company/account/package fields are excluded."
+    ),
+)
+def public_companies(
+    session: Database,
+    response: Response,
+    q: str = Query("", max_length=200),
+    industry: str | None = Query(None, max_length=200),
+    location: str | None = Query(None, max_length=255),
+    limit: int = Query(12, ge=1, le=100),
+    offset: int = Query(0, ge=0),
+) -> PublicCompanyPage:
+    response.headers["Cache-Control"] = "no-store"
+    return operation(
+        session,
+        lambda: CompanyService(session).public_listing(
+            q=q.strip(),
+            industry=industry.strip() if industry else None,
+            location=location.strip() if location else None,
+            limit=limit,
+            offset=offset,
+        ),
+    )
+
+
+@router.get(
+    "/api/v1/companies/{company_id}",
+    response_model=PublicCompanyResponse,
+    responses=PUBLIC_ERRORS,
+    summary="Public approved company profile; no internal data",
+)
+def public_company(company_id: AccountId, session: Database, response: Response):
+    response.headers["Cache-Control"] = "no-store"
+    return operation(session, lambda: CompanyService(session).public_detail(company_id))
+
+
+@router.get(
+    "/api/v1/companies/{company_id}/jobs",
+    response_model=JobPage,
+    response_model_exclude_unset=True,
+    responses=PUBLIC_ERRORS,
+    summary="Effective public jobs of one approved company",
+    description=(
+        "Only APPROVED jobs, approved company, effective deadline/closing time. "
+        "Returns 404 for hidden or missing company."
+    ),
+)
+def public_company_jobs(
+    company_id: AccountId,
+    session: Database,
+    response: Response,
+    limit: int = Query(10, ge=1, le=100),
+    offset: int = Query(0, ge=0),
+):
+    response.headers["Cache-Control"] = "no-store"
+
+    def act():
+        CompanyService(session).public_detail(company_id)
+        return JobService(session).listing(
+            public=True, company_id=company_id, limit=limit, offset=offset
+        )
+
+    return operation(session, act)

@@ -86,12 +86,8 @@ def test_mysql_company_scope_cannot_be_selected_by_client(mysql_auth):
     )
     assert response.status_code == 200
     assert response.json()["company_id"] == str(own["iddoanhnghiep"])
-    assert (
-        mysql_auth.client.get(
-            f"/api/v1/companies/{foreign['iddoanhnghiep']}", headers=headers
-        ).status_code
-        == 404
-    )
+    assert response.json()["tax_code"] == own["masothue"]
+    assert response.json()["tax_code"] != foreign["masothue"]
 
 
 @pytest.mark.parametrize("status", ["account", "member"])

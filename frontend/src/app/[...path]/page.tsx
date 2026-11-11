@@ -23,6 +23,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     'job-search': 'Tìm việc làm',
     'job-detail': 'Chi tiết việc làm',
     companies: 'Công ty',
+    'company-detail': 'Thông tin doanh nghiệp',
     career: 'Phát triển sự nghiệp',
     signin: 'Đăng nhập',
     'signup-candidate': 'Đăng ký ứng viên',

@@ -61,10 +61,11 @@ def create_app(settings: Settings | None = None) -> FastAPI:
     app.include_router(health_router)
     app.include_router(auth_router)
     app.include_router(candidate_profile_router)
+    # Static /companies/me/jobs routes must precede public /companies/{id}/jobs.
+    app.include_router(jobs_router)
     app.include_router(companies_router)
     app.include_router(admin_router)
     app.include_router(admin_management_router)
-    app.include_router(jobs_router)
     app.include_router(cv_applications_router)
 
     @app.exception_handler(RequestValidationError)

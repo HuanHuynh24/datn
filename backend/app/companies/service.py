@@ -13,6 +13,8 @@ from app.companies.schemas import (
     MemberResponse,
     MemberUpdate,
     PackageResponse,
+    PublicCompanyPage,
+    PublicCompanyResponse,
 )
 from app.core.passwords import hash_password
 
@@ -30,6 +32,24 @@ class CompanyError(Exception):
 class CompanyService:
     def __init__(self, session: Session):
         self.repository = CompanyRepository(session)
+
+    @staticmethod
+    def public_response(row) -> PublicCompanyResponse:
+        if row is None:
+            raise CompanyNotFound()
+        return PublicCompanyResponse(**(dict(row) | {"company_id": str(row["company_id"])}))
+
+    def public_listing(self, **filters) -> PublicCompanyPage:
+        rows, total = self.repository.public_listing(**filters)
+        return PublicCompanyPage(
+            items=[self.public_response(row) for row in rows],
+            total=total,
+            limit=filters.get("limit", 12),
+            offset=filters.get("offset", 0),
+        )
+
+    def public_detail(self, company_id: str) -> PublicCompanyResponse:
+        return self.public_response(self.repository.public_detail(company_id))
 
     @staticmethod
     def package_response(row) -> PackageResponse:

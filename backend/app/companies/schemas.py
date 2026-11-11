@@ -44,6 +44,26 @@ class CompanyResponse(BaseModel):
     active_member_count: int
 
 
+class PublicCompanyResponse(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+    company_id: AccountId
+    company_name: str
+    industry: str | None
+    size: str | None
+    address: str | None
+    website: str | None
+    logo_url: str | None
+    introduction: str | None
+    open_job_count: int
+
+
+class PublicCompanyPage(BaseModel):
+    items: list[PublicCompanyResponse]
+    total: int
+    limit: int
+    offset: int
+
+
 class EmployerRegistrationRequest(CandidateRegistrationRequest):
     company_name: Annotated[
         str, StringConstraints(strip_whitespace=True, min_length=1, max_length=255)

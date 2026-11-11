@@ -1,8 +1,9 @@
 from datetime import datetime
 
-from sqlalchemy import func, select, update
+from sqlalchemy import func, or_, select, update
 from sqlalchemy.orm import Session
 
+from app.jobs.repository import JobRepository
 from app.models import DoanhNghiep, GoiDoanhNghiep, TaiKhoan, ThanhVienDoanhNghiep
 
 PACKAGE_COLUMNS = {
@@ -34,6 +35,74 @@ COMPANY_COLUMNS = {
 class CompanyRepository:
     def __init__(self, session: Session):
         self.session = session
+
+    def public_query(self):
+        company = DoanhNghiep.__table__
+        jobs = JobRepository(self.session)
+        public_fields = (
+            "company_id",
+            "company_name",
+            "industry",
+            "size",
+            "address",
+            "website",
+            "logo_url",
+            "introduction",
+        )
+        count = (
+            select(func.count())
+            .select_from(jobs.job)
+            .where(jobs.job.c.iddoanhnghiep == company.c.iddoanhnghiep, jobs.visible())
+            .correlate(company)
+            .scalar_subquery()
+        )
+        return select(
+            *(company.c[COMPANY_COLUMNS[key]].label(key) for key in public_fields),
+            count.label("open_job_count"),
+        ).where(company.c.trangthaiduyet == "APPROVED")
+
+    def public_listing(self, *, q="", industry=None, location=None, limit=12, offset=0):
+        company = DoanhNghiep.__table__
+        query = self.public_query()
+
+        def literal_contains(column, value):
+            value = value.replace("\\", "\\\\").replace("%", "\\%").replace("_", "\\_")
+            return column.like("%" + value + "%", escape="\\")
+
+        if q:
+            query = query.where(
+                or_(
+                    *(
+                        literal_contains(column, q)
+                        for column in (
+                            company.c.tencongty,
+                            company.c.linhvuc,
+                            company.c.diachi,
+                        )
+                    )
+                )
+            )
+        for column, value in [(company.c.linhvuc, industry), (company.c.diachi, location)]:
+            if value:
+                query = query.where(literal_contains(column, value))
+        total = self.session.scalar(select(func.count()).select_from(query.subquery()))
+        rows = (
+            self.session.execute(
+                query.order_by(company.c.iddoanhnghiep.desc()).limit(limit).offset(offset)
+            )
+            .mappings()
+            .all()
+        )
+        return rows, total
+
+    def public_detail(self, company_id: str):
+        return (
+            self.session.execute(
+                self.public_query().where(DoanhNghiep.__table__.c.iddoanhnghiep == int(company_id))
+            )
+            .mappings()
+            .one_or_none()
+        )
 
     def packages(self):
         package = GoiDoanhNghiep.__table__

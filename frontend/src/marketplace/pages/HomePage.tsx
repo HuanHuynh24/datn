@@ -1,17 +1,23 @@
 import { useState } from 'react';
 import Image from 'next/image';
+import { useEffect } from 'react';
+import PublicCompanyCard from '../components/PublicCompanyCard';
+import { listPublicCompanies, type PublicCompanyPage } from '../public-company-client';
 import { reference, careerResources } from '../public-data';
 import { useJobCatalog } from '../job-catalog';
 import JobCard from '../components/JobCard';
 import IndustryGrid from '../components/IndustryGrid';
 import HomeHero from '../components/HomeHero';
-import { CompanyCard, SectionHeading, CarouselControls } from '../components/ReferenceSections';
+import { SectionHeading, CarouselControls } from '../components/ReferenceSections';
 
 interface HomePageProps { onNavigate: (page: string, data?: unknown) => void }
 export default function HomePage({onNavigate}:HomePageProps) {
   const {available:jobs,loading,error}=useJobCatalog();
   const [jobPage,setJobPage]=useState(0);
   const [companyPage,setCompanyPage]=useState(0);
+  const [companyResult,setCompanyResult]=useState<PublicCompanyPage>();
+  const [companyError,setCompanyError]=useState('');
+  useEffect(()=>{let active=true;listPublicCompanies(`limit=4&offset=${companyPage*4}`).then(value=>{if(active)setCompanyResult(value);}).catch(()=>{if(active)setCompanyError('Chưa tải được danh sách doanh nghiệp.');});return()=>{active=false;};},[companyPage]);
   const [articlePage,setArticlePage]=useState(0);
   return <div className="cl-home">
     <h1 className="sr-only">Tuyển dụng, tìm kiếm việc làm trực tuyến</h1>
@@ -29,9 +35,9 @@ export default function HomePage({onNavigate}:HomePageProps) {
       <IndustryGrid onNavigate={onNavigate} />
     </section>
     <section className="cl-section cl-container">
-      <SectionHeading title="Nhà tuyển dụng hàng đầu" onView={()=>onNavigate('companies')} />
-      <div className="cl-company-carousel">{reference.companies.slice(companyPage*4,companyPage*4+4).map(company=><CompanyCard key={company.name} company={company} onView={()=>onNavigate('job-search',{keyword:company.name})} />)}</div>
-      <CarouselControls page={companyPage} count={3} onChange={setCompanyPage} label="Trang nhà tuyển dụng" />
+      <SectionHeading title="Nhà tuyển dụng" onView={()=>onNavigate('companies')} />
+      {companyError?<p role="alert">{companyError}</p>:!companyResult?<p role="status">Đang tải doanh nghiệp…</p>:!companyResult.items.length?<p>Chưa có doanh nghiệp đang công khai.</p>:<div className="cl-company-carousel">{companyResult.items.map(company=><PublicCompanyCard key={company.company_id} company={company}/>)}</div>}
+      {companyResult&&companyResult.total>4&&<CarouselControls page={companyPage} count={Math.ceil(companyResult.total/4)} onChange={value=>{setCompanyPage(value);setCompanyResult(undefined);setCompanyError('');}} label="Trang nhà tuyển dụng" />}
     </section>
     <section className="cl-container cl-discovery"><button onClick={()=>onNavigate('cv-upload')} aria-label="Khám phá mẫu CV"><Image unoptimized src={reference.discovery} alt="Sự nghiệp thành công bắt đầu từ một CV tốt. Khám phá ngay." width={1300} height={200} /></button></section>
     <section className="cl-section cl-container">

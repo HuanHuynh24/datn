@@ -10,6 +10,7 @@ import MobileNav from './components/MobileNav';
 import HomePage from './pages/HomePage';
 import JobSearchPage from './pages/JobSearchPage';
 import CompaniesPage from './pages/CompaniesPage';
+import PublicCompanyDetail from './pages/PublicCompanyDetail';
 import CareerPage from './pages/CareerPage';
 
 
@@ -127,7 +128,8 @@ export default function App({ page, itemId }: { page: string; itemId?: string })
           />
         )}
 
-        {page === 'companies' && <CompaniesPage onNavigate={navigate} />}
+        {page === 'companies' && <CompaniesPage />}
+        {page === 'company-detail' && itemId && <PublicCompanyDetail id={itemId} />}
         {page === 'career' && <CareerPage onNavigate={navigate} />}
 
         {/* Candidate pages */}

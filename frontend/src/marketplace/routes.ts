@@ -42,6 +42,8 @@ export const routes: Record<string, PageRoute> = Object.fromEntries([
 ]);
 
 export function resolveRoute(path: string): PageRoute | undefined {
+  const company = /^\/companies\/([1-9][0-9]{0,18})$/.exec(path);
+  if (company) return { page: 'company-detail', itemId: company[1] };
   const job = /^\/jobs\/([1-9][0-9]{0,18})$/.exec(path);
   if (job) return { page: 'job-detail', itemId: job[1] };
   const edit = /^\/recruiter\/jobs\/([1-9][0-9]{0,18})\/edit$/.exec(path);

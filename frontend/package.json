@@ -9,7 +9,9 @@
     "lint": "eslint",
     "test:job-search": "node tests/job-search.browser.mjs",
     "test:applications": "node tests/applications.browser.mjs",
-    "test:mysql-flows": "node tests/recruitment.mysql.browser.mjs"
+    "test:mysql-flows": "node tests/recruitment.mysql.browser.mjs",
+    "test:companies": "node tests/public-companies.browser.mjs",
+    "test:companies:mysql": "node tests/public-companies.browser.mjs --mysql"
   },
   "dependencies": {
     "next": "16.4.2",

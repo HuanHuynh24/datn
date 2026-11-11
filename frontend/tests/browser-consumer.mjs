@@ -5,11 +5,13 @@ import os from 'node:os';
 import path from 'node:path';
 import { spawn } from 'node:child_process';
 const wait = ms => new Promise(resolve => setTimeout(resolve, ms));
-export async function withBrowser(respond, run) {
+export async function withBrowser(respond, run, { mysqlTest = false } = {}) {
+  if (mysqlTest) assert((await fetch('http://localhost:8001/health/ready')).ok, 'Test API on 8001 unavailable');
   const profile = fs.mkdtempSync(path.join(os.tmpdir(), 'datn-consumer-'));
   const browser = spawn('C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe', ['--headless=new', '--disable-gpu', '--no-first-run', '--remote-debugging-port=9226', '--remote-allow-origins=*', '--user-data-dir=' + profile, 'about:blank'], { stdio: 'ignore', windowsHide: true });
   let ws, send;
   const failures = [];
+  const requests = [], responses = [];
   try {
     let tab;
     for (let i = 0; i < 50; i++) { try { tab = await (await fetch('http://127.0.0.1:9226/json/new?about:blank', { method: 'PUT' })).json(); break; } catch { await wait(200); } }
@@ -27,17 +29,27 @@ export async function withBrowser(respond, run) {
       const message = JSON.parse(event.data);
       if (message.id) { const entry = pending.get(message.id); if (entry) { clearTimeout(entry.timer); pending.delete(message.id); if (message.error) entry.reject(new Error('Protocol error')); else entry.resolve(message.result); } }
       if (message.method === 'Runtime.exceptionThrown') failures.push('Browser runtime exception');
+      if (message.method === 'Network.responseReceived') {
+        const response = message.params.response;
+        const url = new URL(response.url);
+        if (url.pathname.startsWith('/api/v1/')) responses.push({ path: url.pathname, status: response.status });
+      }
       if (message.method !== 'Fetch.requestPaused') return;
       const { requestId, request } = message.params;
       const url = new URL(request.url);
       try {
         if (!url.pathname.startsWith('/api/v1/')) { await send('Fetch.continueRequest', { requestId }); return; }
+        requests.push({ path: url.pathname, query: url.search, method: request.method });
+        if (mysqlTest) {
+          await send('Fetch.continueRequest', { requestId, url: 'http://localhost:8001' + url.pathname + url.search });
+          return;
+        }
         const response = request.method === 'OPTIONS' ? { body: {} } : await respond(url, request);
         assert(response, 'Unhandled API route: ' + url.pathname);
         await send('Fetch.fulfillRequest', { requestId, responseCode: response.status ?? 200, responseHeaders: [{ name: 'Content-Type', value: response.type ?? 'application/json' }, { name: 'Access-Control-Allow-Origin', value: 'http://localhost:3000' }, { name: 'Access-Control-Allow-Headers', value: 'Authorization,Content-Type' }, { name: 'Access-Control-Allow-Methods', value: 'GET,POST,PATCH,OPTIONS' }], body: Buffer.from(response.raw ?? JSON.stringify(response.body)).toString('base64') });
       } catch (error) { failures.push(error.message); await send('Fetch.failRequest', { requestId, errorReason: 'BlockedByClient' }); }
     };
-    await send('Page.enable'); await send('Runtime.enable');
+    await send('Page.enable'); await send('Runtime.enable'); await send('Network.enable');
     await send('Fetch.enable', { patterns: [{ urlPattern: '*', requestStage: 'Request' }] });
     const evaluate = async expression => { const result = await send('Runtime.evaluate', { expression, returnByValue: true, awaitPromise: true }); if (result.exceptionDetails) throw new Error('Expression failed: ' + expression); return result.result.value; };
     const until = async expression => { for (let i = 0; i < 150; i++) { if (await evaluate(expression)) return; await wait(200); } throw new Error('Assertion timeout: ' + expression); };
@@ -51,7 +63,7 @@ export async function withBrowser(respond, run) {
       const expression = `[...document.querySelectorAll('button')].find(button=>!button.disabled&&button.textContent.trim()===${JSON.stringify(text)})`;
       await until(`!!(${expression})`); await evaluate(`(${expression}).click()`);
     };
-    await run({ send, evaluate, until, fill, click });
+    await run({ send, evaluate, until, fill, click, requests, responses });
     assert.deepEqual(failures, [], 'Consumer/runtime failures');
   } finally {
     if (send) { try { await send('Browser.close'); } catch { /* Already closed. */ } }

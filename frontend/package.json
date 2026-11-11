@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "eslint",
     "test:job-search": "node tests/job-search.browser.mjs",
-    "test:applications": "node tests/applications.browser.mjs"
+    "test:applications": "node tests/applications.browser.mjs",
+    "test:mysql-flows": "node tests/recruitment.mysql.browser.mjs"
   },
   "dependencies": {
     "next": "16.4.2",

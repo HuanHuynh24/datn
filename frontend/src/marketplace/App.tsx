@@ -13,7 +13,7 @@ import CompaniesPage from './pages/CompaniesPage';
 import CareerPage from './pages/CareerPage';
 
 
-import { LiveCVs, LiveApplications } from './pages/LiveApplications';
+import { LiveCVs } from './pages/LiveApplications';
 import AuthPage from './pages/AuthPages';
 
 import CandidateHomePage from './pages/candidate/CandidateHomePage';
@@ -25,7 +25,7 @@ import RecruiterHomePage from './pages/recruiter/RecruiterHomePage';
 
 import ApplicantsPage from './pages/recruiter/ApplicantsPage';
 import CandidateProfilePage from './pages/recruiter/CandidateProfilePage';
-import PipelinePage from './pages/recruiter/PipelinePage';
+import ApplicationsWorkspace from './pages/ApplicationsWorkspace';
 import CompanyProfilePage from './pages/recruiter/CompanyProfilePage';
 
 import AdminManagement from './pages/AdminManagement';
@@ -88,7 +88,7 @@ export default function App({ page, itemId }: { page: string; itemId?: string })
   const showFooter = PAGES_WITH_FOOTER.has(page);
 
   if (!authorized) return <PageLoading />;
-  if (recruiterPages.has(page) && !['recruiter-home', 'recruiter-company', 'recruiter-jobs', 'recruiter-create-job', 'recruiter-edit-job', 'recruiter-applicants'].includes(page)) {
+  if (recruiterPages.has(page) && !['recruiter-home', 'recruiter-company', 'recruiter-jobs', 'recruiter-create-job', 'recruiter-edit-job', 'recruiter-applicants', 'recruiter-pipeline'].includes(page)) {
     const approved = session?.company?.approval_status === 'APPROVED';
     return <div className="min-h-screen bg-bg">
       <Nav mode="recruiter" activePage={page} onNavigate={navigate} />
@@ -133,7 +133,7 @@ export default function App({ page, itemId }: { page: string; itemId?: string })
         {/* Candidate pages */}
         {page === 'candidate-home' && <CandidateHomePage onNavigate={navigate} />}
         {page === 'candidate-recommended' && <RecommendedJobsPage onNavigate={navigate} />}
-        {page === 'candidate-applications' && <LiveApplications />}
+        {page === 'candidate-applications' && <ApplicationsWorkspace />}
         {page === 'candidate-saved' && <p className="ui-container">Chức năng lưu việc chưa khả dụng.</p>}
         {page === 'candidate-profile' && <CareerProfilePage onNavigate={navigate} />}
 
@@ -142,9 +142,9 @@ export default function App({ page, itemId }: { page: string; itemId?: string })
         {page === 'recruiter-jobs' && <LiveJobList own />}
         {page === 'recruiter-create-job' && <LiveJobEditor />}
         {page === 'recruiter-edit-job' && itemId && <LiveJobEditor key={itemId} id={itemId} />}
-        {page === 'recruiter-applicants' && <LiveApplications employer />}
+        {page === 'recruiter-applicants' && <ApplicationsWorkspace employer />}
         {page === 'recruiter-search' && <ApplicantsPage key={page} mode="search" onNavigate={navigate} />}
-        {page === 'recruiter-pipeline' && <PipelinePage onNavigate={navigate} />}
+        {page === 'recruiter-pipeline' && <ApplicationsWorkspace employer pipeline />}
         {page === 'recruiter-recommended' && <ApplicantsPage key={page} mode="recommended" onNavigate={navigate} />}
 
         {page === 'recruiter-candidate' && (

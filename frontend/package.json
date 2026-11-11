@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "test:job-search": "node tests/job-search.browser.mjs"
   },
   "dependencies": {
     "next": "16.4.2",

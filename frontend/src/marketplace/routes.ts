@@ -89,7 +89,7 @@ export function getPageUrl(page: string, data?: unknown): string {
   if (page === 'career' && typeof payload.article === 'string') return `${pathname}?${new URLSearchParams({article:payload.article})}`;
   if (page === 'job-search' || page === 'recruiter-search') {
     const query = new URLSearchParams();
-    for (const key of ['keyword', 'location', 'category']) {
+    for (const key of ['keyword', 'location', 'category', 'province_id', 'industry_id', 'skill_id', 'minimum_salary', 'work_type', 'sort', 'page']) {
       if (typeof payload[key] === 'string' && payload[key].trim()) {
         query.set(key, payload[key].trim());
       }

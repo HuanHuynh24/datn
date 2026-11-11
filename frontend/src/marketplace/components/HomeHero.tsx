@@ -1,6 +1,6 @@
 ﻿import { useId, useState } from 'react';
 import Image from 'next/image';
-import { reference } from '../public-data';
+import { reference } from '../editorial-data';
 import type { Navigate } from '../ui';
 import Icon from './Icon';
 

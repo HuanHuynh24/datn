@@ -3,7 +3,7 @@ import Image from 'next/image';
 import { useEffect } from 'react';
 import PublicCompanyCard from '../components/PublicCompanyCard';
 import { listPublicCompanies, type PublicCompanyPage } from '../public-company-client';
-import { reference, careerResources } from '../public-data';
+import { reference, careerResources } from '../editorial-data';
 import { useJobCatalog } from '../job-catalog';
 import JobCard from '../components/JobCard';
 import IndustryGrid from '../components/IndustryGrid';

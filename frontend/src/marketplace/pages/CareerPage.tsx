@@ -1,7 +1,7 @@
 ﻿import {useState} from 'react';
 import {useSearchParams} from 'next/navigation';
 import Image from 'next/image';
-import {careerResources} from '../public-data';
+import {careerResources} from '../editorial-data';
 import {Page,Panel,Empty,type Navigate} from '../ui';
 import Icon from '../components/Icon';
 const advice=[

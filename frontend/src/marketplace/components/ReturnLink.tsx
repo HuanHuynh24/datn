@@ -9,7 +9,7 @@ export default function ReturnLink({ fallback, children }: { fallback: string; c
     '/candidate': 'Quay lại tổng quan ứng viên',
     '/candidate/applications': 'Quay lại việc làm đã ứng tuyển',
     '/candidate/saved': 'Quay lại việc làm đã lưu',
-    '/candidate/recommended': 'Quay lại việc làm phù hợp',
+    '/candidate/recommended': 'Quay lại khám phá việc làm',
     '/recruiter': 'Quay lại tổng quan tuyển dụng',
     '/recruiter/talent-search': 'Quay lại tìm kiếm nhân tài',
     '/recruiter/recommended': 'Quay lại ứng viên phù hợp',

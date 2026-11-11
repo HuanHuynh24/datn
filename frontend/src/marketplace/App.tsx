@@ -24,15 +24,11 @@ import CareerProfilePage from './pages/candidate/CareerProfilePage';
 import RecruiterHomePage from './pages/recruiter/RecruiterHomePage';
 
 
-import ApplicantsPage from './pages/recruiter/ApplicantsPage';
-import CandidateProfilePage from './pages/recruiter/CandidateProfilePage';
 import ApplicationsWorkspace from './pages/ApplicationsWorkspace';
 import CompanyProfilePage from './pages/recruiter/CompanyProfilePage';
 
 import AdminManagement from './pages/AdminManagement';
 import { LiveJobDetail, LiveJobEditor, LiveJobList } from './pages/LiveJobs';
-import type { Candidate } from './data';
-import { candidates, pipelineCandidate } from './data';
 
 import { getPageUrl } from './routes';
 
@@ -71,9 +67,6 @@ export default function App({ page, itemId }: { page: string; itemId?: string })
   useEffect(() => {
     if (!authorized) router.replace(`/sign-in?next=${encodeURIComponent(window.location.pathname + window.location.search)}${requiresRecruiter ? '&audience=recruiter' : ''}`);
   }, [authorized, requiresRecruiter, router]);
-  const pageData = page === 'recruiter-candidate'
-      ? [...candidates, pipelineCandidate].find((candidate) => candidate.id === itemId)
-      : undefined;
 
   const navigate = (newPage: string, data?: unknown) => {
     router.push(getPageUrl(newPage, data));
@@ -145,15 +138,7 @@ export default function App({ page, itemId }: { page: string; itemId?: string })
         {page === 'recruiter-create-job' && <LiveJobEditor />}
         {page === 'recruiter-edit-job' && itemId && <LiveJobEditor key={itemId} id={itemId} />}
         {page === 'recruiter-applicants' && <ApplicationsWorkspace employer />}
-        {page === 'recruiter-search' && <ApplicantsPage key={page} mode="search" onNavigate={navigate} />}
         {page === 'recruiter-pipeline' && <ApplicationsWorkspace employer pipeline />}
-        {page === 'recruiter-recommended' && <ApplicantsPage key={page} mode="recommended" onNavigate={navigate} />}
-
-        {page === 'recruiter-candidate' && (
-          pageData
-            ? <CandidateProfilePage key={itemId} candidate={pageData as Candidate} onNavigate={navigate} />
-            : <ApplicantsPage onNavigate={navigate} />
-        )}
 
         {page === 'recruiter-company' && <CompanyProfilePage onNavigate={navigate} />}
         </Suspense>

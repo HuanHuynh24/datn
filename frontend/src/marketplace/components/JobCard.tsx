@@ -1,13 +1,8 @@
-import { useDemo, toggleSavedJob } from '../demo-store';
 import type { Job } from '../data';
-import { useAuthSession } from '../auth-client';
 import { MatchBadge } from './MatchBadge';
 import CompanyMark from './CompanyMark';
 import Icon from './Icon';
 import type { ReactNode } from 'react';
-import {useRouter} from 'next/navigation';
-import {getPageUrl,signInFor} from '../routes';
-import {Badge} from '../ui';
 interface JobCardProps {
   job: Job;
   showMatch?: boolean;
@@ -19,14 +14,8 @@ interface JobCardProps {
   headingLevel?: 2 | 3;
   onView: (job: Job) => void;
 }
-export default function JobCard({ job:original, showMatch = true, compact = false, featured = false, showSave = true, status, children, headingLevel = 3, onView }: JobCardProps) {
-  const {savedJobs,jobTitles,jobStatuses}=useDemo();
-  const candidateSession = useAuthSession()?.user.role === 'CANDIDATE';
-  const job={...original,title:jobTitles[original.id]??original.title};
-  const visibleStatus=status??(jobStatuses[job.id]&&jobStatuses[job.id]!=='Active'?<Badge value={jobStatuses[job.id]}/>:null);
-  const router=useRouter();
-  const saved = candidateSession && savedJobs.includes(job.id);
-  const save = () => {if(!candidateSession){router.push(signInFor(getPageUrl('job-detail',{...job,returnTo:window.location.pathname+window.location.search}),'save'));return;}toggleSavedJob(job.id);};
+export default function JobCard({ job, showMatch = false, compact = false, featured = false, showSave = true, status, children, headingLevel = 3, onView }: JobCardProps) {
+  const visibleStatus=status;
   const salary = job.salaryLabel ?? `${job.salaryMin.toLocaleString('en-US')} – ${job.salaryMax.toLocaleString('en-US')} ${job.currency}`;
   const Heading = headingLevel === 2 ? 'h2' : 'h3';
   const compactBadge = compact && !featured && (visibleStatus || (showMatch && job.match !== undefined ? <MatchBadge score={job.match} size="sm" /> : null));
@@ -41,7 +30,7 @@ export default function JobCard({ job:original, showMatch = true, compact = fals
       <div className="cl-job-bottom"><span className="cl-job-salary"><Icon name="coins" />{salary}</span>{!compact && <span className="cl-job-level">| &nbsp; {{Junior:'Mới đi làm','Mid-level':'Nhân viên',Senior:'Chuyên viên',Lead:'Trưởng nhóm'}[job.level]}</span>}</div>
       {!compact && showMatch && job.match !== undefined && <div className="cl-job-match"><MatchBadge score={job.match} size="sm" /></div>}
     </div>
-    {showSave && <button onClick={save} aria-label={saved ? 'Bỏ lưu' : 'Lưu'} title={`${saved?'Bỏ lưu':'Lưu'} ${job.title}`} aria-pressed={saved} className="cl-save"><Icon name="heart" fill={saved ? 'currentColor' : 'none'} />{!compact && <span>{saved ? 'Đã lưu' : 'Lưu'}</span>}</button>}
+    {showSave && <button disabled aria-label="Lưu việc chưa khả dụng" title="Chức năng lưu việc chưa khả dụng" className="cl-save"><Icon name="heart" />{!compact && <span>Lưu</span>}</button>}
     {children && <div className="cl-job-details">{children}</div>}
   </article>;
 }

@@ -11,7 +11,8 @@
     "test:applications": "node tests/applications.browser.mjs",
     "test:mysql-flows": "node tests/recruitment.mysql.browser.mjs",
     "test:companies": "node tests/public-companies.browser.mjs",
-    "test:companies:mysql": "node tests/public-companies.browser.mjs --mysql"
+    "test:companies:mysql": "node tests/public-companies.browser.mjs --mysql",
+    "test:demo-isolation": "node tests/demo-isolation.mjs"
   },
   "dependencies": {
     "next": "16.4.2",

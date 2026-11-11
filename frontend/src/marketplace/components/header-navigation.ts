@@ -16,7 +16,7 @@ export const headerNavigation: Record<NavMode, HeaderItem[]> = {
     { label: 'Tổng quan', page: 'candidate-home' },
     { label: 'Tìm việc', page: 'job-search', pages: ['job-detail'], children: [
       { label: 'Tất cả việc làm', page: 'job-search', pages: ['job-detail'] },
-      { label: 'Việc làm phù hợp', page: 'candidate-recommended' },
+      { label: 'Khám phá việc làm', page: 'candidate-recommended' },
     ] },
     { label: 'Hồ sơ & CV', page: 'candidate-profile', children: [
       { label: 'Hồ sơ nghề nghiệp', page: 'candidate-profile' },

@@ -1,4 +1,3 @@
-import { candidates, pipelineCandidate } from './data';
 
 
 export const pagePaths: Record<string, string> = {
@@ -35,13 +34,11 @@ export interface PageRoute {
 export const routes: Record<string, PageRoute> = Object.fromEntries([
   ...Object.entries(pagePaths).map(([page, pathname]) => [pathname, { page }]),
 
-  ...[...candidates, pipelineCandidate].map((candidate) => [
-    `/recruiter/candidates/${candidate.id}`,
-    { page: 'recruiter-candidate', itemId: candidate.id },
-  ]),
 ]);
 
 export function resolveRoute(path: string): PageRoute | undefined {
+  const candidate = /^\/recruiter\/candidates\/([a-zA-Z0-9_-]+)$/.exec(path);
+  if (candidate) return { page: 'recruiter-candidate', itemId: candidate[1] };
   const company = /^\/companies\/([1-9][0-9]{0,18})$/.exec(path);
   if (company) return { page: 'company-detail', itemId: company[1] };
   const job = /^\/jobs\/([1-9][0-9]{0,18})$/.exec(path);

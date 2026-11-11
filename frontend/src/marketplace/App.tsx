@@ -28,7 +28,8 @@ import CandidateProfilePage from './pages/recruiter/CandidateProfilePage';
 import PipelinePage from './pages/recruiter/PipelinePage';
 import CompanyProfilePage from './pages/recruiter/CompanyProfilePage';
 
-import { AdminWorkspace, LiveJobDetail, LiveJobEditor, LiveJobList } from './pages/LiveJobs';
+import AdminManagement from './pages/AdminManagement';
+import { LiveJobDetail, LiveJobEditor, LiveJobList } from './pages/LiveJobs';
 import type { Candidate } from './data';
 import { candidates, pipelineCandidate } from './data';
 
@@ -114,7 +115,7 @@ export default function App({ page, itemId }: { page: string; itemId?: string })
         {page === 'job-search' && <JobSearchPage onNavigate={navigate} />}
 
         {page === 'job-detail' && itemId && <LiveJobDetail key={itemId} id={itemId} />}
-        {page === 'admin' && <AdminWorkspace />}
+        {page === 'admin' && <AdminManagement />}
 
         {page === 'cv-upload' && <LiveCVs />}
 

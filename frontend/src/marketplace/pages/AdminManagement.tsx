@@ -2,7 +2,7 @@
 
 import { useEffect, useState, type FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
-import { apiRequest, logout } from '../auth-client';
+import { apiRequest, logout, useAuthSession } from '../auth-client';
 import { reviewCompany, reviewJob } from '../jobs-client';
 import Dialog from '../components/Dialog';
 import { Field, Notice, Panel } from '../ui';
@@ -18,6 +18,7 @@ const filters: Record<Resource, string[]> = { accounts: ['ACTIVE', 'DISABLED'], 
 const explain = (error: unknown) => error instanceof Error ? error.message : 'Không thể hoàn tất thao tác.';
 
 export default function AdminManagement() {
+  const session = useAuthSession();
   const router = useRouter(); const [tab, setTab] = useState<Resource | 'dashboard'>('dashboard');
   const [dashboard, setDashboard] = useState<Dashboard>(); const [result, setResult] = useState<Results>();
   const [query, setQuery] = useState(''); const [offset, setOffset] = useState(0); const [version, setVersion] = useState(0);
@@ -28,11 +29,15 @@ export default function AdminManagement() {
   const [editor, setEditor] = useState<{ id?: string; name: string; status: string }>();
   const [confirmation, setConfirmation] = useState<'APPROVED' | 'REJECTED'>();
   useEffect(() => {
+    if (session?.user.role !== 'ADMIN') router.replace('/admin/sign-in');
+  }, [router, session]);
+  useEffect(() => {
+    if (session?.user.role !== 'ADMIN') return;
     let live = true;
     const request = tab === 'dashboard' ? apiRequest<Dashboard>('/api/v1/admin/dashboard') : apiRequest<Results>(`/api/v1/admin/management/${tab}?${query}&limit=10&offset=${offset}`);
     request.then(data => { if (live) { if (tab === 'dashboard') setDashboard(data as Dashboard); else setResult(data as Results); } }).catch(error => { if (live) setError(explain(error)); }).finally(() => { if (live) setLoading(false); });
     return () => { live = false; };
-  }, [tab, query, offset, version]);
+  }, [session, tab, query, offset, version]);
   function navigate(next: Resource | 'dashboard') { if (detailLoading) return; setTab(next); setReason(''); setAccountAction(undefined); setEditor(undefined); setQuery(''); setOffset(0); setError(''); setMessage(''); setSelected(undefined); setConfirmation(undefined); setLoading(true); setVersion(v => v + 1); }
   function search(event: FormEvent<HTMLFormElement>) { event.preventDefault(); const data = new FormData(event.currentTarget); const params = new URLSearchParams(); for (const [key, value] of data) if (String(value).trim()) params.set(key, String(value).trim()); setQuery(params.toString()); setOffset(0); setLoading(true); setError(''); setVersion(v => v + 1); }
   async function openDetail(id: string) { setDetailLoading(true); setError(''); try { setSelected(await apiRequest<RecordRow>(`/api/v1/admin/management/${tab}/${id}`)); } catch (error) { setError(explain(error)); } finally { setDetailLoading(false); } }
@@ -50,6 +55,7 @@ export default function AdminManagement() {
     if (!selected || !accountAction) return; setBusy(true); setError('');
     try { await apiRequest('/api/v1/admin/accounts/' + selected.id + '/status', { method: 'PATCH', body: JSON.stringify({ status: accountAction }) }); setSelected(undefined); setAccountAction(undefined); setMessage('Đã cập nhật trạng thái tài khoản.'); setLoading(true); setVersion(v => v + 1); } catch (error) { setError(explain(error)); } finally { setBusy(false); }
   }
+  if (session?.user.role !== 'ADMIN') return <p className="ui-container" role="status">Đang kiểm tra quyền quản trị…</p>;
   return <div className="admin-layout">
     <aside className="admin-sidebar"><h1>Quản trị hệ thống</h1><nav aria-label="Chức năng Admin"><button aria-current={tab === 'dashboard' ? 'page' : undefined} onClick={() => navigate('dashboard')}>Tổng quan</button>{Object.entries(labels).map(([key, name]) => <button key={key} aria-current={tab === key ? 'page' : undefined} onClick={() => navigate(key as Resource)}>{name}</button>)}</nav><button className="ui-btn" onClick={() => { logout(); router.replace('/admin/sign-in'); }}>Đăng xuất</button></aside>
     <section className="admin-content"><header className="admin-heading"><div><p>ADMIN</p><h2>{tab === 'dashboard' ? 'Tổng quan hệ thống' : labels[tab]}</h2></div><button className="ui-btn" disabled={loading} onClick={() => { setLoading(true); setError(''); setVersion(v => v + 1); }}>Tải lại</button></header>

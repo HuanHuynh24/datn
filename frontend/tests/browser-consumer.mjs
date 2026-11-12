@@ -5,16 +5,16 @@ import os from 'node:os';
 import path from 'node:path';
 import { spawn } from 'node:child_process';
 const wait = ms => new Promise(resolve => setTimeout(resolve, ms));
-export async function withBrowser(respond, run, { mysqlTest = false } = {}) {
+export async function withBrowser(respond, run, { mysqlTest = false, debugPort = 9226 } = {}) {
   if (mysqlTest) assert((await fetch('http://localhost:8001/health/ready')).ok, 'Test API on 8001 unavailable');
   const profile = fs.mkdtempSync(path.join(os.tmpdir(), 'datn-consumer-'));
-  const browser = spawn('C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe', ['--headless=new', '--disable-gpu', '--no-first-run', '--remote-debugging-port=9226', '--remote-allow-origins=*', '--user-data-dir=' + profile, 'about:blank'], { stdio: 'ignore', windowsHide: true });
+  const browser = spawn('C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe', ['--headless=new', '--disable-gpu', '--no-first-run', '--remote-debugging-port=' + debugPort, '--remote-allow-origins=*', '--user-data-dir=' + profile, 'about:blank'], { stdio: 'ignore', windowsHide: true });
   let ws, send;
   const failures = [];
   const requests = [], responses = [];
   try {
     let tab;
-    for (let i = 0; i < 50; i++) { try { tab = await (await fetch('http://127.0.0.1:9226/json/new?about:blank', { method: 'PUT' })).json(); break; } catch { await wait(200); } }
+    for (let i = 0; i < 50; i++) { try { tab = await (await fetch('http://127.0.0.1:' + debugPort + '/json/new?about:blank', { method: 'PUT' })).json(); break; } catch { await wait(200); } }
     assert(tab, 'Browser unavailable');
     ws = new WebSocket(tab.webSocketDebuggerUrl);
     await new Promise((resolve, reject) => { ws.onopen = resolve; ws.onerror = reject; });

@@ -14,7 +14,8 @@
     "test:companies:mysql": "node tests/public-companies.browser.mjs --mysql",
     "test:demo-isolation": "node tests/demo-isolation.mjs",
     "test:development-data": "node tests/development-data.browser.mjs",
-    "test:images:mysql": "node tests/images.mysql.browser.mjs"
+    "test:images:mysql": "node tests/images.mysql.browser.mjs",
+    "test:company-filters": "node tests/company-filters.browser.mjs"
   },
   "dependencies": {
     "next": "16.4.2",

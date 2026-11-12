@@ -52,6 +52,8 @@ class ImageService:
             filename = token + ".png"
         else:
             filename = filename or parsed.path.rsplit("/", 1)[-1]
+        if not re.fullmatch(r"[a-f0-9]{32}\.png", filename):
+            raise ImageNotFound()
         if url != self.url(kind, owner_id, filename):
             raise ImageNotFound()
         path = self.storage.path(kind, owner_id, filename)

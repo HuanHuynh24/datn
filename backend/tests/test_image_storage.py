@@ -1,8 +1,10 @@
 import io
+from types import SimpleNamespace
 
 import pytest
 from PIL import Image, PngImagePlugin
 
+from app.images.service import ImageNotFound, ImageService
 from app.images.storage import ImageStorage, ImageTooLarge, InvalidImage, normalize_image
 
 
@@ -66,3 +68,15 @@ def test_animated_png_is_not_accepted():
     )
     with pytest.raises(InvalidImage):
         normalize_image(io.BytesIO(data.getvalue()), "x.png", "image/png")
+
+
+def test_manually_set_unmanaged_logo_path_is_not_served(tmp_path):
+    settings = SimpleNamespace(image_storage_dir=tmp_path, public_api_url="http://localhost:8000")
+    service = ImageService(None, settings)
+    service.repo = SimpleNamespace(
+        target=lambda *args, **kwargs: (
+            "http://localhost:8000/api/v1/media/companies/1/logos/bad.png",
+        )
+    )
+    with pytest.raises(ImageNotFound):
+        service.read("logos", "1", filename="bad.png")

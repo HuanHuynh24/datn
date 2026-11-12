@@ -21,6 +21,10 @@ def test_image_openapi_and_guest_guards(settings):
             assert "multipart/form-data" in paths[path]["post"]["requestBody"]["content"]
             assert {"413", "415", "503"} <= paths[path]["post"]["responses"].keys()
             assert client.get(path).status_code == 401
+            assert (
+                paths[path]["get"]["responses"]["200"]["content"]["image/png"]["schema"]["format"]
+                == "binary"
+            )
         assert (
             "security" not in paths["/api/v1/media/companies/{company_id}/logos/{filename}"]["get"]
         )

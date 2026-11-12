@@ -23,6 +23,12 @@ ERRORS = {
     415: {"model": AuthErrorResponse},
     503: {"model": AuthErrorResponse},
 }
+PNG_RESPONSE = {
+    200: {
+        "description": "PNG image",
+        "content": {"image/png": {"schema": {"type": "string", "format": "binary"}}},
+    }
+}
 
 
 class ImageResponse(BaseModel):
@@ -94,7 +100,7 @@ def upload_avatar(
 
 @router.get(
     "/api/v1/candidates/me/avatar",
-    responses=ERRORS,
+    responses={**ERRORS, **PNG_RESPONSE},
     response_class=FileResponse,
     summary="Read own managed avatar",
     description="Authenticated owner only; no public Candidate image endpoint.",
@@ -126,7 +132,7 @@ def upload_logo(
 @router.get(
     "/api/v1/companies/me/logo",
     response_class=FileResponse,
-    responses=ERRORS,
+    responses={**ERRORS, **PNG_RESPONSE},
     summary="Read current member's managed company logo",
 )
 def read_logo(request: Request, session: Database, principal: CompanyMember):
@@ -136,7 +142,11 @@ def read_logo(request: Request, session: Database, principal: CompanyMember):
 @router.get(
     "/api/v1/media/companies/{company_id}/logos/{filename}",
     response_class=FileResponse,
-    responses={404: {"model": AuthErrorResponse}, 503: {"model": AuthErrorResponse}},
+    responses={
+        **PNG_RESPONSE,
+        404: {"model": AuthErrorResponse},
+        503: {"model": AuthErrorResponse},
+    },
     summary="Read current logo of an APPROVED company",
     description=(
         "Public PNG only while company is APPROVED and URL is its current managed logo. "

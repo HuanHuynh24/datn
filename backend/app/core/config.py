@@ -16,9 +16,27 @@ class Settings(BaseSettings):
     swagger_enabled: bool = True
     cors_origins: str = ""
     cv_storage_dir: Path = Path("/data/cv")
+    image_storage_dir: Path = Path("/data/cv/images")
+    public_api_url: str = "http://localhost:8000"
     jwt_secret: SecretStr | None = None
     jwt_issuer: str = Field(default="recruitment-api", min_length=1)
     jwt_audience: str = Field(default="recruitment-web", min_length=1)
+
+    @field_validator("public_api_url")
+    @classmethod
+    def validate_public_api_url(cls, value: str) -> str:
+        parsed = urlsplit(value)
+        if (
+            parsed.scheme not in {"http", "https"}
+            or not parsed.hostname
+            or parsed.username
+            or parsed.password
+            or parsed.query
+            or parsed.fragment
+            or parsed.path not in {"", "/"}
+        ):
+            raise ValueError("Public API URL must be an HTTP(S) origin")
+        return value.rstrip("/")
 
     @field_validator("jwt_secret")
     @classmethod

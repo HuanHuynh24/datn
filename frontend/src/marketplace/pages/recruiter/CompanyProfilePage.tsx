@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState, type FormEvent } from 'react';
 import { useAuthSession, setCurrentCompany } from '../../auth-client';
 import { changeCompanyMemberStatus, createCompanyMember, getCompanyMembers, getMyCompany, updateMyCompany, type CompanyMember, type CompanyProfile } from '../../company-client';
 import { Page, Panel, Field, Notice, type Navigate } from '../../ui';
+import ImageUpload, { ManagedImage } from '../../components/ImageUpload';
 
 const approvalLabels = { PENDING: 'Đang chờ duyệt', APPROVED: 'Đã được duyệt', REJECTED: 'Chưa được duyệt' };
 export default function CompanyProfilePage({ onNavigate }: { onNavigate: Navigate }) {
@@ -64,7 +65,7 @@ export default function CompanyProfilePage({ onNavigate }: { onNavigate: Navigat
     finally { setBusy(false); }
   }
 
-  return <Page visual="team" eyebrow="Không gian nhà tuyển dụng" title={company?.company_name || 'Hồ sơ công ty'} description="Thông tin doanh nghiệp, gói dịch vụ và thành viên của bạn." actions={isOwner && company && !editing ? <button className="ui-btn ui-btn-primary" onClick={edit}>Chỉnh sửa hồ sơ</button> : undefined}>
+  return <Page visual="team" eyebrow="Không gian nhà tuyển dụng" title={company?.company_name || 'Hồ sơ công ty'} description="Thông tin doanh nghiệp, gói dịch vụ và thành viên của bạn." actions={isOwner && company && !editing ? <button className="ui-btn ui-btn-primary" disabled={busy} onClick={edit}>Chỉnh sửa hồ sơ</button> : undefined}>
     {error && <div role="alert"><Notice error>{error}</Notice></div>}
     {notice && <Notice>{notice}</Notice>}
     {!company ? <p>Đang tải thông tin doanh nghiệp…</p> : <>
@@ -82,7 +83,7 @@ export default function CompanyProfilePage({ onNavigate }: { onNavigate: Navigat
         <div className="ui-form-actions"><button className="ui-btn" type="button" disabled={busy} onClick={() => setEditing(false)}>Hủy</button><button className="ui-btn ui-btn-primary" disabled={busy} type="submit">{busy ? 'Đang lưu…' : 'Lưu hồ sơ doanh nghiệp'}</button></div>
       </form></Panel>}
       <div className="ui-columns"><div className="ui-stack">
-        <Panel title={company.company_name}><p>{company.industry || 'Chưa cập nhật lĩnh vực'}</p><p>{company.address || 'Chưa cập nhật địa chỉ'}</p></Panel>
+        <Panel title={company.company_name}><p>{company.industry || 'Chưa cập nhật lĩnh vực'}</p><p>{company.address || 'Chưa cập nhật địa chỉ'}</p>{isOwner?<ImageUpload endpoint="/api/v1/companies/me/logo" url={company.logo_url} label="Logo doanh nghiệp" disabled={busy||editing} onBusy={setBusy} onUploaded={url=>{const value={...company,logo_url:url};setCompany(value);setCurrentCompany(value);}}/>:<ManagedImage endpoint="/api/v1/companies/me/logo" url={company.logo_url} alt="Logo doanh nghiệp"/>}</Panel>
         <Panel title="Giới thiệu công ty"><p className="ui-preline">{company.introduction || 'Chưa cập nhật giới thiệu doanh nghiệp.'}</p></Panel>
       </div><aside className="ui-stack">
         <Panel title="Thông tin doanh nghiệp"><dl className="ui-summary">{[['Mã số thuế', company.tax_code], ['Quy mô', company.size || 'Chưa cập nhật'], ['Website', company.website || 'Chưa cập nhật']].map(([label, value]) => <div key={label}><dt>{label}</dt><dd>{value}</dd></div>)}</dl></Panel>

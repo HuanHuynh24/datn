@@ -108,6 +108,7 @@ class JobResponse(BaseModel):
     id: AccountId
     company_id: AccountId
     company_name: str
+    company_logo_url: str | None = None
     title: str
     description: str | None
     requirements: str | None

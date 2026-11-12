@@ -82,6 +82,7 @@ class JobService:
             id=str(row["idtin"]),
             company_id=str(row["iddoanhnghiep"]),
             company_name=row["company_name"],
+            company_logo_url=row.get("company_logo_url"),
             industry_name=row["industry_name"],
             province_name=row["province_name"],
             status=row["trangthai"],

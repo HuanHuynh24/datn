@@ -16,6 +16,9 @@ def test_liveness_and_docs_do_not_connect_to_database(settings):
         assert schema_response.status_code == 200
         schema = schema_response.json()
         assert set(schema["paths"]) == {
+            "/api/v1/candidates/me/avatar",
+            "/api/v1/companies/me/logo",
+            "/api/v1/media/companies/{company_id}/logos/{filename}",
             "/api/v1/companies",
             "/api/v1/companies/{company_id}",
             "/api/v1/companies/{company_id}/jobs",

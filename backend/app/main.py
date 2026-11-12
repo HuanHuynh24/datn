@@ -12,6 +12,7 @@ from app.api.candidate_profile import router as candidate_profile_router
 from app.api.companies import router as companies_router
 from app.api.cv_applications import router as cv_applications_router
 from app.api.health import router as health_router
+from app.api.images import router as images_router
 from app.api.jobs import router as jobs_router
 from app.auth.documentation import install_auth_documentation
 from app.core.config import Settings
@@ -67,6 +68,7 @@ def create_app(settings: Settings | None = None) -> FastAPI:
     app.include_router(admin_router)
     app.include_router(admin_management_router)
     app.include_router(cv_applications_router)
+    app.include_router(images_router)
 
     @app.exception_handler(RequestValidationError)
     async def validation_error_handler(request, exc):

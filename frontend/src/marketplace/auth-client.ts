@@ -63,6 +63,8 @@ async function request<T>(path: string, options: RequestInit = {}, token = sessi
       401: 'Email hoặc mật khẩu không hợp lệ, hoặc phiên đăng nhập đã hết hạn.',
       403: 'Tài khoản không có quyền thực hiện thao tác này.',
       409: 'Không thể đăng ký với thông tin này. Nếu đã có tài khoản, hãy đăng nhập.',
+      413: 'Tệp quá lớn. Ảnh tối đa 5 MiB/16 megapixel; CV tối đa 10 MiB.',
+      415: 'Ảnh phải là JPEG, PNG hoặc WebP hợp lệ, không phải ảnh động.',
       422: 'Thông tin chưa hợp lệ. Kiểm tra độ dài, định dạng và khoảng lương.',
       503: 'Dịch vụ tạm thời không khả dụng. Vui lòng thử lại sau.',
     };
@@ -134,6 +136,18 @@ export function setCandidateProfile(profile: CandidateProfile) {
 
 export const getCandidateProfile = () => request<CandidateProfile>('/api/v1/candidates/me/profile');
 export { request as apiRequest };
+export async function getPrivateImage(path: '/api/v1/candidates/me/avatar' | '/api/v1/companies/me/logo') {
+  if (!session || session.expiresAt <= Date.now()) {
+    logout(); throw new ApiError(401, 'Vui lòng đăng nhập lại.');
+  }
+  const token = session.accessToken;
+  const response = await fetch(`${apiBase}${path}`, { headers: { Authorization: `Bearer ${token}` }, cache: 'no-store', credentials: 'omit' });
+  if (!response.ok) {
+    if (response.status === 401 && token === session?.accessToken) logout();
+    throw new ApiError(response.status, 'Chưa tải được ảnh đã lưu.');
+  }
+  return response.blob();
+}
 export async function downloadPrivateCV(path: string, filename: string) {
   if (!session || session.expiresAt <= Date.now()) {
     logout(); throw new ApiError(401, 'Vui lòng đăng nhập lại.');

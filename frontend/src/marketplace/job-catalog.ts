@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import type { ExperienceLevel, Job, WorkStyle, WorkType } from './data';
 import { getJobs, type LiveJob } from './jobs-client';
+import { safePublicUrl } from './public-company-client';
 
 const workTypes: WorkType[] = ['Full-time', 'Part-time', 'Contract', 'Internship'];
 const levels: ExperienceLevel[] = ['Junior', 'Mid-level', 'Senior', 'Lead'];
@@ -35,6 +36,7 @@ export function liveJobToPresentation(job: LiveJob): Job {
       id: job.company_id,
       name: company,
       logo: initials(company),
+      logoImage: safePublicUrl(job.company_logo_url ?? null),
       industry: job.industry_name,
       size: 'Chưa cập nhật',
       location: job.province_name,

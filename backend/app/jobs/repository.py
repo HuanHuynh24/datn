@@ -85,6 +85,7 @@ class JobRepository:
         return select(
             j,
             c.c.tencongty.label("company_name"),
+            c.c.logo.label("company_logo_url"),
             n.c.tennganhnghe.label("industry_name"),
             p.c.tentinhthanh.label("province_name"),
         ).select_from(

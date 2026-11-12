@@ -5,6 +5,7 @@ export const jobStatusText: Record<JobStatus, string> = { DRAFT: 'Bản nháp', 
 export interface CatalogItem { id: string; name: string; province_id?: string }
 export interface JobCatalog { industries: CatalogItem[]; provinces: CatalogItem[]; wards: CatalogItem[]; skills: CatalogItem[] }
 export interface LiveJob {
+  company_logo_url?: string | null;
   id: string; company_id: string; company_name: string; title: string;
   description: string | null; requirements: string | null;
   industry_id: string; industry_name: string; province_id: string; province_name: string;

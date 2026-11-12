@@ -11,12 +11,20 @@ class CVUploadLimit:
         if (
             scope["type"] != "http"
             or scope.get("method") != "POST"
-            or scope.get("path") != ("/api/v1/candidates/me/cvs")
+            or scope.get("path")
+            not in {
+                "/api/v1/candidates/me/cvs",
+                "/api/v1/candidates/me/avatar",
+                "/api/v1/companies/me/logo",
+            }
         ):
             return await self.app(scope, receive, send)
         # Buffer a bounded request before passing it to Starlette's multipart parser.
         # One MiB is reserved for multipart headers; file validation still enforces 10 MiB.
         limit = 11 * 1024 * 1024
+        is_image = scope.get("path") != "/api/v1/candidates/me/cvs"
+        if is_image:
+            limit = 6 * 1024 * 1024
         chunks, total = [], 0
         while True:
             message = await receive()
@@ -25,7 +33,12 @@ class CVUploadLimit:
             total += len(message.get("body", b""))
             if total > limit:
                 return await JSONResponse(
-                    {"detail": "CV upload request exceeds limit"}, status_code=413
+                    {
+                        "detail": "Image upload request exceeds limit"
+                        if is_image
+                        else "CV upload request exceeds limit"
+                    },
+                    status_code=413,
                 )(scope, receive, send)
             chunks.append(message)
             if not message.get("more_body", False):

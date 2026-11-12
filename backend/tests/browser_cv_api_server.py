@@ -21,7 +21,7 @@ def main():
         fixture = mysql_cv.__wrapped__(Path(directory))
         state = next(fixture)
         for role, prefix in [("CANDIDATE", "CANDIDATE"), ("COMPANY_MEMBER", "EMPLOYER")]:
-            identity, headers = auth(state, role)
+            identity, headers = auth(state, role, internal="OWNER")
             if role == "COMPANY_MEMBER":
                 approve(state, headers, draft(state, headers))
             account = state.tables["taikhoan"]
@@ -35,7 +35,11 @@ def main():
             )
         app = create_app(
             state.settings.model_copy(
-                update={"cors_origins": "http://localhost:3000,http://127.0.0.1:3000"}
+                update={
+                    "cors_origins": "http://localhost:3000,http://127.0.0.1:3000",
+                    "image_storage_dir": Path(directory) / "images",
+                    "public_api_url": "http://localhost:8001",
+                }
             )
         )
         lock = Lock()

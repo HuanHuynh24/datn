@@ -1,5 +1,45 @@
 # Backend foundation (00B)
 
+## Profile images — 2026-11-12
+
+Candidate can POST multipart `file` to `/api/v1/candidates/me/avatar`; only the
+authenticated Candidate's `hosoungvien.anhdaidien` is updated. OWNER can POST to
+`/api/v1/companies/me/logo`, updating only their company's existing `logo` field.
+No migration, new table, seed or automatic startup DDL is involved.
+
+Uploads accept non-animated JPEG/PNG/WebP, up to 5 MiB and 16 megapixels (dimension
+limit 8192). Pillow decodes and re-encodes fresh PNG pixels at up to 1024px,
+removing metadata. Original filenames are not used as storage paths. Body size
+is bounded before multipart parsing. Responses contain URL, width, height, size
+and media_type; errors include 401/403/404/413/415/503.
+
+Files live in `/data/cv/images/{avatars|logos}/{owner_id}/{uuid}.png`, under the
+existing persistent `cv_private` Docker volume. MySQL stores URLs, not image
+BLOBs. `IMAGE_STORAGE_DIR` can override the filesystem root; it must remain on
+persistent storage. `PUBLIC_API_URL` is an HTTP(S) origin, default
+`http://localhost:8000`; Compose forwards the same local variable.
+
+GET `/api/v1/candidates/me/avatar` requires the current Candidate's JWT. GET
+`/api/v1/companies/me/logo` requires active own-company membership. Public GET
+`/api/v1/media/companies/{company_id}/logos/{filename}` serves only the current
+logo of an APPROVED company. Previous logos and unrelated files are not served.
+These routes never mount the CV filesystem publicly. Old/unreferenced files are
+retained for recovery; automatic garbage collection is not implemented.
+
+Job responses now include nullable `company_logo_url`, selected from the same
+company join; existing public job visibility rules are unchanged. Candidate and
+Employer profile pages provide file controls using authenticated Blob previews;
+public company/job cards display the approved logo. Cover images and standalone
+job images are outside the current ERD-backed upload scope.
+
+Tests: `python -m pytest -q` for units; local tooling
+`scripts/verify_jobs_mysql.py --include-public-companies --include-images` uses
+only `recruitment_jobs_test` and rollback. Run `scripts/serve_cv_browser_api.py`
+before Frontend `npm run test:images:mysql`; it uses port8001, test credentials
+from ignored local files and temporary image storage. Never use Development as
+an automatic fixture database. Image decoding reference:
+[Pillow Image documentation](https://pillow.readthedocs.io/en/stable/reference/Image.html).
+
 **E5 complete:** public real package catalog, atomic Employer registration (COMPANY_MEMBER/ACTIVE +PENDING company +OWNER/ACTIVE), own company GET/PATCH and OWNER-only RECRUITER create/list/status APIs. FREE1/PRO5 monthly0 are the two explicitly approved Development catalog rows; OWNER counts toward quota.103 MySQL tests, Employer8/Candidate7 browser checks pass; no schema changes/payment/NLP. [E5 API/files/verification](../docs/E5_EMPLOYER_MVP_DECISIONS.md). Jobs content DTO/unit tests started; additional job schema/status decisions remain unapproved, see E6 review.
 
 Full rollback-isolated verification from root: `backend/.venv/Scripts/python.exe scripts/verify_auth_mysql.py --include-profile --include-company`. `scripts/seed_company_packages.py` prints catalog review by default; `--apply-approved` is authorized only for the fixed E5 FREE/PRO rows, skips matching existing rows and stops on quota/price differences without overwriting. Does not seed accounts/companies/members/Admin. Employer Frontend is wired to real APIs, and unimplemented recruitment actions no longer report demo success.

@@ -23,7 +23,7 @@ export default function Nav({ mode, activePage, onNavigate }: NavProps) {
   const name = session?.profile?.full_name || session?.company?.company_name || (isRecruiter ? 'Tài khoản doanh nghiệp' : 'Tài khoản ứng viên');
   const initials = name.trim().split(/\s+/).slice(-2).map(part => part[0]).join('').toLocaleUpperCase('vi');
   const items = headerNavigation[mode];
-  const searchPage = activePage === 'job-search' || activePage === 'job-detail';
+  const searchPage = activePage === 'job-search' || activePage === 'job-detail' || activePage === 'companies';
   const primary: HeaderLink = isGuest
     ? { page: 'signup-candidate', label: 'Đăng ký' }
     : isRecruiter ? { page: 'recruiter-create-job', label: 'Đăng tin' }

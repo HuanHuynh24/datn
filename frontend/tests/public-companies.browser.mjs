@@ -24,6 +24,7 @@ async function respond(url) {
   throw new Error('Unexpected API ' + url.pathname);
 }
 await withBrowser(respond, async ({ send, evaluate, until, fill, click, requests }) => {
+  await send('Emulation.setDeviceMetricsOverride', { width: 1440, height: 1080, deviceScaleFactor: 1, mobile: false });
   const navigate = async path => { await send('Page.navigate', { url: 'http://localhost:3000' + path }); };
   const ready = () => until('!!document.querySelector("[data-company-id]")');
   await navigate('/companies'); await ready();

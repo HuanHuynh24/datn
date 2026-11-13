@@ -1,0 +1,36 @@
+/* Shared content edge: shell includes gutters; content width excludes them. */
+:root {
+  --layout-content:1440px;
+  --layout-gutter:24px;
+  --layout-shell:calc(var(--layout-content) + 2 * var(--layout-gutter));
+}
+.cl-container { max-width:var(--layout-shell); padding-inline:var(--layout-gutter); }
+.site-header-inner,.ui-workspace-hero-inner { padding-inline:var(--layout-gutter); }
+.site-search-context { padding-inline:var(--layout-gutter); }
+.ui-page { padding-inline:var(--layout-gutter); }
+.ui-container,.ui-page.ui-job-page .ui-container { max-width:var(--layout-content); }
+.ui-page.ui-workspace-page { padding-inline:0; }
+.ui-page.ui-workspace-page>.ui-container { max-width:var(--layout-shell); padding-inline:var(--layout-gutter); }
+.candidate-applications { padding-inline:var(--layout-gutter); }
+.candidate-applications .ca-shell { max-width:var(--layout-content); }
+
+/* Cards and headings share the section edge, without a second inset. */
+.cl-home .cl-hot-grid,.cl-workspace-home .cl-member-grid,.cl-workspace-home .cl-talent-grid { margin-inline:0; }
+.cl-home.cl-workspace-home .ui-stats { margin-inline:0; }
+
+/* Search uses a content box directly; its parent supplies no gutter. */
+.cl-results-page .cl-results-wrap,.cl-results-page .cl-filter-inner,
+.cl-results-page.jobs-ui-sample .jobs-search-intro {
+  width:min(var(--layout-content),calc(100% - 2 * var(--layout-gutter)));
+  max-width:var(--layout-content);
+  margin-inline:auto;
+}
+.cl-results-page .cl-filter-inner { padding-inline:0; }
+.cl-results-page.jobs-ui-sample .cl-filter-inner { padding-inline:18px; }
+.cl-results-page .cl-results-mobile-search { margin-inline:var(--layout-gutter); }
+.cl-footer-main { padding-inline:var(--layout-gutter); }
+.cl-footer-columns { max-width:var(--layout-content); }
+
+@media(max-width:767px) {
+  :root { --layout-gutter:16px; }
+}

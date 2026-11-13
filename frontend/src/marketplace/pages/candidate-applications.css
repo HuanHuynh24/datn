@@ -1,5 +1,5 @@
 .candidate-applications { background:#f5f7fb; min-height:calc(100dvh - 72px); padding:36px 24px 56px; color:#20334d; font-size:14px; line-height:1.6; }
-.candidate-applications .ca-shell { max-width:1110px; margin:auto; }
+.candidate-applications .ca-shell { max-width:var(--layout-content); margin:auto; }
 .candidate-applications .ca-heading { display:flex; align-items:center; justify-content:space-between; gap:24px; margin-bottom:28px; }
 .candidate-applications .ca-eyebrow { color:#55708c; font-size:10px; font-weight:700; letter-spacing:1.5px; margin-bottom:8px; }
 .candidate-applications h1 { font-size:28px; line-height:1.4; letter-spacing:-.6px; font-weight:700; color:#172d48; }

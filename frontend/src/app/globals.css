@@ -46,8 +46,6 @@
 }
 
 :root {
-  --layout-content: 1110px;
-  --layout-shell: 1158px;
   --layout-sidebar: 253px;
   --layout-gap: 32px;
   --ui-hover: #fafafa;

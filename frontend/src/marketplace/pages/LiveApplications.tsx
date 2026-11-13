@@ -6,6 +6,8 @@ import { apiRequest, downloadPrivateCV, useAuthSession } from '../auth-client';
 import { Badge, Empty, Field, Notice, Page, Panel } from '../ui';
 import Icon from '../components/Icon';
 import ProfileNavigation from '../components/ProfileNavigation';
+import { useSearchParams } from 'next/navigation';
+import { safeReturnPath, signInFor } from '../routes';
 
 type CV = { id: string; is_primary: boolean; status: string; created_at: string; format: string };
 type Application = { id: string; candidate_name: string; candidate_email: string; job_id: string; job_title: string; company_name: string; status: string; cover_letter: string | null; submitted_at: string };
@@ -16,6 +18,8 @@ const statuses: Record<string, string> = { APPLIED: 'Đã nộp', REVIEWING: 'Đ
 const transitions: Record<string, string[]> = { APPLIED: ['REVIEWING', 'REJECTED'], REVIEWING: ['INTERVIEW', 'OFFER', 'REJECTED'], INTERVIEW: ['OFFER', 'REJECTED'], OFFER: ['HIRED', 'REJECTED'], HIRED: [], REJECTED: [] };
 
 export function LiveCVs() {
+  const params = useSearchParams();
+  const returnTo = safeReturnPath(params.get('returnTo'), '/candidate');
   const [cvs, setCVs] = useState<CV[]>([]); const [error, setError] = useState('');
   const [busy, setBusy] = useState(false); const [loading, setLoading] = useState(true);
   const [message, setMessage] = useState('');
@@ -34,6 +38,7 @@ export function LiveCVs() {
   const primary=cvs.find(cv=>cv.is_primary);
   return <Page visual="candidate" eyebrow="Hồ sơ & CV" title="Quản lý CV" description="Lưu các bản CV, tải xuống và chọn bản mặc định khi ứng tuyển.">
     <ProfileNavigation active="cvs"/>
+    {params.has('returnTo')&&<Link className="ui-btn" href={returnTo}>Quay lại tin để ứng tuyển</Link>}
     <div className="ui-cv-overview"><div><span className="ui-cv-side-icon"><Icon name="document"/></span><div><strong>{cvs.length} CV đang hoạt động</strong><p>PDF hoặc DOCX · Tối đa 10 MiB</p></div></div><div><span className={primary?'ui-cv-overview-check':'ui-cv-side-icon'}><Icon name={primary?'check':'document'}/></span><div><strong>{primary?'Đã chọn CV mặc định':'Chưa có CV mặc định'}</strong><p>{primary?`CV #${primary.id}`:'Tải CV đầu tiên để bắt đầu'}</p></div></div></div>
     {error&&<Notice error>{error}</Notice>}{message&&<Notice>{message}</Notice>}
     <div className="ui-cv-layout"><div className="ui-stack"><Panel title="Thêm CV mới" action={<span className="ui-small ui-muted">PDF, DOCX · Tối đa 10 MiB</span>}><form onSubmit={upload} className="ui-form"><label className="ui-cv-dropzone" htmlFor="cv-file"><span className="ui-cv-upload-art" aria-hidden="true"><span>CV</span><Icon name="document"/><b>↑</b></span><strong>Chọn CV từ thiết bị</strong><span className="ui-muted">Tệp được lưu riêng tư trên hệ thống</span><span className="ui-btn ui-btn-primary">Chọn tệp CV</span></label><input className="sr-only" id="cv-file" name="file" type="file" accept=".pdf,.docx" required/><button className="ui-btn ui-btn-primary" disabled={busy||loading}>Tải CV lên</button></form><p className="ui-cv-privacy"><Icon name="shield"/>Lưu trữ CV không làm thay đổi bản đã nộp trong đơn ứng tuyển.</p></Panel>
@@ -47,15 +52,16 @@ export function ApplyToJob({ jobId }: { jobId: string }) {
   const session = useAuthSession(); const candidate = session?.user.role === 'CANDIDATE';
   const [cvs, setCVs] = useState<CV[]>([]); const [error, setError] = useState('');
   const [busy, setBusy] = useState(false); const [done, setDone] = useState(false);
-  useEffect(() => { let live = true; if (candidate) apiRequest<CV[]>(cvPath).then(value => { if (live) setCVs(value); }).catch(error => { if (live) setError(explain(error)); }); return () => { live = false; }; }, [candidate]);
+  const [loading,setLoading]=useState(true);const [version,setVersion]=useState(0);
+  useEffect(() => { let live = true; if (candidate) apiRequest<CV[]>(cvPath).then(value => { if (live) setCVs(value); }).catch(error => { if (live) setError(explain(error)); }).finally(()=>{if(live)setLoading(false);}); return () => { live = false; }; }, [candidate,version]);
   async function submit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault(); const data = new FormData(event.currentTarget); setBusy(true); setError('');
+    event.preventDefault(); if(busy)return; const data = new FormData(event.currentTarget); setBusy(true); setError('');
     try { await apiRequest(`/api/v1/jobs/${jobId}/applications`, { method: 'POST', body: JSON.stringify({ cv_id: data.get('cv_id'), cover_letter: data.get('cover_letter') || null }) }); setDone(true); } catch (error) { setError(explain(error)); } finally { setBusy(false); }
   }
-  if (!session) return <Link className="ui-btn" href="/sign-in">Đăng nhập để ứng tuyển</Link>;
+  if (!session) return <Link className="ui-btn ui-btn-primary" href={signInFor('/jobs/'+jobId,'apply')}>Đăng nhập để ứng tuyển</Link>;
   if (!candidate) return <p>Chỉ tài khoản ứng viên có thể ứng tuyển.</p>;
   if (done) return <Notice>Đã nộp hồ sơ. <Link href="/candidate/applications">Theo dõi đơn ứng tuyển</Link></Notice>;
-  return <section><h2>Ứng tuyển</h2>{error && <Notice error>{error}</Notice>}{cvs.length ? <form onSubmit={submit} className="ui-form"><Field id="apply-cv" label="Chọn CV"><select id="apply-cv" name="cv_id" required defaultValue={cvs.find(cv => cv.is_primary)?.id ?? cvs[0].id}>{cvs.map(cv => <option key={cv.id} value={cv.id}>CV #{cv.id} · {cv.format.toUpperCase()}{cv.is_primary ? ' · CV chính' : ''}</option>)}</select></Field><Field id="cover-letter" label="Thư giới thiệu"><textarea id="cover-letter" name="cover_letter" maxLength={16000} /></Field><button className="ui-btn ui-btn-primary" disabled={busy}>Nộp hồ sơ</button></form> : <p>Cần có CV hoạt động để ứng tuyển.</p>}<Link href="/candidate/cvs">Quản lý CV</Link></section>;
+  return <section><h2>Ứng tuyển</h2>{error && <Notice error>{error}</Notice>}{loading?<p role="status">Đang tải CV của bạn…</p>:cvs.length ? <form onSubmit={submit} className="ui-form"><Field id="apply-cv" label="Chọn CV"><select id="apply-cv" name="cv_id" required defaultValue={cvs.find(cv => cv.is_primary)?.id ?? cvs[0].id}>{cvs.map(cv => <option key={cv.id} value={cv.id}>CV #{cv.id} · {cv.format.toUpperCase()}{cv.is_primary ? ' · CV chính' : ''}</option>)}</select></Field><Field id="cover-letter" label="Thư giới thiệu"><textarea id="cover-letter" name="cover_letter" maxLength={16000} /></Field><button className="ui-btn ui-btn-primary" disabled={busy}>{busy?'Đang nộp hồ sơ…':'Nộp hồ sơ'}</button></form> : error?<button className="ui-btn" onClick={()=>{setError('');setLoading(true);setVersion(value=>value+1);}}>Thử tải lại CV</button>:<p>Bạn chưa có CV hoạt động. Tải CV PDF/DOCX lên rồi quay lại đây để nộp hồ sơ.</p>}<Link className="ui-link" href={'/candidate/cvs?'+new URLSearchParams({returnTo:'/jobs/'+jobId+'?intent=apply'})}>Quản lý CV</Link></section>;
 }
 
 export function LiveApplications({ employer = false }: { employer?: boolean }) {

@@ -20,7 +20,8 @@
     "test:apply-journey:mysql": "node tests/apply-journey.mysql.browser.mjs",
     "test:apply-cta": "node tests/apply-cta.browser.mjs",
     "test:apply-feedback": "node tests/apply-feedback.browser.mjs",
-    "test:cv-upload-feedback": "node tests/cv-upload-feedback.browser.mjs"
+    "test:cv-upload-feedback": "node tests/cv-upload-feedback.browser.mjs",
+    "test:jobs-ui-preview": "node tests/job-search-preview.browser.mjs"
   },
   "dependencies": {
     "next": "16.4.2",

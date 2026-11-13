@@ -19,10 +19,15 @@ await withBrowser(null,async({send,evaluate,until,fill,click,responses})=>{
   await evaluate('document.querySelector("form").requestSubmit()');
   await until(`location.pathname==='/jobs/${id}'&&document.body.innerText.includes('Bạn chưa có CV hoạt động')`);
   checks.push('Login returns to same job and explains missing active CV');
+  await until('!!document.querySelector("dialog[open]")');
+  assert(await evaluate('document.querySelector("dialog[open]").innerText.includes("Bạn cần tải CV để ứng tuyển")'));
+  assert(await evaluate('document.querySelector("dialog[open]").innerText.includes("10 MiB")'));
+  await click('Để sau');
+  await until('!document.querySelector("dialog[open]")');
   await evaluate(`document.querySelector('.ui-job-hero a[href="#ung-tuyen"]').click()`);
-  await until('location.hash==="#ung-tuyen"');
-  checks.push('Candidate CTA targets the real application section after login');
-  await evaluate(`[...document.querySelectorAll('a')].find(link=>link.textContent==='Quản lý CV').click()`);
+  await until('location.hash==="#ung-tuyen"&&!!document.querySelector("dialog[open]")');
+  checks.push('Missing CV guidance opens after login and reopens on Candidate CTA, with format and size requirements');
+  await evaluate(`[...document.querySelectorAll('dialog[open] a')].find(link=>link.textContent==='Tải CV lên').click()`);
   await until(`location.pathname==='/candidate/cvs'&&!!document.querySelector('#cv-file')`);
   assert.equal(new URLSearchParams(await evaluate('location.search')).get('returnTo'),'/jobs/'+id+'?intent=apply');
   await evaluate(`(()=>{const transfer=new DataTransfer();transfer.items.add(new File([atob('JVBERi0xLjQKJSVFT0Y=')],'journey.pdf',{type:'application/pdf'}));const input=document.querySelector('#cv-file');input.files=transfer.files;input.dispatchEvent(new Event('change',{bubbles:true}));})()`);

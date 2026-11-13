@@ -6,6 +6,7 @@ import { apiRequest, downloadPrivateCV, useAuthSession } from '../auth-client';
 import { Badge, Empty, Field, Notice, Page, Panel } from '../ui';
 import Icon from '../components/Icon';
 import ProfileNavigation from '../components/ProfileNavigation';
+import Dialog from '../components/Dialog';
 import { useSearchParams } from 'next/navigation';
 import { safeReturnPath, signInFor } from '../routes';
 
@@ -48,20 +49,33 @@ export function LiveCVs() {
   </Page>;
 }
 
-export function ApplyToJob({ jobId }: { jobId: string }) {
+export function ApplyToJob({ jobId, applyRequest = 0 }: { jobId: string; applyRequest?: number }) {
+  const params = useSearchParams();
+  const applyIntent = params.get('intent') === 'apply';
   const session = useAuthSession(); const candidate = session?.user.role === 'CANDIDATE';
   const [cvs, setCVs] = useState<CV[]>([]); const [error, setError] = useState('');
   const [busy, setBusy] = useState(false); const [done, setDone] = useState(false);
   const [loading,setLoading]=useState(true);const [version,setVersion]=useState(0);
-  useEffect(() => { let live = true; if (candidate) apiRequest<CV[]>(cvPath).then(value => { if (live) setCVs(value); }).catch(error => { if (live) setError(explain(error)); }).finally(()=>{if(live)setLoading(false);}); return () => { live = false; }; }, [candidate,version]);
+  const [feedback,setFeedback]=useState<'missing'|'load'|'submit'|null>(null);
+  const [dismissedRequest,setDismissedRequest]=useState<string|null>(null);
+  const requestKey = `${applyRequest}:${applyIntent}`;
+  const popup = feedback ?? (candidate&&!loading&&!error&&!cvs.length&&(applyRequest>0||applyIntent)&&dismissedRequest!==requestKey?'missing':null);
+  function closeFeedback() { setFeedback(null); setDismissedRequest(requestKey); }
+  const manageCV = '/candidate/cvs?'+new URLSearchParams({returnTo:'/jobs/'+jobId+'?intent=apply'});
+  useEffect(() => { let live = true; if (candidate) apiRequest<CV[]>(cvPath).then(value => { if (live) setCVs(value); }).catch(error => { if (live) { setError(explain(error)); setFeedback('load'); } }).finally(()=>{if(live)setLoading(false);}); return () => { live = false; }; }, [candidate,version]);
+  function retryCV() { setFeedback(null); setError(''); setLoading(true); setVersion(value=>value+1); }
   async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault(); if(busy)return; const data = new FormData(event.currentTarget); setBusy(true); setError('');
-    try { await apiRequest(`/api/v1/jobs/${jobId}/applications`, { method: 'POST', body: JSON.stringify({ cv_id: data.get('cv_id'), cover_letter: data.get('cover_letter') || null }) }); setDone(true); } catch (error) { setError(explain(error)); } finally { setBusy(false); }
+    try { await apiRequest(`/api/v1/jobs/${jobId}/applications`, { method: 'POST', body: JSON.stringify({ cv_id: data.get('cv_id'), cover_letter: data.get('cover_letter') || null }) }); setDone(true); } catch (error) { setError(explain(error)); setFeedback('submit'); } finally { setBusy(false); }
   }
   if (!session) return <Link className="ui-btn ui-btn-primary" href={signInFor('/jobs/'+jobId,'apply')}>Đăng nhập để ứng tuyển</Link>;
   if (!candidate) return <p>Chỉ tài khoản ứng viên có thể ứng tuyển.</p>;
   if (done) return <Notice>Đã nộp hồ sơ. <Link href="/candidate/applications">Theo dõi đơn ứng tuyển</Link></Notice>;
-  return <section><h2>Ứng tuyển</h2>{error && <Notice error>{error}</Notice>}{loading?<p role="status">Đang tải CV của bạn…</p>:cvs.length ? <form onSubmit={submit} className="ui-form"><Field id="apply-cv" label="Chọn CV"><select id="apply-cv" name="cv_id" required defaultValue={cvs.find(cv => cv.is_primary)?.id ?? cvs[0].id}>{cvs.map(cv => <option key={cv.id} value={cv.id}>CV #{cv.id} · {cv.format.toUpperCase()}{cv.is_primary ? ' · CV chính' : ''}</option>)}</select></Field><Field id="cover-letter" label="Thư giới thiệu"><textarea id="cover-letter" name="cover_letter" maxLength={16000} /></Field><button className="ui-btn ui-btn-primary" disabled={busy}>{busy?'Đang nộp hồ sơ…':'Nộp hồ sơ'}</button></form> : error?<button className="ui-btn" onClick={()=>{setError('');setLoading(true);setVersion(value=>value+1);}}>Thử tải lại CV</button>:<p>Bạn chưa có CV hoạt động. Tải CV PDF/DOCX lên rồi quay lại đây để nộp hồ sơ.</p>}<Link className="ui-link" href={'/candidate/cvs?'+new URLSearchParams({returnTo:'/jobs/'+jobId+'?intent=apply'})}>Quản lý CV</Link></section>;
+  return <section><h2>Ứng tuyển</h2>{error && <Notice error>{error}</Notice>}{loading?<p role="status">Đang tải CV của bạn…</p>:cvs.length ? <form onSubmit={submit} className="ui-form"><Field id="apply-cv" label="Chọn CV"><select id="apply-cv" name="cv_id" required defaultValue={cvs.find(cv => cv.is_primary)?.id ?? cvs[0].id}>{cvs.map(cv => <option key={cv.id} value={cv.id}>CV #{cv.id} · {cv.format.toUpperCase()}{cv.is_primary ? ' · CV chính' : ''}</option>)}</select></Field><Field id="cover-letter" label="Thư giới thiệu"><textarea id="cover-letter" name="cover_letter" maxLength={16000} /></Field><button className="ui-btn ui-btn-primary" disabled={busy}>{busy?'Đang nộp hồ sơ…':'Nộp hồ sơ'}</button></form> : error?<button className="ui-btn" onClick={retryCV}>Thử tải lại CV</button>:<><p>Bạn chưa có CV hoạt động. Tải CV PDF/DOCX lên rồi quay lại đây để nộp hồ sơ.</p><button className="ui-btn ui-btn-primary" onClick={()=>setFeedback('missing')}>Hướng dẫn tải CV</button></>}<Link className="ui-link" href={manageCV}>Quản lý CV</Link>
+    {popup&&<Dialog title={popup==='missing'?'Bạn cần tải CV để ứng tuyển':popup==='load'?'Không thể tải danh sách CV':'Chưa thể nộp hồ sơ'} onClose={closeFeedback}>
+      {popup==='missing'?<><p>Bạn chưa có CV hoạt động nên chưa thể nộp hồ sơ cho tin này.</p><ol><li>Tải CV định dạng PDF hoặc DOCX, tối đa 10 MiB.</li><li>Chọn “Quay lại tin để ứng tuyển” sau khi tải lên.</li><li>Chọn CV và bấm “Nộp hồ sơ” để hoàn tất.</li></ol><div className="ui-actions"><Link className="ui-btn ui-btn-primary" href={manageCV}>Tải CV lên</Link><button className="ui-btn" onClick={closeFeedback}>Để sau</button></div></>:<><p role="alert">{error}</p><p>{popup==='load'?'Chưa thể kiểm tra CV của bạn. Hãy thử tải lại; đây không phải thông báo bạn chưa có CV.':'Hồ sơ chưa được xác nhận nộp thành công. Hãy kiểm tra thông báo và thử lại khi đã khắc phục.'}</p><div className="ui-actions">{popup==='load'&&<button className="ui-btn ui-btn-primary" onClick={retryCV}>Thử tải lại CV</button>}<button className="ui-btn" onClick={closeFeedback}>Đóng</button></div></>}
+    </Dialog>}
+  </section>;
 }
 
 export function LiveApplications({ employer = false }: { employer?: boolean }) {

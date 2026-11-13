@@ -1,0 +1,99 @@
+.candidate-applications { background:#f5f7fb; min-height:calc(100dvh - 72px); padding:36px 24px 56px; color:#20334d; font-size:14px; line-height:1.6; }
+.candidate-applications .ca-shell { max-width:1110px; margin:auto; }
+.candidate-applications .ca-heading { display:flex; align-items:center; justify-content:space-between; gap:24px; margin-bottom:28px; }
+.candidate-applications .ca-eyebrow { color:#55708c; font-size:10px; font-weight:700; letter-spacing:1.5px; margin-bottom:8px; }
+.candidate-applications h1 { font-size:28px; line-height:1.4; letter-spacing:-.6px; font-weight:700; color:#172d48; }
+.candidate-applications .ca-heading>div>p:last-child { margin-top:8px; color:#62738a; }
+.candidate-applications .ca-primary,.candidate-applications .ca-secondary { display:inline-flex; align-items:center; justify-content:center; gap:8px; min-height:42px; border-radius:8px; padding:10px 15px; font-size:13px; font-weight:600; line-height:20px; text-decoration:none; }
+.candidate-applications .ca-primary { background:var(--color-brand); color:#fff; border:1px solid var(--color-brand); }
+.candidate-applications .ca-primary:hover { background:var(--color-brand-dark); border-color:var(--color-brand-dark); }
+.candidate-applications .ca-secondary { background:#fff; border:1px solid #d9e2ed; color:#425872; }
+.candidate-applications .ca-secondary:hover { background:#f5f8fc; }
+.candidate-applications .ca-primary svg,.candidate-applications .ca-secondary svg { width:17px; height:17px; }
+.candidate-applications .ca-layout { display:grid; grid-template-columns:minmax(0,1fr) 268px; gap:24px; align-items:start; }
+.candidate-applications .ca-main { min-width:0; }
+.candidate-applications .ca-filters { display:flex; align-items:end; flex-wrap:wrap; gap:12px; padding:18px; border:1px solid #e1e7ef; border-radius:12px; background:#fff; }
+.candidate-applications .ca-filter-field { display:flex; flex-direction:column; gap:7px; flex:1; min-width:160px; max-width:280px; }
+.candidate-applications .ca-filter-field label { color:#53677f; font-size:12px; font-weight:600; }
+.candidate-applications .ca-filter-field select { width:100%; height:42px; padding:8px 12px; border:1px solid #ced9e6; border-radius:7px; background:#fff; color:#273e59; font-size:13px; }
+.candidate-applications .ca-reset { display:inline-flex; align-items:center; min-height:42px; color:#536e8c; font-size:12px; padding:8px 4px; }
+.candidate-applications .ca-reset:hover { color:var(--color-brand); text-decoration:underline; }
+.candidate-applications .ca-list-heading { display:flex; align-items:center; justify-content:space-between; gap:12px; margin:24px 0 12px; }
+.candidate-applications .ca-list-heading h2 { font-size:16px; font-weight:700; }
+.candidate-applications .ca-list-heading>span { color:#63758b; font-size:12px; }
+.candidate-applications .ca-state { text-align:center; padding:44px 28px; border:1px solid #e1e7ef; border-radius:12px; background:#fff; }
+.candidate-applications .ca-state-icon { display:inline-flex; padding:16px; border-radius:18px; background:#edf5ff; color:var(--color-brand); margin-bottom:20px; }
+.candidate-applications .ca-state-icon svg { width:28px; height:28px; }
+.candidate-applications .ca-state-kicker { font-size:9px; letter-spacing:1.2px; color:#5e7690; font-weight:700; margin-bottom:8px; }
+.candidate-applications .ca-state h3 { font-size:20px; line-height:1.5; font-weight:700; color:#203752; }
+.candidate-applications .ca-state h3+p { max-width:440px; margin:10px auto 0; font-size:13px; color:#63758b; line-height:1.8; }
+.candidate-applications .ca-state-actions { display:flex; justify-content:center; flex-wrap:wrap; gap:10px; margin-top:24px; }
+.candidate-applications .ca-guide { padding:22px; border:1px solid #e1e7ef; border-radius:12px; background:#fff; }
+.candidate-applications .ca-guide-icon { display:inline-flex; padding:9px; background:#edf5ff; color:var(--color-brand); border-radius:10px; margin-bottom:14px; }
+.candidate-applications .ca-guide h2 { font-size:16px; font-weight:700; margin-bottom:6px; }
+.candidate-applications .ca-guide>p { font-size:12px; color:#63758b; line-height:1.8; }
+.candidate-applications .ca-guide ol { display:flex; flex-direction:column; gap:18px; margin-block:24px; }
+.candidate-applications .ca-guide li { display:flex; gap:10px; }
+.candidate-applications .ca-guide li>span { display:grid; place-items:center; width:24px; height:24px; flex-shrink:0; background:#eff4fa; border-radius:50%; color:#486584; font-size:11px; font-weight:700; }
+.candidate-applications .ca-guide strong { display:block; font-size:12px; font-weight:600; }
+.candidate-applications .ca-guide li p { color:#63758b; font-size:12px; margin-top:3px; line-height:1.7; }
+.candidate-applications .ca-guide>a { display:flex; align-items:center; gap:8px; border-top:1px solid #e9eef5; padding-top:15px; color:var(--color-brand); font-size:12px; font-weight:600; }
+.candidate-applications .ca-guide>a svg { width:16px; height:16px; }
+.candidate-applications .ca-privacy { display:flex; gap:10px; padding:18px 8px; color:#63758b; font-size:11px; line-height:1.8; }
+.candidate-applications .ca-privacy svg { color:#6584a3; width:18px; height:18px; margin-top:2px; }
+.candidate-applications .ca-list { display:flex; flex-direction:column; gap:14px; }
+.candidate-applications .ca-card { padding:22px; background:#fff; border:1px solid #e1e7ef; border-radius:12px; }
+.candidate-applications .ca-card-heading { display:flex; align-items:flex-start; gap:12px; }
+.candidate-applications .ca-company-mark { width:44px; height:44px; flex-shrink:0; border:1px solid #dce8f6; border-radius:10px; background:#f0f6ff; color:#34669c; display:grid; place-items:center; font-size:13px; font-weight:700; }
+.candidate-applications .ca-card-title { min-width:0; flex:1; }
+.candidate-applications .ca-card h3 { font-size:16px; font-weight:700; line-height:1.5; overflow-wrap:anywhere; }
+.candidate-applications .ca-card h3 button { text-align:left; }
+.candidate-applications .ca-card h3 button:hover { color:var(--color-brand); }
+.candidate-applications .ca-card-title>p { color:#63758b; font-size:12px; margin-top:4px; overflow-wrap:anywhere; }
+.candidate-applications .ca-status { display:inline-flex; align-items:center; gap:5px; flex-shrink:0; padding:5px 9px; border-radius:6px; background:#edf5ff; color:#185fa7; font-size:10px; font-weight:600; }
+.candidate-applications .ca-status>span { width:5px; height:5px; border-radius:50%; background:currentColor; }
+.candidate-applications .ca-status[data-status=REVIEWING] { background:#fff5e6; color:#925812; }
+.candidate-applications .ca-status[data-status=INTERVIEW] { background:#f1edff; color:#6745ad; }
+.candidate-applications .ca-status[data-status=OFFER],.candidate-applications .ca-status[data-status=HIRED] { background:#eaf7ef; color:#267048; }
+.candidate-applications .ca-status[data-status=REJECTED] { background:#f2f3f5; color:#5c6572; }
+.candidate-applications .ca-card-meta { display:flex; flex-wrap:wrap; gap:8px 20px; margin-top:18px; color:#63758b; font-size:11px; }
+.candidate-applications .ca-card-meta>span { display:inline-flex; align-items:center; gap:5px; }
+.candidate-applications .ca-card-meta svg { width:14px; height:14px; }
+.candidate-applications .ca-status-note { color:#566c85; font-size:12px; line-height:1.8; margin-top:12px; }
+.candidate-applications .ca-card-actions { display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px; border-top:1px solid #edf0f5; margin-top:18px; padding-top:14px; }
+.candidate-applications .ca-card-actions button { min-height:34px; display:inline-flex; align-items:center; gap:7px; font-size:12px; font-weight:600; }
+.candidate-applications .ca-detail { color:var(--color-brand); }
+.candidate-applications .ca-download { color:#526c87; }
+.candidate-applications .ca-card-actions svg { width:15px; height:15px; }
+.candidate-applications button:disabled { opacity:.5; }
+.candidate-applications .ca-error { display:flex; align-items:start; gap:10px; padding:14px; border:1px solid #f2d9d6; background:#fff5f3; color:#9e4339; border-radius:8px; font-size:12px; margin-bottom:14px; }
+.candidate-applications .ca-error p { flex:1; }
+.candidate-applications .ca-context { display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px; font-size:12px; color:#536c87; margin-top:14px; }
+.candidate-applications .ca-context button { color:var(--color-brand); display:flex; align-items:center; gap:4px; min-height:30px; }
+.candidate-applications .ca-context svg { width:13px; height:13px; }
+.candidate-applications .ca-pagination { display:flex; align-items:center; justify-content:space-between; gap:10px; margin-top:20px; font-size:12px; }
+.candidate-applications .ca-pagination button { padding:8px 12px; min-height:38px; border:1px solid #d9e2ed; background:#fff; border-radius:7px; color:#425d7b; }
+.candidate-applications .ca-loading>p { font-size:13px; color:#63758b; margin-bottom:12px; }
+.candidate-applications .ca-skeleton { height:155px; border:1px solid #e1e7ef; border-radius:12px; margin-bottom:14px; background:linear-gradient(#e9eef5 0 0) 22px 24px/55% 14px no-repeat,linear-gradient(#f0f3f8 0 0) 22px 52px/35% 10px no-repeat,linear-gradient(#f0f3f8 0 0) 22px 95px/70% 10px no-repeat,#fff; }
+.candidate-applications button:focus-visible,.candidate-applications a:focus-visible,.candidate-applications select:focus-visible { outline:3px solid #83b9f4; outline-offset:3px; }
+@media(max-width:1023px) {
+  .candidate-applications .ca-layout { grid-template-columns:minmax(0,1fr); }
+  .candidate-applications .ca-aside { display:none; }
+}
+@media(max-width:600px) {
+  .candidate-applications { padding:24px 16px 36px; }
+  .candidate-applications .ca-heading { align-items:flex-start; flex-direction:column; gap:16px; margin-bottom:22px; }
+  .candidate-applications h1 { font-size:24px; }
+  .candidate-applications .ca-heading>div>p:last-child { font-size:13px; }
+  .candidate-applications .ca-filters { padding:14px; }
+  .candidate-applications .ca-filter-field { max-width:none; }
+  .candidate-applications .ca-filters select { font-size:16px; }
+  .candidate-applications .ca-filters>.ca-primary { padding:10px 12px; }
+  .candidate-applications .ca-filters>.ca-primary svg { display:none; }
+  .candidate-applications .ca-state { padding:32px 18px; }
+  .candidate-applications .ca-state h3 { font-size:18px; }
+  .candidate-applications .ca-card { padding:16px; }
+  .candidate-applications .ca-card-heading { flex-wrap:wrap; }
+  .candidate-applications .ca-card-title { flex-basis:calc(100% - 56px); }
+  .candidate-applications .ca-status { margin-left:56px; }
+}

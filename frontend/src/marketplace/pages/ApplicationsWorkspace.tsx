@@ -6,6 +6,7 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { downloadPrivateCV, useAuthSession } from '../auth-client';
 import { applicationStatuses, applicationTransitions, getApplication, listApplications, updateApplicationStatus, type ApplicationPage, type ApplicationRecord, type ApplicationStatus } from '../applications-client';
 import Dialog from '../components/Dialog';
+import CandidateApplicationsView from './CandidateApplicationsView';
 import { Badge, Empty, Field, Notice, Page, Panel } from '../ui';
 
 const explain = (error: unknown) => error instanceof Error ? error.message : 'Không thể hoàn tất thao tác.';
@@ -63,6 +64,9 @@ function Workspace({ employer, pipeline, search }: { employer: boolean; pipeline
   const base = employer ? '/recruiter/applicants' : '/candidate/applications';
   const jobQuery = jobId ? '?' + new URLSearchParams({ jobId }) : '';
   if (!authorized) return <p role="status">Đang kiểm tra quyền truy cập…</p>;
+  if (!employer) return <CandidateApplicationsView result={result} loading={loading} error={failure} status={status} jobId={jobId} page={page} navigate={navigate} retry={()=>{setError('');setLoading(true);setVersion(value=>value+1);}} download={id=>downloadPrivateCV(`/api/v1/applications/${id}/cv`,`application-${id}`)}>
+    {applicationId&&!invalid&&<ApplicationDetail key={applicationId} id={applicationId} employer={false} onClose={()=>navigate({application_id:''})} onChanged={()=>{setError('');setLoading(true);setVersion(value=>value+1);}}/>}
+  </CandidateApplicationsView>;
   return <Page visual={employer ? 'team' : 'candidate'} eyebrow={employer ? 'Không gian nhà tuyển dụng' : 'Không gian ứng viên'} title={pipeline ? 'Quy trình tuyển dụng' : employer ? 'Hồ sơ ứng tuyển' : 'Việc làm đã ứng tuyển'} description={pipeline ? 'Theo dõi hồ sơ theo từng giai đoạn tuyển dụng.' : employer ? 'Xem hồ sơ và cập nhật trạng thái trong quy trình tuyển dụng.' : 'Theo dõi tiến độ từng hồ sơ đã nộp.'}>
     {employer && <nav className="ui-tabs" aria-label="Chế độ xem hồ sơ"><Link className="ui-btn" aria-current={!pipeline ? 'page' : undefined} href={'/recruiter/applicants' + jobQuery}>Danh sách hồ sơ</Link><Link className="ui-btn" aria-current={pipeline ? 'page' : undefined} href={'/recruiter/pipeline' + jobQuery}>Quy trình tuyển dụng</Link></nav>}
     {employer && session?.company?.approval_status !== 'APPROVED' && <Notice>Doanh nghiệp cần được phê duyệt để cập nhật trạng thái đơn ứng tuyển.</Notice>}

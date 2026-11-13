@@ -13,6 +13,7 @@ await withBrowser(async(url,request)=>{
   if(p==='/api/v1/auth/me')return {body:{account_id:'95',role:actor,internal_role:actor==='COMPANY_MEMBER'?'OWNER':null}};
   if(p==='/api/v1/candidates/me/profile')return {body:{account_id:'95',candidate_id:'96',full_name:'Ứng viên kiểm thử',email:'layout@example.com',education:[],experience:[]}};
   if(p==='/api/v1/companies/me')return {body:company};
+  if(p==='/api/v1/companies/filters')return {body:{industries:['Công nghệ'],locations:['Hà Nội']}};
   if(p==='/api/v1/companies')return {body:{items:[company],total:1,limit:12,offset:0}};
   if(p==='/api/v1/job-catalog')return {body:{industries:[{id:'93',name:'Công nghệ'}],provinces:[{id:'94',name:'Hà Nội'}],skills:[],wards:[]}};
   if(p.endsWith('/applications'))return {body:{items:[],total:0,limit:10,offset:0}};

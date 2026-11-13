@@ -61,6 +61,24 @@ class CompanyRepository:
             count.label("open_job_count"),
         ).where(company.c.trangthaiduyet == "APPROVED")
 
+    def public_filters(self):
+        company = DoanhNghiep.__table__
+        options = {}
+        for name, column in [("industries", company.c.linhvuc), ("locations", company.c.diachi)]:
+            value = func.trim(column)
+            query = (
+                select(value)
+                .where(
+                    company.c.trangthaiduyet == "APPROVED",
+                    column.is_not(None),
+                    func.length(value) > 0,
+                )
+                .distinct()
+                .order_by(value)
+            )
+            options[name] = list(self.session.scalars(query).all())
+        return options
+
     def public_listing(self, *, q="", industry=None, location=None, limit=12, offset=0):
         company = DoanhNghiep.__table__
         query = self.public_query()

@@ -9,6 +9,41 @@ pytestmark = pytest.mark.mysql
 PATH = "/api/v1/companies"
 
 
+def test_public_filter_choices_empty_without_approved_company(mysql_jobs):
+    response = mysql_jobs.client.get(PATH + "/filters")
+    assert response.status_code == 200
+    assert response.json() == {"industries": [], "locations": []}
+
+
+def test_public_filter_choices_distinct_nonblank_and_only_approved(mysql_jobs):
+    db = mysql_jobs
+    table = db.tables["doanhnghiep"]
+    for approval, industry, address in [
+        ("APPROVED", " Software ", " Hà Nội "),
+        ("APPROVED", "Software", "Hà Nội"),
+        ("APPROVED", " ", None),
+        ("APPROVED", "Education", "Đà Nẵng"),
+        ("PENDING", "Private Pending", "Private Address"),
+        ("REJECTED", "Private Rejected", "Rejected Address"),
+    ]:
+        identity, _ = auth(db, approval=approval)
+        db.connection.execute(
+            update(table)
+            .where(table.c.iddoanhnghiep == company_id(db, identity))
+            .values(linhvuc=industry, diachi=address)
+        )
+    assert len(db.client.get(PATH, params={"limit": 1}).json()["items"]) == 1
+    response = db.client.get(PATH + "/filters")
+    assert response.status_code == 200
+    assert response.json() == {
+        "industries": ["Education", "Software"],
+        "locations": ["Đà Nẵng", "Hà Nội"],
+    }
+    assert response.headers["cache-control"] == "no-store"
+    for industry in response.json()["industries"]:
+        assert db.client.get(PATH, params={"industry": industry}).json()["total"] > 0
+
+
 def company_id(db, identity):
     return db.row_for("doanhnghiep", identity)["iddoanhnghiep"]
 

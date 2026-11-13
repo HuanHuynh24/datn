@@ -20,6 +20,7 @@ def test_liveness_and_docs_do_not_connect_to_database(settings):
             "/api/v1/companies/me/logo",
             "/api/v1/media/companies/{company_id}/logos/{filename}",
             "/api/v1/companies",
+            "/api/v1/companies/filters",
             "/api/v1/companies/{company_id}",
             "/api/v1/companies/{company_id}/jobs",
             "/api/v1/admin/accounts/{account_id}/status",

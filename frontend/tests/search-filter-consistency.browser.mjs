@@ -8,6 +8,7 @@ const checks=[];
 await withBrowser(async(url,request)=>{
   assert.equal(request.method,'GET');
   if(url.pathname==='/api/v1/job-catalog')return {body:catalog};
+  if(url.pathname==='/api/v1/companies/filters')return {body:{industries:['Công nghệ'],locations:['Hà Nội']}};
   if(url.pathname==='/api/v1/jobs')return {body:{items:[job],total:20,offset:Number(url.searchParams.get('offset')),limit:15}};
   if(url.pathname==='/api/v1/companies')return {body:{items:[company],total:20,offset:Number(url.searchParams.get('offset')),limit:12}};
   throw new Error('Unexpected route '+url.pathname);
@@ -37,9 +38,10 @@ await withBrowser(async(url,request)=>{
   await until('location.search.includes("minimum_salary=1000")&&location.search.includes("work_type=Full-time")&&!document.querySelector(".search-filter-form")');
   checks.push('Salary/work-type inputs have usable width and batch on explicit Apply');
   await navigate('/companies?q=Python&page=2');await open('Lĩnh vực');before=requests.length;
-  await fill('#company-industry','Công nghệ');assert(!await evaluate('location.search.includes("industry=")'));assert.equal(requests.length,before);
-  await escape();await open('Lĩnh vực');assert.equal(await evaluate('document.querySelector("#company-industry").value'),'');
-  await fill('#company-industry','Công nghệ');await apply();
+  await until('!!document.querySelector("input[name=industry][value]")');
+  before=requests.length;await evaluate('document.querySelectorAll("input[name=industry]")[1].click()');assert(!await evaluate('location.search.includes("industry=")'));assert.equal(requests.length,before);
+  await escape();await open('Lĩnh vực');assert(await evaluate('document.querySelector("input[name=industry]").checked'));
+  await evaluate('document.querySelectorAll("input[name=industry]")[1].click()');await apply();
   await until('location.search.includes("industry=")&&!location.search.includes("page=")&&!!document.querySelector("[data-company-id]")');
   assert(await evaluate('location.search.includes("q=Python")'));
   checks.push('Companies draft follows the same close/discard/Apply and pagination behavior');
@@ -50,7 +52,7 @@ await withBrowser(async(url,request)=>{
       before=requests.length;
       if(path==='/jobs'){
         await evaluate('document.querySelector("dialog input[name=province_id][value]").click();document.querySelector("dialog input[name=skill_id][value]").click()');
-      }else{await fill('#company-industry','Công nghệ');await fill('#company-location','Hà Nội');}
+      }else{await until('document.querySelectorAll("dialog input[name=industry]").length>1');await evaluate('document.querySelectorAll("dialog input[name=industry]")[1].click();document.querySelectorAll("dialog input[name=location]")[1].click()');}
       assert.equal(requests.length,before);assert.equal(await evaluate('location.search'),'');
       assert(await evaluate('document.documentElement.scrollWidth<=innerWidth'));
       await evaluate('document.querySelector("dialog form").requestSubmit()');

@@ -2,6 +2,12 @@
 .company-directory-page .cl-filter-panel { min-width:280px; }
 .company-directory-page .cl-filter-panel input { width:100%;min-width:0; }
 .company-directory-page .cl-filter-panel .ui-field { display:flex;flex-direction:column;align-items:stretch; }
+.company-directory-page .cl-filter-panel .company-filter-options input { width:15px; height:15px; }
+.company-filter-options { min-width:0; }
+.company-filter-options legend { font-size:13px; font-weight:600; margin-bottom:10px; }
+.company-filter-options label { display:flex; align-items:flex-start; gap:10px; padding:9px 4px; font-size:13px; line-height:21px; cursor:pointer; }
+.company-filter-options input { width:15px; height:15px; margin-top:3px; flex-shrink:0; accent-color:var(--color-brand); }
+.company-filter-options label span { overflow-wrap:anywhere; }
 .company-directory-page .company-directory-grid { display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:20px; }
 .company-directory-grid .cl-company-card { border:1px solid var(--ui-line);border-radius:12px; }
 .company-directory-approval { display:flex;align-items:center;gap:6px;font-size:12px; }

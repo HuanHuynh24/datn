@@ -126,6 +126,7 @@ def test_account_endpoints_are_real_and_test_routes_absent(settings):
             "/api/v1/companies/me/logo",
             "/api/v1/media/companies/{company_id}/logos/{filename}",
             "/api/v1/companies",
+            "/api/v1/companies/filters",
             "/api/v1/companies/{company_id}",
             "/api/v1/companies/{company_id}/jobs",
             "/api/v1/admin/accounts/{account_id}/status",

@@ -17,6 +17,7 @@ from app.companies.schemas import (
     MemberResponse,
     MemberUpdate,
     PackageResponse,
+    PublicCompanyFilters,
     PublicCompanyPage,
     PublicCompanyResponse,
 )
@@ -203,6 +204,21 @@ PUBLIC_ERRORS = {
     404: {"model": AuthErrorResponse, "description": "Approved company not found"},
     503: {"model": AuthErrorResponse, "description": "Company backend unavailable"},
 }
+
+
+@router.get(
+    "/api/v1/companies/filters",
+    response_model=PublicCompanyFilters,
+    responses={503: PUBLIC_ERRORS[503]},
+    summary="Filter choices from all approved companies",
+    description=(
+        "Distinct nonblank industry/address text across approved companies, independent "
+        "of directory pagination. Values are text filters, not geographical/catalog IDs."
+    ),
+)
+def public_company_filters(session: Database, response: Response) -> PublicCompanyFilters:
+    response.headers["Cache-Control"] = "no-store"
+    return operation(session, lambda: CompanyService(session).public_filters())
 
 
 @router.get(

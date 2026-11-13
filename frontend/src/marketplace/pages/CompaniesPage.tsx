@@ -1,7 +1,7 @@
 import {useEffect,useState} from 'react';
 import {useRouter,useSearchParams} from 'next/navigation';
 import PublicCompanyCard from '../components/PublicCompanyCard';
-import {listPublicCompanies,type PublicCompanyPage} from '../public-company-client';
+import {getPublicCompanyFilters,listPublicCompanies,type PublicCompanyPage,type PublicCompanyFilters} from '../public-company-client';
 import Dropdown from '../components/Dropdown';
 import Dialog from '../components/Dialog';
 import Icon from '../components/Icon';
@@ -9,9 +9,11 @@ import FilterActions from '../components/FilterActions';
 import './companies.css';
 const fields=[{name:'q',label:'Tìm công ty'},{name:'industry',label:'Lĩnh vực'},{name:'location',label:'Khu vực'}];
 export default function CompaniesPage(){
- const params=useSearchParams();return <Directory key={params.toString()} search={params.toString()}/>;
+ const params=useSearchParams();const [options,setOptions]=useState<PublicCompanyFilters>();const [filterError,setFilterError]=useState('');const [version,setVersion]=useState(0);
+ useEffect(()=>{let active=true;getPublicCompanyFilters().then(value=>{if(active)setOptions(value);}).catch(reason=>{if(active)setFilterError(reason instanceof Error?reason.message:'Không thể tải lựa chọn bộ lọc.');});return()=>{active=false;};},[version]);
+ return <Directory key={params.toString()} search={params.toString()} options={options} filterError={filterError} retryOptions={()=>{setFilterError('');setOptions(undefined);setVersion(value=>value+1);}}/>;
 }
-function Directory({search}:{search:string}){
+function Directory({search,options,filterError,retryOptions}:{search:string;options?:PublicCompanyFilters;filterError:string;retryOptions:()=>void}){
  const router=useRouter();const params=new URLSearchParams(search);
  const raw=Number(params.get('page')??1);const page=Number.isSafeInteger(raw)&&raw>0&&raw<=1000000?raw:1;
  const [result,setResult]=useState<PublicCompanyPage>();const [error,setError]=useState('');const [version,setVersion]=useState(0);
@@ -28,7 +30,11 @@ function Directory({search}:{search:string}){
  function reset(){setKeyword('');setIndustry('');setLocation('');setOpenFilter(null);setDrawer(false);router.push('/companies',{scroll:false});}
  function openRefinement(name:'industry'|'location',open:boolean){if(open){if(name==='industry')setIndustry(params.get('industry')??'');else setLocation(params.get('location')??'');}setOpenFilter(open?name:null);}
  function openDrawer(){setIndustry(params.get('industry')??'');setLocation(params.get('location')??'');setDrawer(true);}
- const filterInput=(name:'industry'|'location')=><label className="ui-field" htmlFor={'company-'+name}>{name==='industry'?'Lĩnh vực':'Địa chỉ/khu vực'}<input id={'company-'+name} maxLength={name==='industry'?200:255} value={name==='industry'?industry:location} onChange={event=>name==='industry'?setIndustry(event.target.value):setLocation(event.target.value)} placeholder={name==='industry'?'Ví dụ: phần mềm, giáo dục…':'Ví dụ: Hà Nội, Đà Nẵng…'}/></label>;
+ const filterInput=(name:'industry'|'location')=>{
+  const values=options?.[name==='industry'?'industries':'locations']??[];const selected=name==='industry'?industry:location;
+  const choose=(value:string)=>name==='industry'?setIndustry(value):setLocation(value);
+  return <fieldset className="company-filter-options"><legend>{name==='industry'?'Lĩnh vực':'Địa chỉ/khu vực'}</legend>{filterError?<div role="alert"><p>{filterError}</p><button className="ui-link" type="button" onClick={retryOptions}>Thử tải lại bộ lọc</button></div>:!options?<p role="status">Đang tải lựa chọn…</p>:<><div className="search-filter-options"><label><input type="radio" name={name} value="" checked={!selected} onChange={()=>choose('')}/>Tất cả</label>{values.map(value=><label key={value}><input type="radio" name={name} value={value} checked={selected===value} onChange={()=>choose(value)}/><span>{value}</span></label>)}</div>{!values.length&&<p className="search-filter-hint">Chưa có lựa chọn từ doanh nghiệp đã duyệt.</p>}{selected&&!values.includes(selected)&&<p className="search-filter-hint">Điều kiện từ liên kết: “{selected}”. Chọn một mục để thay đổi.</p>}</>}</fieldset>;
+ };
  return <div className="cl-results-page company-directory-page">
   <form className="cl-results-mobile-search" aria-label="Tìm nhà tuyển dụng trên điện thoại" onSubmit={event=>{event.preventDefault();update({q:keyword,location});}}>
    <input id="company-query-mobile" aria-label="Từ khóa tìm công ty" value={keyword} maxLength={200} onChange={event=>setKeyword(event.target.value)} placeholder="Bạn muốn tìm công ty nào?"/>
@@ -37,7 +43,7 @@ function Directory({search}:{search:string}){
   </form>
   <div className="cl-filter-bar"><div className="cl-filter-inner">
    {(['industry','location'] as const).map(name=><Dropdown key={name} className="cl-filter" triggerClassName={'cl-filter-trigger'+(params.get(name)?' is-selected':'')} panelClassName="cl-filter-panel" open={openFilter===name} onOpenChange={open=>openRefinement(name,open)} label={<><Icon name={name==='industry'?'building':'pin'}/><span>{name==='industry'?'Lĩnh vực':'Khu vực'}</span>{params.get(name)&&<span className="cl-filter-count">1</span>}<Icon name="down"/></>}>
-    <form className="ui-form search-filter-form" onSubmit={event=>{event.preventDefault();update({[name]:name==='industry'?industry:location});setOpenFilter(null);}}>{filterInput(name)}<p className="search-filter-hint">Chọn điều kiện, sau đó bấm Áp dụng.</p><FilterActions onClear={()=>{if(name==='industry')setIndustry('');else setLocation('');update({[name]:''});setOpenFilter(null);}}/></form>
+    <form className="ui-form search-filter-form" onSubmit={event=>{event.preventDefault();if(!options)return;update({[name]:name==='industry'?industry:location});setOpenFilter(null);}}>{filterInput(name)}<p className="search-filter-hint">Chọn điều kiện, sau đó bấm Áp dụng.</p><FilterActions applyDisabled={!options} onClear={()=>{if(name==='industry')setIndustry('');else setLocation('');update({[name]:''});setOpenFilter(null);}}/></form>
    </Dropdown>)}
   </div></div>
   <div className="cl-results-wrap cl-results-wrap-grid"><div>
@@ -50,6 +56,6 @@ function Directory({search}:{search:string}){
     {result.total>12&&<nav className="cl-results-pagination" aria-label="Phân trang nhà tuyển dụng"><button disabled={page===1} onClick={()=>go(page-1)}>Trang trước</button><span>Trang {page} / {Math.ceil(result.total/12)}</span><button disabled={page*12>=result.total} onClick={()=>go(page+1)}>Trang sau</button></nav>}
    </>}
   </div></div>
-  {drawer&&<Dialog title="Bộ lọc nhà tuyển dụng" onClose={()=>setDrawer(false)}><form className="ui-form ui-filter-form" onSubmit={event=>{event.preventDefault();update({industry,location});setDrawer(false);}}>{filterInput('industry')}{filterInput('location')}<p className="search-filter-hint">Chọn điều kiện, sau đó bấm Áp dụng.</p><FilterActions clearLabel="Xóa bộ lọc" onClear={reset}/></form></Dialog>}
+  {drawer&&<Dialog title="Bộ lọc nhà tuyển dụng" onClose={()=>setDrawer(false)}><form className="ui-form ui-filter-form" onSubmit={event=>{event.preventDefault();if(!options)return;update({industry,location});setDrawer(false);}}>{filterInput('industry')}{filterInput('location')}<p className="search-filter-hint">Chọn điều kiện, sau đó bấm Áp dụng.</p><FilterActions applyDisabled={!options} clearLabel="Xóa bộ lọc" onClear={reset}/></form></Dialog>}
  </div>;
 }

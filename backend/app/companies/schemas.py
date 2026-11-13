@@ -64,6 +64,12 @@ class PublicCompanyPage(BaseModel):
     offset: int
 
 
+class PublicCompanyFilters(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+    industries: list[str]
+    locations: list[str]
+
+
 class EmployerRegistrationRequest(CandidateRegistrationRequest):
     company_name: Annotated[
         str, StringConstraints(strip_whitespace=True, min_length=1, max_length=255)

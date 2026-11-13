@@ -36,17 +36,43 @@ def test_public_company_openapi_has_no_internal_fields_or_security(settings):
 
 
 @pytest.mark.parametrize(
-    "path", ["/api/v1/companies", "/api/v1/companies/1", "/api/v1/companies/1/jobs"]
+    "path",
+    [
+        "/api/v1/companies",
+        "/api/v1/companies/filters",
+        "/api/v1/companies/1",
+        "/api/v1/companies/1/jobs",
+    ],
 )
 def test_public_company_db_errors_are_sanitized(settings, path):
     session = Mock()
     error = OperationalError("private SQL", {}, Exception("private credentials"))
     session.scalar.side_effect = error
     session.execute.side_effect = error
+    session.scalars.side_effect = error
     app = create_app(settings)
     app.dependency_overrides[get_db] = lambda: session
     with TestClient(app) as client:
         response = client.get(path)
     assert response.status_code == 503
     assert "private" not in response.text
+    session.commit.assert_not_called()
+
+
+def test_public_filter_choices_are_public_and_static_route_precedes_detail(settings):
+    session = Mock()
+    session.scalars.side_effect = [
+        Mock(all=lambda: ["Công nghệ"]),
+        Mock(all=lambda: ["Hà Nội"]),
+    ]
+    app = create_app(settings)
+    app.dependency_overrides[get_db] = lambda: session
+    with TestClient(app) as client:
+        response = client.get("/api/v1/companies/filters")
+        operation = client.get("/openapi.json").json()["paths"]["/api/v1/companies/filters"]["get"]
+    assert response.status_code == 200
+    assert response.json() == {"industries": ["Công nghệ"], "locations": ["Hà Nội"]}
+    assert response.headers["cache-control"] == "no-store"
+    assert not operation.get("security")
+    assert {"200", "503"} <= operation["responses"].keys()
     session.commit.assert_not_called()

@@ -9,7 +9,7 @@ await withBrowser(async (url, request) => {
   assert.equal(request.method, 'GET');
   const response = await fetch('http://localhost:8000' + url.pathname + url.search);
   return { status: response.status, body: await response.json() };
-}, async ({ send, evaluate, until, fill, requests }) => {
+}, async ({ send, evaluate, until, requests }) => {
   const navigate = path => send('Page.navigate', { url: 'http://localhost:3000' + path });
   const ready = () => until('!!document.querySelector("[data-company-id]")');
   await send('Emulation.setDeviceMetricsOverride', { width: 1440, height: 1080, deviceScaleFactor: 1, mobile: false });
@@ -40,12 +40,12 @@ await withBrowser(async (url, request) => {
   await ready(); await until('location.pathname==="/companies"&&!location.search');
   checks.push('Reset clears URL and restores real company records');
   await evaluate(`[...document.querySelectorAll('.cl-filter-trigger')].find(button=>button.textContent.includes('Lĩnh vực')).click()`);
-  await until('!!document.querySelector("#company-industry")');
-  await fill('#company-industry', 'Development nonexistent filter');
-  await evaluate(`document.querySelector('#company-industry').closest('form').requestSubmit()`);
-  await until('document.body.innerText.includes("Chưa tìm thấy công ty phù hợp")');
-  assert(requests.some(request=>new URLSearchParams(request.query).get('industry')==='Development nonexistent filter'));
-  checks.push('Refinement submits actual API text filter and displays empty result');
+  await until('document.querySelectorAll("input[name=industry]").length>1');
+  const selected=await evaluate('document.querySelectorAll("input[name=industry]")[1].value');
+  await evaluate('document.querySelectorAll("input[name=industry]")[1].click();document.querySelector("input[name=industry]").closest("form").requestSubmit()');
+  await until('!!document.querySelector("[data-company-id]")&&!!location.search');
+  assert(requests.some(request=>new URLSearchParams(request.query).get('industry')===selected));
+  checks.push('Dropdown choices from actual API select a real industry and filter companies');
   await navigate('/companies'); await ready();
   for (const width of [768, 390, 320]) {
     await send('Emulation.setDeviceMetricsOverride', { width, height: 1000, deviceScaleFactor: 1, mobile: true });
@@ -53,7 +53,7 @@ await withBrowser(async (url, request) => {
     if (width<768) {
       await evaluate('document.querySelector(".cl-mobile-filter-button").click()');
       await until('!!document.querySelector("dialog[open]")');
-      assert(await evaluate('document.querySelector("#company-location").getBoundingClientRect().right<=innerWidth'));
+      assert(await evaluate('document.querySelector("dialog .company-filter-options").getBoundingClientRect().right<=innerWidth'));
       await evaluate(`document.querySelector('button[aria-label="Đóng hộp thoại"]').click()`);
       await until('!document.querySelector("dialog")');
     }

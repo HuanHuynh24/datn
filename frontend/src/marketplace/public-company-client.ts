@@ -6,6 +6,8 @@ export interface PublicCompany {
   introduction: string | null; open_job_count: number;
 }
 export interface PublicCompanyPage { items: PublicCompany[]; total: number; limit: number; offset: number }
+export interface PublicCompanyFilters { industries: string[]; locations: string[] }
+export const getPublicCompanyFilters = () => apiRequest<PublicCompanyFilters>('/api/v1/companies/filters');
 export const listPublicCompanies = (query = '') => apiRequest<PublicCompanyPage>('/api/v1/companies?' + query);
 export const getPublicCompany = (id: string) => apiRequest<PublicCompany>('/api/v1/companies/' + encodeURIComponent(id));
 export const getPublicCompanyJobs = (id: string, offset = 0) => apiRequest<JobPage>(`/api/v1/companies/${encodeURIComponent(id)}/jobs?limit=10&offset=${offset}`);

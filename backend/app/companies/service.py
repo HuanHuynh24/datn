@@ -13,6 +13,7 @@ from app.companies.schemas import (
     MemberResponse,
     MemberUpdate,
     PackageResponse,
+    PublicCompanyFilters,
     PublicCompanyPage,
     PublicCompanyResponse,
 )
@@ -38,6 +39,9 @@ class CompanyService:
         if row is None:
             raise CompanyNotFound()
         return PublicCompanyResponse(**(dict(row) | {"company_id": str(row["company_id"])}))
+
+    def public_filters(self) -> PublicCompanyFilters:
+        return PublicCompanyFilters(**self.repository.public_filters())
 
     def public_listing(self, **filters) -> PublicCompanyPage:
         rows, total = self.repository.public_listing(**filters)

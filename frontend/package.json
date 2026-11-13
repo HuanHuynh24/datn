@@ -24,7 +24,8 @@
     "test:jobs-ui-preview": "node tests/job-search-preview.browser.mjs",
     "test:candidate-applications-ui": "node tests/candidate-applications-ui.browser.mjs",
     "test:layout-alignment": "node tests/layout-alignment.browser.mjs",
-    "test:search-filter-consistency": "node tests/search-filter-consistency.browser.mjs"
+    "test:search-filter-consistency": "node tests/search-filter-consistency.browser.mjs",
+    "test:company-filter-options": "node tests/company-filter-options.browser.mjs"
   },
   "dependencies": {
     "next": "16.4.2",

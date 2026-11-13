@@ -13,6 +13,7 @@ if (live) {
 }
 async function respond(url) {
   calls.push({ path: url.pathname, query: url.search });
+  if (url.pathname === '/api/v1/companies/filters') return {body:{industries:['Software'],locations:['Hà Nội']}};
   if (url.searchParams.get('q') === 'force-error') return { status: 503, body: {} };
   if (url.pathname === '/api/v1/companies') return { body: { items: url.searchParams.get('q') === 'no-match' ? [] : [sample], total: url.searchParams.get('q') === 'no-match' ? 0 : 13, limit: Number(url.searchParams.get('limit')), offset: Number(url.searchParams.get('offset')) } };
   if (url.pathname === '/api/v1/companies/91') return { body: sample };

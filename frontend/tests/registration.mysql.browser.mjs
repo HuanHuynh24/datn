@@ -1,0 +1,45 @@
+// E8C: real registration against the rollback-only API8001; no Development writes.
+import assert from 'node:assert/strict';
+import { randomUUID } from 'node:crypto';
+import { withBrowser } from './browser-consumer.mjs';
+const suffix=randomUUID().replaceAll('-','');
+const password=randomUUID()+'-Dev123';
+const checks=[];
+await withBrowser(null,async({send,evaluate,until,fill,responses})=>{
+  const navigate=path=>send('Page.navigate',{url:'http://localhost:3000'+path});
+  const ready=()=>until(`(()=>{const form=document.querySelector('form');return form&&Object.keys(form).some(key=>key.startsWith('__reactProps')&&typeof form[key].onSubmit==='function')})()`);
+  const submit=()=>evaluate('document.querySelector("form").requestSubmit()');
+  const candidateEmail='e8c-candidate-'+suffix+'@example.com';
+  await navigate('/sign-up/candidate');await ready();
+  await fill('#auth-name','E8C Registration Candidate');await fill('#auth-email',candidateEmail);await fill('#auth-password',password);await submit();
+  await until('location.pathname==="/candidate"&&document.body.innerText.includes("Registration Candidate")');
+  assert(responses.some(r=>r.path==='/api/v1/auth/register/candidate'&&r.status===201));
+  checks.push('Candidate UI registration creates MySQL account/profile and signs in');
+  await navigate('/sign-up/candidate');await ready();
+  await fill('#auth-name','Duplicate Candidate');await fill('#auth-email',candidateEmail);await fill('#auth-password',password);await submit();
+  await until('!!document.querySelector("[role=alert]")');
+  assert(responses.some(r=>r.path==='/api/v1/auth/register/candidate'&&r.status===409));
+  assert.equal(await evaluate('location.pathname'),'/sign-up/candidate');
+  checks.push('Duplicate email shows conflict without redirect or false registration success');
+  const employerEmail='e8c-employer-'+suffix+'@example.com';
+  await navigate('/sign-up/recruiter');await ready();
+  await until(`!!document.querySelector('#auth-package option[value]:not([value=""]):not(:disabled)')`);
+  await fill('#auth-name','E8C Registration Owner');await fill('#auth-company','E8C Company '+suffix.slice(0,8));await fill('#auth-tax-code','DEV-E8C-'+suffix.slice(0,16));
+  await evaluate(`(()=>{const el=document.querySelector('#auth-package');el.value=el.querySelector('option[value]:not([value=""]):not(:disabled)').value;el.dispatchEvent(new Event('change',{bubbles:true}));})()`);
+  await fill('#auth-email',employerEmail);await fill('#auth-password',password);await submit();
+  await until('location.pathname==="/recruiter"');
+  assert(responses.some(r=>r.path==='/api/v1/auth/register/employer'&&r.status===201));
+  checks.push('Employer UI registers using a real package ID and signs in');
+  // Read exact role/status from the actual API, never from a client-side fixture.
+  const login=await fetch('http://localhost:8001/api/v1/auth/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:employerEmail,password})});
+  assert.equal(login.status,200);const token=(await login.json()).access_token;
+  const headers={Authorization:'Bearer '+token};
+  const me=await(await fetch('http://localhost:8001/api/v1/auth/me',{headers})).json();
+  assert.equal(me.role,'COMPANY_MEMBER');assert.equal(me.internal_role,'OWNER');assert.equal(me.company_approval_status,'PENDING');
+  checks.push('Registered Employer is COMPANY_MEMBER/OWNER/PENDING and may log in');
+  const catalog=await(await fetch('http://localhost:8001/api/v1/job-catalog')).json();
+  const denied=await fetch('http://localhost:8001/api/v1/companies/me/jobs',{method:'POST',headers:{...headers,'Content-Type':'application/json'},body:JSON.stringify({title:'Forbidden pending job',industry_id:catalog.industries[0].id,province_id:catalog.provinces[0].id})});
+  assert.equal(denied.status,403);
+  checks.push('PENDING Employer cannot create recruitment jobs');
+},{mysqlTest:true});
+console.log(JSON.stringify({status:'PASS',api:'MySQL test8001; registration fixtures rolled back on server shutdown',checks},null,2));

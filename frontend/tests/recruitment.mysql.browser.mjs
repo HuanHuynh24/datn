@@ -67,6 +67,7 @@ await withBrowser(null, async ({ send, evaluate, until, fill, click, requests, r
   await evaluate(`([...document.querySelectorAll('.cl-filter-trigger')].find(button=>button.textContent.includes('Tỉnh/thành'))).click()`);
   await until('!!document.querySelector("input[name=province_id][value]")');
   await evaluate(`document.querySelector('input[name="province_id"][value="${actualJob.province_id}"]').click()`);
+  await evaluate(`document.querySelector('input[name="province_id"]').closest('form').requestSubmit()`);
   await until('location.search.includes("province_id=")&&!!document.querySelector("[data-job-id]")');
   await fill('input[aria-label="Từ khóa tìm việc"]', title); await evaluate('document.querySelector(".cl-results-mobile-search").requestSubmit()');
   await until('location.search.includes("keyword=")&&!!document.querySelector("[data-job-id]")');

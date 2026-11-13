@@ -82,10 +82,12 @@ async function main() {
     // Dropdown contents are mounted only while open.
     await evaluate(`([...document.querySelectorAll('.cl-filter-trigger')].find(button=>button.textContent.includes('Kỹ năng'))).click()`);
     await until(`!!document.querySelector('input[name="skill_id"]')`);
-    await evaluate(`document.querySelector('input[name="skill_id"]:checked').click();document.querySelector('input[name="skill_id"]').click()`);
+    await evaluate(`document.querySelector('input[name="skill_id"]').click()`);
+    assert(await evaluate('location.search.includes("skill_id=")'));
+    await evaluate(`document.querySelector('input[name="skill_id"]').closest('form').requestSubmit()`);
     await until('!location.search.includes("skill_id=")&&!!document.querySelector(".cl-results-grid")');
     assert.equal(lastQuery().has('skill_id'),false); assert.equal(lastQuery().get('offset'),'0');
-    checks.push('Catalog radio selection updates URL and resets server page');
+    checks.push('Catalog radio selection waits for Apply, then updates URL and resets server page');
     const returnPath=await evaluate('location.pathname+location.search');
     await evaluate('document.querySelector(".cl-job-title button").click()');
     await until('location.pathname==="/jobs/94"&&!!document.querySelector(".ui-return-link")');

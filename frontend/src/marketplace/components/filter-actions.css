@@ -1,0 +1,12 @@
+.search-filter-form { gap:12px; }
+.search-filter-options { max-height:220px; overflow-y:auto; overscroll-behavior:contain; }
+.search-filter-hint { font-size:11px; color:var(--ui-muted); line-height:1.7; }
+.search-filter-actions { margin-top:0; padding-top:12px; border-top:1px solid var(--ui-line); gap:8px; }
+.search-filter-actions .ui-btn { min-height:38px; padding:8px 12px; font-size:12px; }
+.search-filter-field { display:flex; flex-direction:column; gap:7px; }
+.cl-results-page .cl-filter-panel .search-filter-field { display:flex; flex-direction:column; align-items:stretch; padding:0; }
+.cl-results-page .cl-filter-panel .search-filter-field input { width:100%; height:42px; min-height:42px; margin:0; padding:10px 12px; border:1px solid var(--ui-input-border); border-radius:6px; }
+.cl-results-page .cl-filter .cl-filter-trigger { min-height:40px; padding:8px 11px; font-size:13px; line-height:20px; border:1px solid #e5eaf1; border-radius:8px; background:#fff; }
+.cl-results-page .cl-filter .cl-filter-trigger:hover { background:#f5f8ff; border-color:#c7d9ef; }
+.cl-results-page .cl-filter .cl-filter-trigger.is-selected,.cl-results-page .cl-filter .cl-filter-trigger[aria-expanded=true] { background:#edf5ff; border-color:#b8d4f5; color:#0054b0; }
+.cl-results-page .cl-filter .cl-filter-panel { border:1px solid #e3e9f1; border-radius:10px; }

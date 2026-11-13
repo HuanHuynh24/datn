@@ -75,6 +75,8 @@
 }
 @media(max-width:767px) {
   .cl-results-grid { grid-template-columns:minmax(0,1fr); }
+  .cl-job-compact { height:auto; min-height:125px; }
+  .cl-job-compact .cl-job-salary { white-space:normal; }
   .cl-job-compact .cl-job-title { font-size:14px; line-height:21px; }
   .cl-job-compact .cl-save { width:36px; height:36px; right:4px; bottom:3px; }
 }

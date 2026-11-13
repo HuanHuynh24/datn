@@ -14,7 +14,7 @@ await withBrowser(async(url,request)=>{
     await send('Emulation.setDeviceMetricsOverride',{width,height:1000,deviceScaleFactor:1,mobile:width<500});
     await send('Page.navigate',{url:'http://localhost:3000/jobs'});
     await until('!!document.querySelector(".cl-results-grid")');
-    if(stage==='after')await until('getComputedStyle(document.querySelector(".cl-job-compact")).display==="grid"');
+    if(stage==='after')await until('getComputedStyle(document.querySelector(".cl-job-compact")).display==="flex"');
     await evaluate('document.fonts.ready');
     assert(await evaluate('document.documentElement.scrollWidth<=innerWidth'),'Horizontal overflow at '+width);
     assert(await evaluate('document.querySelectorAll("[data-job-id]").length>0'));
@@ -23,8 +23,8 @@ await withBrowser(async(url,request)=>{
     checks.push('Real API results render without horizontal overflow at '+width+'px');
     if(stage==='after'){
       const id=await evaluate('document.querySelector("[data-job-id]").dataset.jobId');
-      await evaluate('document.querySelector(".jobs-card-footer button").scrollIntoView({block:"center"})');
-      const point=await evaluate('(()=>{const e=document.querySelector(".jobs-card-footer button");const r=e.getBoundingClientRect();const x=r.left+r.width/2,y=r.top+r.height/2;return {x,y,hit:e.contains(document.elementFromPoint(x,y))}})()');
+      await evaluate('document.querySelector(".cl-results-grid .cl-job-title button").scrollIntoView({block:"center"})');
+      const point=await evaluate('(()=>{const e=document.querySelector(".cl-results-grid .cl-job-title button");const r=e.getBoundingClientRect();const x=r.left+r.width/2,y=r.top+r.height/2;return {x,y,hit:e.contains(document.elementFromPoint(x,y))}})()');
       assert(point.hit,'Detail action is covered');
       await send('Input.dispatchMouseEvent',{type:'mousePressed',x:point.x,y:point.y,button:'left',clickCount:1});
       await send('Input.dispatchMouseEvent',{type:'mouseReleased',x:point.x,y:point.y,button:'left',clickCount:1});

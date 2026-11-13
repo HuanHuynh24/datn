@@ -17,6 +17,9 @@
 /* Cards and headings share the section edge, without a second inset. */
 .cl-home .cl-hot-grid,.cl-workspace-home .cl-member-grid,.cl-workspace-home .cl-talent-grid { margin-inline:0; }
 .cl-home.cl-workspace-home .ui-stats { margin-inline:0; }
+/* Carousel arrows stay inside the page gutter after widening the sections. */
+.cl-container>.cl-carousel-controls>.cl-carousel-prev { left:calc(-1 * var(--layout-gutter)); }
+.cl-container>.cl-carousel-controls>.cl-carousel-next { right:calc(-1 * var(--layout-gutter)); }
 
 /* Search uses a content box directly; its parent supplies no gutter. */
 .cl-results-page .cl-results-wrap,.cl-results-page .cl-filter-inner,

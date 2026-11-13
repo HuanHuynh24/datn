@@ -33,6 +33,10 @@ await withBrowser(null,async({send,evaluate,until,fill,click,responses})=>{
   await evaluate(`(()=>{const transfer=new DataTransfer();transfer.items.add(new File([atob('JVBERi0xLjQKJSVFT0Y=')],'journey.pdf',{type:'application/pdf'}));const input=document.querySelector('#cv-file');input.files=transfer.files;input.dispatchEvent(new Event('change',{bubbles:true}));})()`);
   await click('Tải CV lên');await until('document.body.innerText.includes("Đã tải CV lên.")');
   assert(responses.some(r=>r.path==='/api/v1/candidates/me/cvs'&&r.status===201));
+  await until('!!document.querySelector("dialog[open]")');
+  assert(await evaluate('document.querySelector("dialog[open]").innerText.includes("journey.pdf")'));
+  await click('Xem CV đã lưu');
+  await until('!document.querySelector("dialog[open]")');
   checks.push('Upload creates a real private CV in MySQL test and retains return link');
   await evaluate(`[...document.querySelectorAll('a')].find(link=>link.textContent==='Quay lại tin để ứng tuyển').click()`);
   await until(`location.pathname==='/jobs/${id}'&&!!document.querySelector('#apply-cv')`);

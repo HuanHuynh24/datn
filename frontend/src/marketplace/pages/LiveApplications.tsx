@@ -24,17 +24,31 @@ export function LiveCVs() {
   const [cvs, setCVs] = useState<CV[]>([]); const [error, setError] = useState('');
   const [busy, setBusy] = useState(false); const [loading, setLoading] = useState(true);
   const [message, setMessage] = useState('');
+  const [selectedFile,setSelectedFile]=useState<{name:string;size:number}|null>(null);
+  const [uploading,setUploading]=useState(false);
+  const [uploadResult,setUploadResult]=useState<{ok:boolean;text:string}|null>(null);
   const reload = () => apiRequest<CV[]>(cvPath).then(setCVs);
   useEffect(() => { let live = true; apiRequest<CV[]>(cvPath).then(value => { if (live) setCVs(value); }).catch(error => { if (live) setError(explain(error)); }).finally(() => { if (live) setLoading(false); }); return () => { live = false; }; }, []);
   async function act(action: () => Promise<unknown>, message: string) {
     setBusy(true); setError(''); setMessage('');
     try { await action(); await reload(); setMessage(message); } catch (error) { setError(explain(error)); } finally { setBusy(false); }
   }
-  function upload(event: FormEvent<HTMLFormElement>) {
+  async function upload(event: FormEvent<HTMLFormElement>) {
     event.preventDefault(); const form = event.currentTarget; const data = new FormData(form);
+    if(busy)return;
     const file = data.get('file');
-    if (!(file instanceof File) || !file.size || file.size > 10 * 1024 * 1024 || !/\.(pdf|docx)$/i.test(file.name)) { setError('Chọn PDF hoặc DOCX tối đa 10 MiB.'); return; }
-    void act(async () => { await apiRequest(cvPath, { method: 'POST', body: data }); form.reset(); }, 'Đã tải CV lên.');
+    setMessage('');setError('');setUploadResult(null);
+    if (!(file instanceof File) || !file.size || file.size > 10 * 1024 * 1024 || !/\.(pdf|docx)$/i.test(file.name)) { const text='Chọn PDF hoặc DOCX tối đa 10 MiB.';setError(text);setUploadResult({ok:false,text});return; }
+    setBusy(true);setUploading(true);
+    try {
+      const saved=await apiRequest<CV>(cvPath,{method:'POST',body:data});
+      setCVs(current=>[saved,...current.filter(cv=>cv.id!==saved.id)]);
+      form.reset();setSelectedFile(null);
+      setMessage('Đã tải CV lên.');
+      setUploadResult({ok:true,text:`Đã tải CV lên. Tệp “${file.name}” đã được lưu riêng tư. Bạn có thể dùng CV này để ứng tuyển.`});
+      try { await reload(); } catch { setError('CV đã được lưu, nhưng chưa cập nhật được danh sách đầy đủ. Không cần tải lại tệp; hãy tải lại trang để kiểm tra.'); }
+    } catch(error) { const text=explain(error);setError(text);setUploadResult({ok:false,text}); }
+    finally { setBusy(false);setUploading(false); }
   }
   const primary=cvs.find(cv=>cv.is_primary);
   return <Page visual="candidate" eyebrow="Hồ sơ & CV" title="Quản lý CV" description="Lưu các bản CV, tải xuống và chọn bản mặc định khi ứng tuyển.">
@@ -42,10 +56,11 @@ export function LiveCVs() {
     {params.has('returnTo')&&<Link className="ui-btn" href={returnTo}>Quay lại tin để ứng tuyển</Link>}
     <div className="ui-cv-overview"><div><span className="ui-cv-side-icon"><Icon name="document"/></span><div><strong>{cvs.length} CV đang hoạt động</strong><p>PDF hoặc DOCX · Tối đa 10 MiB</p></div></div><div><span className={primary?'ui-cv-overview-check':'ui-cv-side-icon'}><Icon name={primary?'check':'document'}/></span><div><strong>{primary?'Đã chọn CV mặc định':'Chưa có CV mặc định'}</strong><p>{primary?`CV #${primary.id}`:'Tải CV đầu tiên để bắt đầu'}</p></div></div></div>
     {error&&<Notice error>{error}</Notice>}{message&&<Notice>{message}</Notice>}
-    <div className="ui-cv-layout"><div className="ui-stack"><Panel title="Thêm CV mới" action={<span className="ui-small ui-muted">PDF, DOCX · Tối đa 10 MiB</span>}><form onSubmit={upload} className="ui-form"><label className="ui-cv-dropzone" htmlFor="cv-file"><span className="ui-cv-upload-art" aria-hidden="true"><span>CV</span><Icon name="document"/><b>↑</b></span><strong>Chọn CV từ thiết bị</strong><span className="ui-muted">Tệp được lưu riêng tư trên hệ thống</span><span className="ui-btn ui-btn-primary">Chọn tệp CV</span></label><input className="sr-only" id="cv-file" name="file" type="file" accept=".pdf,.docx" required/><button className="ui-btn ui-btn-primary" disabled={busy||loading}>Tải CV lên</button></form><p className="ui-cv-privacy"><Icon name="shield"/>Lưu trữ CV không làm thay đổi bản đã nộp trong đơn ứng tuyển.</p></Panel>
+    <div className="ui-cv-layout"><div className="ui-stack"><Panel title="Thêm CV mới" action={<span className="ui-small ui-muted">PDF, DOCX · Tối đa 10 MiB</span>}><form onSubmit={upload} className="ui-form" aria-busy={uploading}><label className="ui-cv-dropzone" htmlFor="cv-file"><span className="ui-cv-upload-art" aria-hidden="true"><span>CV</span><Icon name="document"/><b>↑</b></span><strong>{selectedFile?selectedFile.name:'Chọn CV từ thiết bị'}</strong><span className="ui-muted">{selectedFile?`${(selectedFile.size/1024/1024).toLocaleString('vi-VN',{maximumFractionDigits:2})} MiB · Sẵn sàng tải lên`:'Tệp được lưu riêng tư trên hệ thống'}</span><span className="ui-btn ui-btn-primary">{selectedFile?'Chọn tệp khác':'Chọn tệp CV'}</span></label><input className="sr-only" id="cv-file" name="file" type="file" accept=".pdf,.docx" required disabled={busy} onChange={event=>{const file=event.currentTarget.files?.[0];setSelectedFile(file?{name:file.name,size:file.size}:null);setError('');setMessage('');}}/>{uploading&&<div role="status" aria-live="polite"><progress aria-label="Đang tải và lưu CV" style={{width:'100%'}}/><p>Đang tải và lưu CV… Vui lòng chờ, không đóng trang hoặc tải lại tệp.</p></div>}<button className="ui-btn ui-btn-primary" disabled={busy||loading||!selectedFile}>{uploading?'Đang tải CV…':'Tải CV lên'}</button></form><p className="ui-cv-privacy"><Icon name="shield"/>Lưu trữ CV không làm thay đổi bản đã nộp trong đơn ứng tuyển.</p></Panel>
       <Panel title="CV đã lưu" action={<span className="ui-cv-count">{cvs.length}</span>}>{loading?<p role="status">Đang tải CV…</p>:!cvs.length&&!error?<Empty icon="document" title="Chưa có CV hoạt động" text="Tải CV đầu tiên để sẵn sàng ứng tuyển."/>:<div className="ui-cv-list">{cvs.map(cv=><article className="ui-cv-card" data-default={cv.is_primary} key={cv.id}><div className="ui-cv-card-main"><span className={`ui-cv-file-thumb ui-cv-file-thumb-${cv.format.toLowerCase()}`}><Icon name="document"/><span>{cv.format.toUpperCase()}</span></span><div className="ui-grow"><div className="ui-cv-card-title"><h3>CV #{cv.id}</h3>{cv.is_primary&&<span className="ui-badge ui-badge-green"><Icon name="check"/>Mặc định</span>}</div><p className="ui-small ui-muted">{new Date(cv.created_at).toLocaleString('vi-VN')}</p></div></div><div className="ui-cv-card-actions"><button className="ui-link" disabled={busy} onClick={()=>void act(()=>downloadPrivateCV(`${cvPath}/${cv.id}/download`,`cv-${cv.id}`),'Đã tải tệp.')}>Tải xuống</button><button className="ui-link" disabled={busy} onClick={()=>void act(()=>apiRequest(`${cvPath}/${cv.id}`,{method:'PATCH',body:JSON.stringify({is_primary:!cv.is_primary})}),'Đã cập nhật CV chính.')}>{cv.is_primary?'Bỏ CV chính':'Đặt mặc định'}</button><button className="ui-cv-delete" disabled={busy} onClick={()=>void act(()=>apiRequest(`${cvPath}/${cv.id}`,{method:'DELETE'}),'Đã lưu trữ CV.')}><Icon name="close"/>Lưu trữ</button></div></article>)}</div>}</Panel></div>
       <aside className="ui-stack"><Panel title="Quyền riêng tư"><p className="ui-text">CV không được công khai. Nhà tuyển dụng chỉ có thể tải bản CV được lưu cùng đơn ứng tuyển của bạn.</p></Panel><Link className="ui-btn ui-btn-primary" href="/candidate/applications">Theo dõi đơn ứng tuyển<Icon name="right"/></Link></aside>
     </div>
+    {uploadResult&&<Dialog title={uploadResult.ok?'Tải CV thành công':'Chưa thể tải CV lên'} onClose={()=>setUploadResult(null)}><p role={uploadResult.ok?'status':'alert'}>{uploadResult.text}</p>{error&&uploadResult.ok&&<p role="alert">{error}</p>}<div className="ui-actions">{uploadResult.ok&&params.has('returnTo')&&<Link className="ui-btn ui-btn-primary" href={returnTo}>Quay lại tin để ứng tuyển</Link>}<button className="ui-btn" onClick={()=>setUploadResult(null)}>{uploadResult.ok?'Xem CV đã lưu':'Đóng và kiểm tra lại'}</button></div></Dialog>}
   </Page>;
 }
 

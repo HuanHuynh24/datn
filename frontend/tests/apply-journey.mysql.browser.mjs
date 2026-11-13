@@ -9,8 +9,8 @@ const id=jobs.items[0].id;
 const checks=[];
 await withBrowser(null,async({send,evaluate,until,fill,click,responses})=>{
   await send('Page.navigate',{url:'http://localhost:3000/jobs/'+id});
-  await until(`!![...document.querySelectorAll('a')].find(link=>link.textContent==='Đăng nhập để ứng tuyển')`);
-  await evaluate(`[...document.querySelectorAll('a')].find(link=>link.textContent==='Đăng nhập để ứng tuyển').click()`);
+  await until(`!!document.querySelector('.ui-job-hero a[href^="/sign-in?"]')`);
+  await evaluate(`document.querySelector('.ui-job-hero a[href^="/sign-in?"]').click()`);
   await until(`location.pathname==='/sign-in'&&!!document.querySelector('#auth-email')`);
   assert.equal(new URLSearchParams(await evaluate('location.search')).get('next'),'/jobs/'+id+'?intent=apply');
   checks.push('Guest apply link preserves selected job and intent through sign-in');
@@ -19,6 +19,9 @@ await withBrowser(null,async({send,evaluate,until,fill,click,responses})=>{
   await evaluate('document.querySelector("form").requestSubmit()');
   await until(`location.pathname==='/jobs/${id}'&&document.body.innerText.includes('Bạn chưa có CV hoạt động')`);
   checks.push('Login returns to same job and explains missing active CV');
+  await evaluate(`document.querySelector('.ui-job-hero a[href="#ung-tuyen"]').click()`);
+  await until('location.hash==="#ung-tuyen"');
+  checks.push('Candidate CTA targets the real application section after login');
   await evaluate(`[...document.querySelectorAll('a')].find(link=>link.textContent==='Quản lý CV').click()`);
   await until(`location.pathname==='/candidate/cvs'&&!!document.querySelector('#cv-file')`);
   assert.equal(new URLSearchParams(await evaluate('location.search')).get('returnTo'),'/jobs/'+id+'?intent=apply');
@@ -34,5 +37,15 @@ await withBrowser(null,async({send,evaluate,until,fill,click,responses})=>{
   await evaluate(`[...document.querySelectorAll('a')].find(link=>link.textContent==='Theo dõi đơn ứng tuyển').click()`);
   await until(`location.pathname==='/candidate/applications'&&document.body.innerText.includes('Chi tiết đơn #')`);
   checks.push('Submitted application appears in Candidate application list');
+  await send('Page.navigate',{url:'http://localhost:3000/sign-in?audience=recruiter'});
+  await until(`(()=>{const f=document.querySelector('form');return f&&Object.keys(f).some(k=>k.startsWith('__reactProps')&&typeof f[k].onSubmit==='function')})()`);
+  await fill('#auth-email',env.BROWSER_EMPLOYER_EMAIL);await fill('#auth-password',env.BROWSER_EMPLOYER_PASSWORD);await evaluate('document.querySelector("form").requestSubmit()');
+  await until('location.pathname==="/recruiter"&&!!document.querySelector(".cl-home-search")');
+  await evaluate('document.querySelector(".cl-home-search").requestSubmit()');
+  await until('location.pathname==="/jobs"&&!!document.querySelector(".cl-job-title button")');
+  await evaluate('document.querySelector(".cl-job-title button").click()');
+  await until('!!document.querySelector(".ui-job-hero button:disabled")');
+  assert(await evaluate('document.body.innerText.includes("Chỉ tài khoản ứng viên có thể ứng tuyển.")'));
+  checks.push('Employer sees an explicit Candidate-only explanation instead of a silent inactive CTA');
 },{mysqlTest:true});
 console.log(JSON.stringify({status:'PASS',target:'MySQL test8001, outer rollback',checks},null,2));

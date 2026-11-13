@@ -17,7 +17,8 @@
     "test:images:mysql": "node tests/images.mysql.browser.mjs",
     "test:company-filters": "node tests/company-filters.browser.mjs",
     "test:registration:mysql": "node tests/registration.mysql.browser.mjs",
-    "test:apply-journey:mysql": "node tests/apply-journey.mysql.browser.mjs"
+    "test:apply-journey:mysql": "node tests/apply-journey.mysql.browser.mjs",
+    "test:apply-cta": "node tests/apply-cta.browser.mjs"
   },
   "dependencies": {
     "next": "16.4.2",

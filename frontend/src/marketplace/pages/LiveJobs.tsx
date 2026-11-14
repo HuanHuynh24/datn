@@ -12,6 +12,7 @@ import { liveJobToPresentation } from '../job-catalog';
 import CompanyMark from '../components/CompanyMark';
 import Icon from '../components/Icon';
 import ReturnLink from '../components/ReturnLink';
+import JobSkillsField from '../components/JobSkillsField';
 import PresentationJobCard from '../components/JobCard';
 import { signInFor } from '../routes';
 
@@ -90,8 +91,8 @@ export function LiveJobEditor({ id }: { id?: string }) {
   async function save(event: FormEvent<HTMLFormElement>) {
     event.preventDefault(); setBusy(true); setError(''); setNotice('');
     const form = new FormData(event.currentTarget); const values: Record<string, unknown> = {};
-    for (const [key, value] of form.entries()) if (key !== 'skill_ids') values[key] = String(value).trim() || null;
-    values.skills = form.getAll('skill_ids').map(value => { const skill_id = String(value); const previous = job?.skills.find(item => item.skill_id === skill_id); return { skill_id, required: previous?.required ?? false, priority: previous?.priority ?? 0 }; });
+    for (const [key, value] of form.entries()) if (key !== 'skill_ids' && !key.startsWith('skill_required_') && !key.startsWith('skill_priority_')) values[key] = String(value).trim() || null;
+    values.skills = form.getAll('skill_ids').map(value => { const skill_id = String(value); return { skill_id, required: form.has('skill_required_' + skill_id), priority: Number(form.get('skill_priority_' + skill_id)) }; });
     try { const saved = await saveJob(values, id); setJob(saved); setNotice('Đã lưu tin nháp. Hãy gửi duyệt khi hoàn thiện.'); if (!id) router.replace(`/recruiter/jobs/${saved.id}/edit`); }
     catch (reason) { setError(explain(reason)); } finally { setBusy(false); }
   }
@@ -116,7 +117,7 @@ export function LiveJobEditor({ id }: { id?: string }) {
         {([['street', 'Địa chỉ', 255], ['level', 'Cấp bậc', 100], ['work_type', 'Hình thức làm việc', 60]] as const).map(([key, label, max]) => <Field key={key} id={`job-${key}`} label={label}><input id={`job-${key}`} name={key} maxLength={max} defaultValue={job?.[key] ?? ''} /></Field>)}
         {([['minimum_salary', 'Lương tối thiểu', '0.01'], ['maximum_salary', 'Lương tối đa', '0.01'], ['years_experience', 'Số năm kinh nghiệm', '0.1']] as const).map(([key, label, step]) => <Field key={key} id={`job-${key}`} label={label}><input id={`job-${key}`} name={key} type="number" min="0" step={step} defaultValue={job?.[key] ?? ''} /></Field>)}
         <Field id="job-deadline" label="Hạn nộp" hint="Để trống nghĩa là không có hạn cố định; hạn có hiệu lực hết ngày UTC."><input id="job-deadline" name="application_deadline" type="date" defaultValue={job?.application_deadline ?? ''} /></Field>
-        <Field id="job-skills" label="Kỹ năng (giữ Ctrl để chọn nhiều)"><select id="job-skills" name="skill_ids" multiple defaultValue={job?.skills.map(item => item.skill_id) ?? []}>{job?.skills.filter(item => !catalog.skills.some(active => active.id === item.skill_id)).map(item => <option key={item.skill_id} value={item.skill_id}>{item.name} (đã ngừng chọn mới)</option>)}{catalog.skills.map(item => <option key={item.id} value={item.id}>{item.name}</option>)}</select></Field>
+        <JobSkillsField catalog={catalog.skills} initial={job?.skills ?? []}/>
         <Notice>Chỉnh sửa nội dung sẽ đưa tin về bản nháp và cần gửi duyệt lại.</Notice><button className="ui-btn ui-btn-primary" disabled={busy}>Lưu tin nháp</button>
       </fieldset>
     </form>}

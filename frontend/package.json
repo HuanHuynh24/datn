@@ -28,7 +28,9 @@
     "test:company-filter-options": "node tests/company-filter-options.browser.mjs",
     "test:company-filter-options:live": "node tests/company-filter-options.live.browser.mjs",
     "test:job-card-style": "node tests/shared-job-card-style.browser.mjs",
-    "test:actor-workspaces": "node tests/actor-workspaces.browser.mjs"
+    "test:actor-workspaces": "node tests/actor-workspaces.browser.mjs",
+    "test:job-skills": "node tests/job-skills.browser.mjs",
+    "test:job-skills:mysql": "node tests/job-skills.mysql.browser.mjs"
   },
   "dependencies": {
     "next": "16.4.2",

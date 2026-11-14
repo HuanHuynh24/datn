@@ -1,7 +1,7 @@
 ﻿import Icon, { type IconName } from './Icon';
 const items: {label:string;page:string;icon:IconName}[]=[
   {label:'Trang chủ',page:'home',icon:'home'}, {label:'Tìm việc',page:'job-search',icon:'search'},
-  {label:'Hồ sơ',page:'candidate-profile',icon:'document'}, {label:'Đã lưu',page:'candidate-saved',icon:'heart'},
+  {label:'Hồ sơ',page:'candidate-profile',icon:'document'}, {label:'Công ty',page:'companies',icon:'building'},
   {label:'Đã nộp đơn',page:'candidate-applications',icon:'send'},
 ];
 const guestItems: {label:string;page:string;icon:IconName}[]=[

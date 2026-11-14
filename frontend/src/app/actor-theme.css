@@ -67,6 +67,15 @@
 .actor-ui .ui-toolbar>.ui-field { flex:1; min-width:160px; max-width:320px; }
 .actor-ui .ui-toolbar>.ui-btn { min-height:42px; }
 .actor-ui .actor-job-editor>fieldset { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:18px; min-width:0; }
+.actor-ui .job-skills-field { border:1px solid var(--ui-line); border-radius:8px; padding:18px; display:grid; gap:12px; }
+.actor-ui .job-skills-field legend { padding-inline:6px; font-size:15px; font-weight:700; }
+.actor-ui .job-skills-field>select { border:1px solid var(--ui-input-border); border-radius:6px; padding:11px; width:100%; background:#fff; }
+.actor-ui .job-skills-list { display:grid; gap:10px; }
+.actor-ui .job-skill-row { display:grid; grid-template-columns:minmax(100px,1fr) auto minmax(120px,180px) auto; align-items:center; gap:16px; padding:14px; background:var(--ui-subtle); border-radius:6px; }
+.actor-ui .job-skill-name { display:grid; gap:4px; min-width:0; overflow-wrap:anywhere; font-size:14px; }
+.actor-ui .job-skill-name small { color:var(--ui-muted); font-size:11px; }
+.actor-ui .job-skill-required { display:flex; align-items:center; gap:7px; font-size:13px; }
+.actor-ui .job-skill-required input { accent-color:var(--color-brand); width:16px; height:16px; }
 .actor-ui .actor-job-editor>fieldset>.ui-field:first-child,.actor-ui .actor-job-editor>fieldset>.ui-field:has(textarea),.actor-ui .actor-job-editor>fieldset>fieldset,.actor-ui .actor-job-editor>fieldset>.ui-field:has(.ui-tags) { grid-column:1/-1; }
 .actor-ui .ui-tabs { margin-bottom:18px; gap:6px; }
 .actor-ui .ui-tabs button,.actor-ui .ui-tabs>.ui-btn { border-radius:6px; padding:9px 13px; }
@@ -198,6 +207,10 @@
   .actor-ui .ui-field input,.actor-ui .ui-field select,.actor-ui .ui-field textarea { font-size:16px; }
   .actor-ui .ui-auth-card { padding:26px 20px; }
   .actor-ui .actor-job-editor>fieldset { grid-template-columns:minmax(0,1fr); }
+  .actor-ui .job-skills-field { padding:12px; }
+  .actor-ui .job-skill-row { grid-template-columns:minmax(0,1fr) auto; gap:12px; padding:12px; }
+  .actor-ui .job-skill-name { grid-column:1/-1; }
+  .actor-ui .job-skill-required { grid-column:1/-1; }
   .actor-ui .cl-footer-columns { gap:24px 18px; }
   .actor-ui .actor-public-hero { padding-block:26px; }
   .actor-ui .actor-public-hero h2 { font-size:29px; }

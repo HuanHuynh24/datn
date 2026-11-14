@@ -22,7 +22,6 @@ export const headerNavigation: Record<NavMode, HeaderItem[]> = {
       { label: 'Hồ sơ nghề nghiệp', page: 'candidate-profile' },
       { label: 'Quản lý CV', page: 'cv-upload' },
     ] },
-    { label: 'Đã lưu', page: 'candidate-saved' },
     { label: 'Đã ứng tuyển', page: 'candidate-applications' },
   ],
   recruiter: [
@@ -30,8 +29,6 @@ export const headerNavigation: Record<NavMode, HeaderItem[]> = {
     { label: 'Tin tuyển dụng', page: 'recruiter-jobs', pages: ['recruiter-create-job'] },
     { label: 'Ứng viên', page: 'recruiter-applicants', children: [
       { label: 'Hồ sơ ứng viên', page: 'recruiter-applicants', pages: ['recruiter-candidate'] },
-      { label: 'Tìm kiếm nhân tài', page: 'recruiter-search' },
-      { label: 'Ứng viên phù hợp', page: 'recruiter-recommended' },
     ] },
     { label: 'Quy trình', page: 'recruiter-pipeline' },
   ],

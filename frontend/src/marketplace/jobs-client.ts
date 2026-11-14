@@ -1,4 +1,5 @@
 import { apiRequest } from './auth-client';
+import { publicRead } from './public-read';
 
 export type JobStatus = 'DRAFT' | 'PENDING' | 'APPROVED' | 'REJECTED' | 'PAUSED' | 'CLOSED';
 export const jobStatusText: Record<JobStatus, string> = { DRAFT: 'Bản nháp', PENDING: 'Chờ duyệt', APPROVED: 'Đã duyệt', REJECTED: 'Từ chối', PAUSED: 'Tạm dừng', CLOSED: 'Đã đóng' };
@@ -17,9 +18,9 @@ export interface LiveJob {
 }
 export interface JobPage { items: LiveJob[]; total: number; limit: number; offset: number }
 export interface CompanyReviewRow { company_id: string; company_name: string; tax_code: string; approval_status: string }
-export const getJobCatalog = () => apiRequest<JobCatalog>('/api/v1/job-catalog');
-export const getJobs = (query = '', own = false, admin = false) => apiRequest<JobPage>(`${admin ? '/api/v1/admin/jobs' : own ? '/api/v1/companies/me/jobs' : '/api/v1/jobs'}?${query}`);
-export const getJob = (id: string, own = false) => apiRequest<LiveJob>(`${own ? '/api/v1/companies/me/jobs' : '/api/v1/jobs'}/${encodeURIComponent(id)}`);
+export const getJobCatalog = () => publicRead<JobCatalog>('/api/v1/job-catalog');
+export const getJobs = (query = '', own = false, admin = false) => (own || admin ? apiRequest : publicRead)<JobPage>(`${admin ? '/api/v1/admin/jobs' : own ? '/api/v1/companies/me/jobs' : '/api/v1/jobs'}?${query}`);
+export const getJob = (id: string, own = false) => (own ? apiRequest : publicRead)<LiveJob>(`${own ? '/api/v1/companies/me/jobs' : '/api/v1/jobs'}/${encodeURIComponent(id)}`);
 export const saveJob = (body: object, id?: string) => apiRequest<LiveJob>(`/api/v1/companies/me/jobs${id ? '/' + encodeURIComponent(id) : ''}`, { method: id ? 'PATCH' : 'POST', body: JSON.stringify(body) });
 export const jobAction = (id: string, action: string) => apiRequest<LiveJob>(`/api/v1/companies/me/jobs/${encodeURIComponent(id)}/${action}`, { method: 'POST' });
 export const reviewJob = (id: string, status: 'APPROVED' | 'REJECTED', reason?: string) => apiRequest<LiveJob>(`/api/v1/admin/jobs/${encodeURIComponent(id)}/review`, { method: 'PATCH', body: JSON.stringify({ status, reason }) });

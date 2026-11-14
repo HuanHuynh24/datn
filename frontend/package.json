@@ -30,7 +30,9 @@
     "test:job-card-style": "node tests/shared-job-card-style.browser.mjs",
     "test:actor-workspaces": "node tests/actor-workspaces.browser.mjs",
     "test:job-skills": "node tests/job-skills.browser.mjs",
-    "test:job-skills:mysql": "node tests/job-skills.mysql.browser.mjs"
+    "test:job-skills:mysql": "node tests/job-skills.mysql.browser.mjs",
+    "test:public-loading": "node tests/public-loading.browser.mjs",
+    "profile:public-loading": "node tests/public-loading.profile.mjs"
   },
   "dependencies": {
     "next": "16.4.2",

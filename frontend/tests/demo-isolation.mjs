@@ -14,6 +14,14 @@ function visit(file) {
   assert(!['demo-store.ts', 'cv-storage.ts', 'candidate-catalog.ts', 'public-data.ts', 'data.ts'].includes(name), `Active route imports fixture runtime: ${name}`);
   const source = ts.createSourceFile(file, fs.readFileSync(file, 'utf8'), ts.ScriptTarget.Latest, true);
   function walk(node) {
+    if (ts.isCallExpression(node) && node.expression.kind === ts.SyntaxKind.ImportKeyword && ts.isStringLiteral(node.arguments[0])) {
+      const specifier = node.arguments[0].text;
+      if (specifier.startsWith('.')) {
+        const target = path.resolve(path.dirname(file), specifier);
+        const resolved = [target + '.ts', target + '.tsx', target + '/index.ts'].find(item => fs.existsSync(item));
+        if (resolved) visit(resolved);
+      }
+    }
     if (ts.isImportDeclaration(node) || ts.isExportDeclaration(node)) {
       const specifier = node.moduleSpecifier?.text;
       const typeOnly = node.isTypeOnly || node.importClause?.isTypeOnly;

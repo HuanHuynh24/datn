@@ -12,6 +12,8 @@ export async function withBrowser(respond, run, { mysqlTest = false, debugPort =
   let ws, send;
   const failures = [];
   const requests = [], responses = [];
+  const canceledRequests = new Set();
+  let navigationVersion = 0;
   try {
     let tab;
     for (let i = 0; i < 50; i++) { try { tab = await (await fetch('http://127.0.0.1:' + debugPort + '/json/new?about:blank', { method: 'PUT' })).json(); break; } catch { await wait(200); } }
@@ -27,6 +29,8 @@ export async function withBrowser(respond, run, { mysqlTest = false, debugPort =
     });
     ws.onmessage = async event => {
       const message = JSON.parse(event.data);
+      if (message.method === 'Page.frameNavigated' && !message.params.frame.parentId) navigationVersion++;
+      if (message.method === 'Network.loadingFailed' && (message.params.canceled || message.params.errorText === 'net::ERR_ABORTED')) canceledRequests.add(message.params.requestId);
       if (message.id) { const entry = pending.get(message.id); if (entry) { clearTimeout(entry.timer); pending.delete(message.id); if (message.error) entry.reject(new Error('Protocol error: '+entry.method+' '+message.error.message)); else entry.resolve(message.result); } }
       if (message.method === 'Runtime.exceptionThrown') failures.push('Browser runtime exception');
       if (message.method === 'Network.responseReceived') {
@@ -35,7 +39,8 @@ export async function withBrowser(respond, run, { mysqlTest = false, debugPort =
         if (url.pathname.startsWith('/api/v1/')) responses.push({ path: url.pathname, status: response.status });
       }
       if (message.method !== 'Fetch.requestPaused') return;
-      const { requestId, request } = message.params;
+      const { requestId, request, networkId } = message.params;
+      const requestNavigation = navigationVersion;
       const url = new URL(request.url);
       try {
         if (!url.pathname.startsWith('/api/v1/')) { await send('Fetch.continueRequest', { requestId }); return; }
@@ -47,7 +52,13 @@ export async function withBrowser(respond, run, { mysqlTest = false, debugPort =
         const response = request.method === 'OPTIONS' ? { body: {} } : await respond(url, request);
         assert(response, 'Unhandled API route: ' + url.pathname);
         await send('Fetch.fulfillRequest', { requestId, responseCode: response.status ?? 200, responseHeaders: [{ name: 'Content-Type', value: response.type ?? 'application/json' }, { name: 'Access-Control-Allow-Origin', value: 'http://localhost:3000' }, { name: 'Access-Control-Allow-Headers', value: 'Authorization,Content-Type' }, { name: 'Access-Control-Allow-Methods', value: 'GET,POST,PATCH,OPTIONS' }], body: Buffer.from(response.raw ?? JSON.stringify(response.body)).toString('base64') });
-      } catch (error) { failures.push(error.message); try { await send('Fetch.failRequest', { requestId, errorReason: 'BlockedByClient' }); } catch { /* Request may already have ended during navigation. */ } }
+      } catch (error) {
+        // CDP invalidates an interception when navigation cancels its request.
+        // Keep failures for active requests and all other protocol/runtime errors.
+        const navigationCanceled = error.message.endsWith('Invalid InterceptionId.') && (navigationVersion !== requestNavigation || canceledRequests.has(networkId));
+        if (!navigationCanceled) failures.push(error.message);
+        try { await send('Fetch.failRequest', { requestId, errorReason: 'BlockedByClient' }); } catch { /* Request may already have ended during navigation. */ }
+      }
     };
     await send('Page.enable'); await send('Runtime.enable'); await send('Network.enable');
     await send('Fetch.enable', { patterns: [{ urlPattern: '*', requestStage: 'Request' }] });

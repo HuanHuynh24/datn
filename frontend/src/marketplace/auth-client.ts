@@ -46,7 +46,7 @@ export class ApiError extends Error {
   constructor(public status: number, message: string) { super(message); }
 }
 
-async function request<T>(path: string, options: RequestInit = {}, token = session?.accessToken): Promise<T> {
+async function request<T>(path: string, options: RequestInit = {}, token: string | null | undefined = session?.accessToken): Promise<T> {
   if (token && token === session?.accessToken && session.expiresAt <= Date.now()) {
     logout();
     throw new ApiError(401, 'Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại.');
@@ -136,6 +136,8 @@ export function setCandidateProfile(profile: CandidateProfile) {
 
 export const getCandidateProfile = () => request<CandidateProfile>('/api/v1/candidates/me/profile');
 export { request as apiRequest };
+// Public reads never attach a session token or alter the current authentication state.
+export const publicApiRequest = <T,>(path: string) => request<T>(path, {}, null);
 export async function getPrivateImage(path: '/api/v1/candidates/me/avatar' | '/api/v1/companies/me/logo') {
   if (!session || session.expiresAt <= Date.now()) {
     logout(); throw new ApiError(401, 'Vui lòng đăng nhập lại.');

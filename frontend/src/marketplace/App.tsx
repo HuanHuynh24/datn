@@ -1,6 +1,7 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
+import dynamic from 'next/dynamic';
 import { Suspense, useEffect } from 'react';
 import { useAuthSession } from './auth-client';
 import Nav from './components/Nav';
@@ -15,21 +16,19 @@ import PublicCompanyDetail from './pages/PublicCompanyDetail';
 import CareerPage from './pages/CareerPage';
 
 
-import { LiveCVs } from './pages/LiveApplications';
-import AuthPage from './pages/AuthPages';
-
-import CandidateHomePage from './pages/candidate/CandidateHomePage';
-import RecommendedJobsPage from './pages/candidate/RecommendedJobsPage';
-import CareerProfilePage from './pages/candidate/CareerProfilePage';
-
-import RecruiterHomePage from './pages/recruiter/RecruiterHomePage';
-
-
-import ApplicationsWorkspace from './pages/ApplicationsWorkspace';
-import CompanyProfilePage from './pages/recruiter/CompanyProfilePage';
-
-import AdminManagement from './pages/AdminManagement';
-import { LiveJobDetail, LiveJobEditor, LiveJobList } from './pages/LiveJobs';
+// Actor workspaces are loaded only when rendered, rather than shipped on public search.
+const LiveCVs = dynamic(() => import('./pages/LiveApplications').then(module => module.LiveCVs), { loading: PageLoading });
+const AuthPage = dynamic(() => import('./pages/AuthPages'), { loading: PageLoading });
+const CandidateHomePage = dynamic(() => import('./pages/candidate/CandidateHomePage'), { loading: PageLoading });
+const RecommendedJobsPage = dynamic(() => import('./pages/candidate/RecommendedJobsPage'), { loading: PageLoading });
+const CareerProfilePage = dynamic(() => import('./pages/candidate/CareerProfilePage'), { loading: PageLoading });
+const RecruiterHomePage = dynamic(() => import('./pages/recruiter/RecruiterHomePage'), { loading: PageLoading });
+const ApplicationsWorkspace = dynamic(() => import('./pages/ApplicationsWorkspace'), { loading: PageLoading });
+const CompanyProfilePage = dynamic(() => import('./pages/recruiter/CompanyProfilePage'), { loading: PageLoading });
+const AdminManagement = dynamic(() => import('./pages/AdminManagement'), { loading: PageLoading });
+const LiveJobDetail = dynamic(() => import('./pages/LiveJobs').then(module => module.LiveJobDetail), { loading: PageLoading });
+const LiveJobEditor = dynamic(() => import('./pages/LiveJobs').then(module => module.LiveJobEditor), { loading: PageLoading });
+const LiveJobList = dynamic(() => import('./pages/LiveJobs').then(module => module.LiveJobList), { loading: PageLoading });
 
 import { getPageUrl } from './routes';
 

@@ -7,6 +7,7 @@ import Nav from './components/Nav';
 import PageLoading from './components/PageLoading';
 import Footer from './components/Footer';
 import MobileNav from './components/MobileNav';
+import EmployerSidebar from './components/EmployerSidebar';
 import HomePage from './pages/HomePage';
 import JobSearchPage from './pages/JobSearchPage';
 import CompaniesPage from './pages/CompaniesPage';
@@ -80,11 +81,14 @@ export default function App({ page, itemId }: { page: string; itemId?: string })
   const showMobileNav = !noNav && navMode !== 'recruiter';
 
   const showFooter = PAGES_WITH_FOOTER.has(page);
+  const actorAuth=['signin','signup-candidate','signup-recruiter'].includes(page);
+  const actorMode=actorAuth?(page==='signup-recruiter'?'recruiter':'candidate'):!noNav?(navMode==='recruiter'?'recruiter':'candidate'):null;
+  const hasSidebar=requiresRecruiter&&!!actorMode;
 
   if (!authorized) return <PageLoading />;
   if (recruiterPages.has(page) && !['recruiter-home', 'recruiter-company', 'recruiter-jobs', 'recruiter-create-job', 'recruiter-edit-job', 'recruiter-applicants', 'recruiter-pipeline'].includes(page)) {
     const approved = session?.company?.approval_status === 'APPROVED';
-    return <div className="min-h-screen bg-bg">
+    return <div className="min-h-screen bg-bg actor-ui actor-recruiter">
       <Nav mode="recruiter" activePage={page} onNavigate={navigate} />
       <main id="main-content" className="ui-page ui-container">
         <h1>{approved ? 'Chức năng tuyển dụng đang được triển khai' : 'Doanh nghiệp cần được duyệt'}</h1>
@@ -95,13 +99,16 @@ export default function App({ page, itemId }: { page: string; itemId?: string })
   }
 
   return (
-    <div className={`min-h-screen bg-bg ${showMobileNav ? 'pb-14 md:pb-0' : ''}`}>
+    <div className={`min-h-screen bg-bg ${showMobileNav ? 'pb-14 md:pb-0' : ''} ${actorMode?'actor-ui actor-'+actorMode:''} ${hasSidebar?'actor-has-sidebar':''}`}>
       <a className="ui-skip" href="#main-content">Đến nội dung chính</a>
       {!noNav && (
         <Nav key={`${page}:${itemId ?? ''}`} mode={navMode} activePage={page} onNavigate={navigate} />
       )}
 
       {showMobileNav && <MobileNav page={page} candidateMode={navMode === 'candidate'} onNavigate={navigate} />}
+      <div className="actor-workspace">
+      {hasSidebar&&<EmployerSidebar page={page}/>}
+      <div className="actor-page-column">
       <main className="flex-1" id="main-content" tabIndex={-1}>
         <Suspense fallback={<PageLoading />}>
         {page === 'home' && <HomePage onNavigate={navigate} />}
@@ -145,6 +152,8 @@ export default function App({ page, itemId }: { page: string; itemId?: string })
       </main>
 
       {showFooter && <Footer onNavigate={navigate} />}
+      </div>
+      </div>
     </div>
   );
 }

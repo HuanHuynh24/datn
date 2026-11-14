@@ -7,7 +7,7 @@ import { reference, careerResources } from '../editorial-data';
 import { useJobCatalog } from '../job-catalog';
 import JobCard from '../components/JobCard';
 import IndustryGrid from '../components/IndustryGrid';
-import HomeHero from '../components/HomeHero';
+import HomeHero from '../components/PublicHomeHero';
 import { SectionHeading, CarouselControls } from '../components/ReferenceSections';
 
 interface HomePageProps { onNavigate: (page: string, data?: unknown) => void }

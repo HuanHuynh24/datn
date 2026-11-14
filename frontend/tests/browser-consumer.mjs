@@ -23,11 +23,11 @@ export async function withBrowser(respond, run, { mysqlTest = false, debugPort =
     send = (method, params = {}) => new Promise((resolve, reject) => {
       const key = ++id;
       const timer = setTimeout(() => { pending.delete(key); reject(new Error('Protocol timeout: ' + method)); }, 15000);
-      pending.set(key, { resolve, reject, timer }); ws.send(JSON.stringify({ id: key, method, params }));
+      pending.set(key, { resolve, reject, timer, method }); ws.send(JSON.stringify({ id: key, method, params }));
     });
     ws.onmessage = async event => {
       const message = JSON.parse(event.data);
-      if (message.id) { const entry = pending.get(message.id); if (entry) { clearTimeout(entry.timer); pending.delete(message.id); if (message.error) entry.reject(new Error('Protocol error')); else entry.resolve(message.result); } }
+      if (message.id) { const entry = pending.get(message.id); if (entry) { clearTimeout(entry.timer); pending.delete(message.id); if (message.error) entry.reject(new Error('Protocol error: '+entry.method+' '+message.error.message)); else entry.resolve(message.result); } }
       if (message.method === 'Runtime.exceptionThrown') failures.push('Browser runtime exception');
       if (message.method === 'Network.responseReceived') {
         const response = message.params.response;
@@ -47,7 +47,7 @@ export async function withBrowser(respond, run, { mysqlTest = false, debugPort =
         const response = request.method === 'OPTIONS' ? { body: {} } : await respond(url, request);
         assert(response, 'Unhandled API route: ' + url.pathname);
         await send('Fetch.fulfillRequest', { requestId, responseCode: response.status ?? 200, responseHeaders: [{ name: 'Content-Type', value: response.type ?? 'application/json' }, { name: 'Access-Control-Allow-Origin', value: 'http://localhost:3000' }, { name: 'Access-Control-Allow-Headers', value: 'Authorization,Content-Type' }, { name: 'Access-Control-Allow-Methods', value: 'GET,POST,PATCH,OPTIONS' }], body: Buffer.from(response.raw ?? JSON.stringify(response.body)).toString('base64') });
-      } catch (error) { failures.push(error.message); await send('Fetch.failRequest', { requestId, errorReason: 'BlockedByClient' }); }
+      } catch (error) { failures.push(error.message); try { await send('Fetch.failRequest', { requestId, errorReason: 'BlockedByClient' }); } catch { /* Request may already have ended during navigation. */ } }
     };
     await send('Page.enable'); await send('Runtime.enable'); await send('Network.enable');
     await send('Fetch.enable', { patterns: [{ urlPattern: '*', requestStage: 'Request' }] });

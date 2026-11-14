@@ -3,6 +3,7 @@ import "./fonts.css";
 import "./globals.css";
 import "./jobs-ui-sample.css";
 import "./layout-alignment.css";
+import "./actor-theme.css";
 
 export const metadata: Metadata = {
   title: {

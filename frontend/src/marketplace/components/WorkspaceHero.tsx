@@ -34,7 +34,7 @@ export default function WorkspaceHero({ title, description, eyebrow, actions, vi
     <div className="ui-workspace-hero-photo">
       <Image src={`/images/workspace/${photo.src}.jpg`} alt={photo.alt} fill
         sizes="(max-width: 767px) 100vw, 60vw"
-        loading="eager" fetchPriority="high" style={{ objectFit: 'cover', objectPosition: photo.heroPosition }} />
+        loading={featured?'eager':'lazy'} fetchPriority={featured?'high':'auto'} style={{ objectFit: 'cover', objectPosition: photo.heroPosition }} />
     </div>
   </header>;
 }

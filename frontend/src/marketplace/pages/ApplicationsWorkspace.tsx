@@ -79,7 +79,7 @@ function Workspace({ employer, pipeline, search }: { employer: boolean; pipeline
     {failure ? <Notice error>{failure}</Notice> : loading ? <p role="status">Đang tải đơn ứng tuyển…</p> : result && <>
       <p className="ui-muted"><strong>{result.total}</strong> đơn ứng tuyển{status ? ` · ${applicationStatuses[status as ApplicationStatus]}` : ''}</p>
       {result.items.length ? <div className="cl-job-collection">{result.items.map(item => <Panel key={item.id} title={item.job_title}>
-        <div className="ui-row ui-row-between"><p>{item.company_name}{employer ? ` · ${item.candidate_name}` : ''}</p><Badge value={applicationStatuses[item.status]} /></div>
+        <div className="ui-row ui-row-between"><p>{item.company_name}{employer ? ` · ${item.candidate_name}` : ''}</p><Badge value={applicationStatuses[item.status]} status={item.status} /></div>
         <p className="ui-small ui-muted">{new Date(item.submitted_at).toLocaleString('vi-VN')}{employer ? ` · ${item.candidate_email}` : ''}</p>
         {item.cover_letter && <details className="ui-application-copy"><summary>Thư giới thiệu</summary><p className="ui-preline">{item.cover_letter}</p></details>}
         <div className="ui-actions"><button className="ui-btn" onClick={() => navigate({ application_id: item.id })}>Chi tiết đơn #{item.id}</button><button className="ui-btn" onClick={() => void downloadPrivateCV(`/api/v1/applications/${item.id}/cv`, `application-${item.id}`).catch(reason => setError(explain(reason)))}>Tải CV đã nộp</button></div>
@@ -114,7 +114,7 @@ function ApplicationDetail({ id, employer, onClose, onChanged }: { id: string; e
   return <Dialog title={`Chi tiết đơn #${id}`} onClose={() => { if (!busy) onClose(); }}>
     {loading && <p role="status">Đang tải chi tiết đơn…</p>}{error && <Notice error>{error}</Notice>}{message && <Notice>{message}</Notice>}
     {record && <div className="ui-stack">
-      <h3>{record.job_title}</h3><p>{record.company_name}</p><Badge value={applicationStatuses[record.status]} />
+      <h3>{record.job_title}</h3><p>{record.company_name}</p><Badge value={applicationStatuses[record.status]} status={record.status} />
       <p>Ứng viên: {record.candidate_name}</p><p>Email: {record.candidate_email}</p>
       <p>Nộp lúc: {new Date(record.submitted_at).toLocaleString('vi-VN')}</p><p>Cập nhật: {new Date(record.updated_at).toLocaleString('vi-VN')}</p>
       <section><h3>Thư giới thiệu</h3><p className="ui-preline">{record.cover_letter || 'Không có thư giới thiệu.'}</p></section>

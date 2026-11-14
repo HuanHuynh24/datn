@@ -106,7 +106,7 @@ export function LiveJobEditor({ id }: { id?: string }) {
       {job.status === 'PAUSED' && <button className="ui-btn" disabled={busy} onClick={() => action('reopen')}>Mở lại và gửi duyệt</button>}
       {job.status !== 'CLOSED' && <button className="ui-btn" disabled={busy} onClick={() => action('close')}>Đóng tin</button>}
     </div></Panel>}
-    {catalog && (!id || job) && <form key={job?.id ?? 'new'} className="ui-form ui-panel" onSubmit={save}>
+    {catalog && (!id || job) && <form key={job?.id ?? 'new'} className="ui-form ui-panel actor-job-editor" onSubmit={save}>
       <fieldset disabled={busy || job?.status === 'CLOSED'} style={{ border: 0, padding: 0 }}>
         <Field id="job-title" label="Tiêu đề *"><input id="job-title" name="title" required maxLength={255} defaultValue={job?.title} /></Field>
         <Field id="job-industry" label="Ngành nghề *"><select id="job-industry" name="industry_id" required defaultValue={job?.industry_id ?? ''}><option value="">Chọn ngành nghề</option>{job && !catalog.industries.some(item => item.id === job.industry_id) && <option value={job.industry_id}>{job.industry_name} (đã ngừng chọn mới)</option>}{catalog.industries.map(item => <option key={item.id} value={item.id}>{item.name}</option>)}</select></Field>

@@ -8,6 +8,7 @@ const jobs=await(await fetch('http://localhost:8001/api/v1/jobs')).json();
 const id=jobs.items[0].id;
 const checks=[];
 await withBrowser(null,async({send,evaluate,until,fill,click,responses})=>{
+  await send('Emulation.setDeviceMetricsOverride',{width:1440,height:1000,deviceScaleFactor:1,mobile:false});
   await send('Page.navigate',{url:'http://localhost:3000/jobs/'+id});
   await until(`!!document.querySelector('.ui-job-hero a[href^="/sign-in?"]')`);
   await evaluate(`document.querySelector('.ui-job-hero a[href^="/sign-in?"]').click()`);
@@ -49,8 +50,9 @@ await withBrowser(null,async({send,evaluate,until,fill,click,responses})=>{
   await send('Page.navigate',{url:'http://localhost:3000/sign-in?audience=recruiter'});
   await until(`(()=>{const f=document.querySelector('form');return f&&Object.keys(f).some(k=>k.startsWith('__reactProps')&&typeof f[k].onSubmit==='function')})()`);
   await fill('#auth-email',env.BROWSER_EMPLOYER_EMAIL);await fill('#auth-password',env.BROWSER_EMPLOYER_PASSWORD);await evaluate('document.querySelector("form").requestSubmit()');
-  await until('location.pathname==="/recruiter"&&!!document.querySelector(".cl-home-search")');
-  await evaluate('document.querySelector(".cl-home-search").requestSubmit()');
+  await until('location.pathname==="/recruiter"&&!!document.querySelector(".actor-sidebar-explore")');
+  assert(await evaluate('document.querySelector(".actor-sidebar-explore").getBoundingClientRect().width>0'));
+  await evaluate('document.querySelector(".actor-sidebar-explore").click()');
   await until('location.pathname==="/jobs"&&!!document.querySelector(".cl-job-title button")');
   await evaluate('document.querySelector(".cl-job-title button").click()');
   await until('!!document.querySelector(".ui-job-hero button:disabled")');

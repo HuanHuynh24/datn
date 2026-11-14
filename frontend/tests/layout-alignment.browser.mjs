@@ -27,9 +27,9 @@ await withBrowser(async(url,request)=>{
     await until(`(()=>{const f=document.querySelector('form');return f&&Object.keys(f).some(k=>k.startsWith('__reactProps')&&typeof f[k].onSubmit==='function')})()`);
     await fill('#auth-email','layout@example.com');await fill('#auth-password','Layout-consumer-only-123');await evaluate('document.querySelector("form").requestSubmit()');
   }
-  async function aligned(selectors,width){
+  async function aligned(selectors,width,sidebar=false){
     await until(`${JSON.stringify(selectors)}.every(selector=>[...document.querySelectorAll(selector)].some(e=>e.getBoundingClientRect().width>0))`);
-    const bounds=await evaluate(`(()=>{const h=[...document.querySelectorAll('.site-header-inner')].find(e=>e.getBoundingClientRect().width>0);const r=h.getBoundingClientRect(),s=getComputedStyle(h);return {viewportWidth:document.documentElement.clientWidth,header:{left:r.left+parseFloat(s.paddingLeft),right:r.right-parseFloat(s.paddingRight)},items:${JSON.stringify(selectors)}.map(selector=>{const e=[...document.querySelectorAll(selector)].find(e=>e.getBoundingClientRect().width>0);if(!e)return {selector,missing:true};const r=e.getBoundingClientRect();return {selector,left:r.left,right:r.right,width:r.width}}),overflow:document.documentElement.scrollWidth>innerWidth}})()`);
+    const bounds=await evaluate(`(()=>{const h=[...document.querySelectorAll('${sidebar?'.actor-welcome-panel':'.site-header-inner'}')].find(e=>e.getBoundingClientRect().width>0);const r=h.getBoundingClientRect(),s=getComputedStyle(h);const column=document.querySelector('.actor-page-column');return {viewportWidth:${sidebar?'column.getBoundingClientRect().width':'document.documentElement.clientWidth'},header:{left:r.left+${sidebar?'0':'parseFloat(s.paddingLeft)'},right:r.right-${sidebar?'0':'parseFloat(s.paddingRight)'}},items:${JSON.stringify(selectors)}.map(selector=>{const e=[...document.querySelectorAll(selector)].find(e=>e.getBoundingClientRect().width>0);if(!e)return {selector,missing:true};const r=e.getBoundingClientRect();return {selector,left:r.left,right:r.right,width:r.width}}),overflow:document.documentElement.scrollWidth>innerWidth}})()`);
     assert(!bounds.overflow,'Viewport overflow at '+width);
     for(const item of bounds.items){assert(!item.missing,item.selector);assert(Math.abs(item.left-bounds.header.left)<2,JSON.stringify(item)+' left != '+bounds.header.left);assert(Math.abs(item.right-bounds.header.right)<2,JSON.stringify(item)+' right != '+bounds.header.right);}
     assert(Math.abs(bounds.items[0].width-Math.min(1440,bounds.viewportWidth-(width<=767?32:48)))<2,'Content width at '+width+': '+JSON.stringify(bounds.items[0]));
@@ -41,8 +41,8 @@ await withBrowser(async(url,request)=>{
     checks.push('Candidate header, headings, stats, profile cards and Jobs align at '+width+'px');
   }
   actor='COMPANY_MEMBER';await viewport(1920);await login('/recruiter');await until('!!document.querySelector(".cl-member-grid")');
-  await aligned(['.cl-member-section .cl-section-heading','.cl-member-section .ui-stats','.cl-member-grid'],1920);
-  checks.push('Employer dashboard uses the same wide section edge');
+  await aligned(['.cl-member-section .cl-section-heading','.cl-member-section .ui-stats','.cl-member-grid'],1920,true);
+  checks.push('Employer dashboard aligns inside its sidebar workspace');
   actor='CANDIDATE';await login('/candidate/applications');await until('!!document.querySelector(".ca-state")');await aligned(['.ca-shell'],1920);
   checks.push('Candidate applications content uses the shared width');
   for(const width of [1920,390]){

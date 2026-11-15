@@ -110,8 +110,6 @@
 .actor-ui .candidate-applications .ca-primary { background:var(--color-brand); border-color:var(--color-brand); }
 .actor-ui .candidate-applications .ca-primary:hover { background:var(--color-brand-dark); }
 .actor-ui .jobs-ui-sample { background:var(--ui-canvas); }
-.actor-ui .jobs-ui-sample .jobs-search-eyebrow { color:var(--color-brand); }
-.actor-ui .jobs-ui-sample .jobs-search-intro-icon { color:var(--color-brand); border-color:#d3e9dc; background:#eaf7ef; }
 .actor-ui .jobs-ui-sample .cl-filter-inner { border-color:var(--ui-line); box-shadow:none; border-radius:8px; }
 .actor-ui .cl-results-page .cl-filter .cl-filter-trigger.is-selected,.actor-ui .cl-results-page .cl-filter .cl-filter-trigger[aria-expanded=true] { color:var(--color-brand); background:#eaf7ef; border-color:#b9ddc7; }
 .actor-ui .cl-filter-chips button { background:#edf8f1; color:var(--color-brand); border-color:#cbe6d5; }

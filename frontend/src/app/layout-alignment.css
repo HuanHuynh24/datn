@@ -22,8 +22,7 @@
 .cl-container>.cl-carousel-controls>.cl-carousel-next { right:calc(-1 * var(--layout-gutter)); }
 
 /* Search uses a content box directly; its parent supplies no gutter. */
-.cl-results-page .cl-results-wrap,.cl-results-page .cl-filter-inner,
-.cl-results-page.jobs-ui-sample .jobs-search-intro {
+.cl-results-page .cl-results-wrap,.cl-results-page .cl-filter-inner {
   width:min(var(--layout-content),calc(100% - 2 * var(--layout-gutter)));
   max-width:var(--layout-content);
   margin-inline:auto;

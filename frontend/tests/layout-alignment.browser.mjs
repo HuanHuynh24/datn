@@ -47,7 +47,7 @@ await withBrowser(async(url,request)=>{
   checks.push('Candidate applications content uses the shared width');
   for(const width of [1920,390]){
     await viewport(width);
-    for(const [url,ready,selectors] of [['/','.cl-hot-grid',['.cl-section-heading','.cl-hot-grid']],['/jobs','.cl-results-grid',['.jobs-search-intro','.cl-results-wrap']],['/companies','.company-directory-grid',['.cl-results-wrap']]]){
+    for(const [url,ready,selectors] of [['/','.cl-hot-grid',['.cl-section-heading','.cl-hot-grid']],['/jobs','.cl-results-grid',width>767?['.cl-filter-inner','.cl-results-wrap']:['.cl-results-wrap']],['/companies','.company-directory-grid',['.cl-results-wrap']]]){
       await send('Page.navigate',{url:'http://localhost:3000'+url});await until(`!!document.querySelector(${JSON.stringify(ready)})`);await aligned(selectors,width);
     }
     checks.push('Home, Jobs and Companies share header alignment without overflow at '+width+'px');

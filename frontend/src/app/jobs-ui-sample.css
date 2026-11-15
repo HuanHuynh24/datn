@@ -1,12 +1,5 @@
 /* Jobs sample only: shared cards, headers and actor workspaces keep their styles. */
-.jobs-ui-sample { background:#f5f7fb; padding-top:1px; }
-.jobs-ui-sample .jobs-search-intro { max-width:var(--layout-content); margin:32px auto 26px; display:flex; justify-content:space-between; align-items:center; gap:24px; }
-.jobs-ui-sample .jobs-search-eyebrow { display:flex; align-items:center; gap:8px; color:#426181; font-size:11px; font-weight:800; letter-spacing:1.5px; margin-bottom:10px; }
-.jobs-ui-sample .jobs-search-eyebrow span { width:7px; height:7px; border-radius:50%; background:var(--color-brand); }
-.jobs-ui-sample .jobs-search-intro h1 { color:#152b46; font-size:30px; font-weight:800; letter-spacing:-.8px; line-height:1.3; overflow-wrap:anywhere; }
-.jobs-ui-sample .jobs-search-description { color:#65758a; font-size:14px; line-height:1.7; margin-top:9px; }
-.jobs-ui-sample .jobs-search-intro-icon { display:grid; place-items:center; width:76px; height:76px; flex-shrink:0; border:1px solid #dbe8f8; border-radius:22px; background:#eaf2ff; color:var(--color-brand); transform:rotate(-7deg); }
-.jobs-ui-sample .jobs-search-intro-icon svg { width:32px; height:32px; }
+.jobs-ui-sample { background:#f5f7fb; padding-top:16px; }
 .jobs-ui-sample .cl-filter-bar { background:transparent; }
 .jobs-ui-sample .cl-filter-inner { padding:14px 18px; background:#fff; border:1px solid #e3e9f1; border-radius:12px; gap:10px; box-shadow:0 3px 12px rgb(22 49 81 / 3%); }
 .jobs-ui-sample .jobs-filter-caption { font-size:13px; color:#65758a; font-weight:700; margin-right:8px; }
@@ -30,14 +23,10 @@
 .jobs-ui-sample .cl-results-pagination button[aria-current=page] { background:var(--color-brand); border-color:var(--color-brand); color:#fff; }
 .jobs-ui-sample .cl-results-pagination button:disabled { opacity:.45; }
 @media(max-width:1199px) {
-  .jobs-ui-sample .jobs-search-intro,.jobs-ui-sample .cl-filter-inner { margin-inline:24px; }
+  .jobs-ui-sample .cl-filter-inner { margin-inline:24px; }
 }
 @media(max-width:767px) {
-  .jobs-ui-sample .jobs-search-intro { margin:20px 16px; }
-  .jobs-ui-sample .jobs-search-intro h1 { font-size:24px; }
-  .jobs-ui-sample .jobs-search-eyebrow { font-size:9px; letter-spacing:1px; }
-  .jobs-ui-sample .jobs-search-description { font-size:13px; }
-  .jobs-ui-sample .jobs-search-intro-icon { display:none; }
+  .jobs-ui-sample { padding-top:1px; }
   .jobs-ui-sample .cl-results-wrap { padding-top:4px; }
   .jobs-ui-sample .cl-results-sort { display:flex; flex-wrap:wrap; gap:14px; }
   .jobs-ui-sample .cl-results-sort>div { flex:1; }

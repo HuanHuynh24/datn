@@ -14,6 +14,7 @@ await withBrowser(async(url,request)=>{
     await send('Emulation.setDeviceMetricsOverride',{width,height:1000,deviceScaleFactor:1,mobile:width<500});
     await send('Page.navigate',{url:'http://localhost:3000/jobs'});
     await until('!!document.querySelector(".cl-results-grid")');
+    assert(await evaluate('!!document.querySelector(".site-search-context")'));
     if(stage==='after')await until('getComputedStyle(document.querySelector(".cl-job-compact")).display==="flex"');
     await evaluate('document.fonts.ready');
     assert(await evaluate('document.documentElement.scrollWidth<=innerWidth'),'Horizontal overflow at '+width);
@@ -29,6 +30,8 @@ await withBrowser(async(url,request)=>{
       await send('Input.dispatchMouseEvent',{type:'mousePressed',x:point.x,y:point.y,button:'left',clickCount:1});
       await send('Input.dispatchMouseEvent',{type:'mouseReleased',x:point.x,y:point.y,button:'left',clickCount:1});
       await until(`location.pathname==='/jobs/${id}'`);
+      await until('!!document.querySelector(".ui-job-hero")');
+      assert(!await evaluate('!!document.querySelector(".site-search-context")'));
       assert.equal(new URLSearchParams(await evaluate('location.search')).get('returnTo'),'/jobs');
       checks.push('Native detail action preserves return path at '+width+'px');
     }

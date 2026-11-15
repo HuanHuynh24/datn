@@ -35,6 +35,8 @@ function Workspace({ employer, pipeline, search }: { employer: boolean; pipeline
   const [result, setResult] = useState<ApplicationPage>();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [downloadError, setDownloadError] = useState('');
+  const [downloading, setDownloading] = useState<string>();
   const [version, setVersion] = useState(0);
 
   useEffect(() => {
@@ -61,6 +63,14 @@ function Workspace({ employer, pipeline, search }: { employer: boolean; pipeline
     navigate({ status: String(data.get('status') || ''), jobId: String(data.get('job_id') || '').trim(), job_id: '' }, true);
   }
   const failure = invalid ? 'Bộ lọc hoặc mã đơn không hợp lệ. Hãy xóa bộ lọc và chọn lại.' : error;
+  function retryList() { setError(''); setLoading(true); setVersion(value => value + 1); }
+  async function download(id: string) {
+    if (downloading) return;
+    setDownloading(id); setDownloadError('');
+    try { await downloadPrivateCV(`/api/v1/applications/${id}/cv`, `application-${id}`); }
+    catch (reason) { setDownloadError(explain(reason)); }
+    finally { setDownloading(undefined); }
+  }
   const base = employer ? '/recruiter/applicants' : '/candidate/applications';
   const jobQuery = jobId ? '?' + new URLSearchParams({ jobId }) : '';
   if (!authorized) return <p role="status">Đang kiểm tra quyền truy cập…</p>;
@@ -76,13 +86,14 @@ function Workspace({ employer, pipeline, search }: { employer: boolean; pipeline
       <Field id="application-job" label="Mã tin tuyển dụng"><input id="application-job" name="job_id" inputMode="numeric" pattern="[1-9][0-9]{0,18}" defaultValue={jobId} /></Field>
       <button className="ui-btn">Lọc hồ sơ</button><Link className="ui-btn" href={pipeline ? '/recruiter/pipeline' : base}>Xóa bộ lọc</Link>
     </form>
-    {failure ? <Notice error>{failure}</Notice> : loading ? <p role="status">Đang tải đơn ứng tuyển…</p> : result && <>
+    {downloadError && <div role="alert"><Notice error>{downloadError}</Notice><button className="ui-link" onClick={() => setDownloadError('')}>Đóng thông báo tải CV</button></div>}
+    {failure ? <div role="alert"><Notice error>{failure}</Notice>{!invalid && <button className="ui-btn" onClick={retryList}>Thử tải lại đơn ứng tuyển</button>}</div> : loading ? <p role="status">Đang tải đơn ứng tuyển…</p> : result && <>
       <p className="ui-muted"><strong>{result.total}</strong> đơn ứng tuyển{status ? ` · ${applicationStatuses[status as ApplicationStatus]}` : ''}</p>
       {result.items.length ? <div className="cl-job-collection">{result.items.map(item => <Panel key={item.id} title={item.job_title}>
         <div className="ui-row ui-row-between"><p>{item.company_name}{employer ? ` · ${item.candidate_name}` : ''}</p><Badge value={applicationStatuses[item.status]} status={item.status} /></div>
         <p className="ui-small ui-muted">{new Date(item.submitted_at).toLocaleString('vi-VN')}{employer ? ` · ${item.candidate_email}` : ''}</p>
         {item.cover_letter && <details className="ui-application-copy"><summary>Thư giới thiệu</summary><p className="ui-preline">{item.cover_letter}</p></details>}
-        <div className="ui-actions"><button className="ui-btn" onClick={() => navigate({ application_id: item.id })}>Chi tiết đơn #{item.id}</button><button className="ui-btn" onClick={() => void downloadPrivateCV(`/api/v1/applications/${item.id}/cv`, `application-${item.id}`).catch(reason => setError(explain(reason)))}>Tải CV đã nộp</button></div>
+        <div className="ui-actions"><button className="ui-btn" onClick={() => navigate({ application_id: item.id })}>Chi tiết đơn #{item.id}</button><button className="ui-btn" disabled={!!downloading} onClick={() => void download(item.id)}>{downloading === item.id ? 'Đang tải CV…' : 'Tải CV đã nộp'}</button></div>
       </Panel>)}</div> : <Empty title="Chưa có đơn ứng tuyển" text="Không có đơn phù hợp với bộ lọc hiện tại." />}
       <div className="ui-actions"><button className="ui-btn" disabled={page === 1} onClick={() => navigate({ page: String(page - 1), application_id: '' })}>Trang trước</button><span>Trang {page}</span><button className="ui-btn" disabled={page * 10 >= result.total} onClick={() => navigate({ page: String(page + 1), application_id: '' })}>Trang sau</button></div>
     </>}
@@ -98,11 +109,22 @@ function ApplicationDetail({ id, employer, onClose, onChanged }: { id: string; e
   const [busy, setBusy] = useState(false);
   const [confirmation, setConfirmation] = useState<ApplicationStatus>();
   const [message, setMessage] = useState('');
+  const [readError, setReadError] = useState('');
+  const [version, setVersion] = useState(0);
+  const [downloading, setDownloading] = useState(false);
   useEffect(() => {
     let active = true;
-    getApplication(id).then(value => { if (active) setRecord(value); }).catch(reason => { if (active) setError(explain(reason)); }).finally(() => { if (active) setLoading(false); });
+    getApplication(id).then(value => { if (active) setRecord(value); }).catch(reason => { if (active) setReadError(explain(reason)); }).finally(() => { if (active) setLoading(false); });
     return () => { active = false; };
-  }, [id]);
+  }, [id, version]);
+  function retryDetail() { if (busy || downloading) return; setReadError(''); setError(''); setLoading(true); setConfirmation(undefined); setVersion(value => value + 1); }
+  async function download() {
+    if (busy || downloading) return;
+    setDownloading(true); setError('');
+    try { await downloadPrivateCV(`/api/v1/applications/${id}/cv`, `application-${id}`); }
+    catch (reason) { setError(explain(reason)); }
+    finally { setDownloading(false); }
+  }
   async function change() {
     if (!confirmation || busy) return;
     setBusy(true); setError(''); setMessage('');
@@ -112,14 +134,15 @@ function ApplicationDetail({ id, employer, onClose, onChanged }: { id: string; e
   }
   const canManage = employer && session?.user.role === 'COMPANY_MEMBER' && session.company?.approval_status === 'APPROVED';
   return <Dialog title={`Chi tiết đơn #${id}`} onClose={() => { if (!busy) onClose(); }}>
-    {loading && <p role="status">Đang tải chi tiết đơn…</p>}{error && <Notice error>{error}</Notice>}{message && <Notice>{message}</Notice>}
-    {record && <div className="ui-stack">
+    {loading && <p role="status">Đang tải chi tiết đơn…</p>}{readError && <div role="alert"><Notice error>{readError}</Notice><button className="ui-btn" onClick={retryDetail}>Thử tải lại chi tiết đơn</button></div>}{error && <div role="alert"><Notice error>{error}</Notice></div>}{message && <div role="status"><Notice>{message}</Notice></div>}
+    {!loading && !readError && record && <div className="ui-stack">
       <h3>{record.job_title}</h3><p>{record.company_name}</p><Badge value={applicationStatuses[record.status]} status={record.status} />
       <p>Ứng viên: {record.candidate_name}</p><p>Email: {record.candidate_email}</p>
       <p>Nộp lúc: {new Date(record.submitted_at).toLocaleString('vi-VN')}</p><p>Cập nhật: {new Date(record.updated_at).toLocaleString('vi-VN')}</p>
       <section><h3>Thư giới thiệu</h3><p className="ui-preline">{record.cover_letter || 'Không có thư giới thiệu.'}</p></section>
       <p className="ui-small ui-muted">CV là bản đã lưu tại thời điểm ứng tuyển.</p>
-      <button className="ui-btn" disabled={busy} onClick={() => void downloadPrivateCV(`/api/v1/applications/${id}/cv`, `application-${id}`).catch(reason => setError(explain(reason)))}>Tải CV đã nộp</button>
+      <button className="ui-btn" disabled={busy || downloading} onClick={() => void download()}>{downloading ? 'Đang tải CV…' : 'Tải CV đã nộp'}</button>
+      <button className="ui-link" disabled={busy || downloading} onClick={retryDetail}>Làm mới chi tiết đơn</button>
       {canManage && <div className="ui-actions">{applicationTransitions[record.status].map(next => <button className="ui-btn" key={next} disabled={busy} onClick={() => { setConfirmation(next); setError(''); setMessage(''); }}>{applicationStatuses[next]}</button>)}</div>}
       {confirmation && <section className="ui-panel"><p>Xác nhận chuyển từ “{applicationStatuses[record.status]}” sang “{applicationStatuses[confirmation]}”?</p><div className="ui-actions"><button className="ui-btn ui-btn-primary" disabled={busy} onClick={() => void change()}>Xác nhận trạng thái đơn</button><button className="ui-btn" disabled={busy} onClick={() => setConfirmation(undefined)}>Hủy</button></div></section>}
     </div>}

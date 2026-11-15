@@ -51,7 +51,7 @@ export async function withBrowser(respond, run, { mysqlTest = false, debugPort =
         }
         const response = request.method === 'OPTIONS' ? { body: {} } : await respond(url, request);
         assert(response, 'Unhandled API route: ' + url.pathname);
-        await send('Fetch.fulfillRequest', { requestId, responseCode: response.status ?? 200, responseHeaders: [{ name: 'Content-Type', value: response.type ?? 'application/json' }, { name: 'Access-Control-Allow-Origin', value: 'http://localhost:3000' }, { name: 'Access-Control-Allow-Headers', value: 'Authorization,Content-Type' }, { name: 'Access-Control-Allow-Methods', value: 'GET,POST,PATCH,OPTIONS' }], body: Buffer.from(response.raw ?? JSON.stringify(response.body)).toString('base64') });
+        await send('Fetch.fulfillRequest', { requestId, responseCode: response.status ?? 200, responseHeaders: [{ name: 'Content-Type', value: response.type ?? 'application/json' }, { name: 'Access-Control-Allow-Origin', value: 'http://localhost:3000' }, { name: 'Access-Control-Allow-Headers', value: 'Authorization,Content-Type' }, { name: 'Access-Control-Allow-Methods', value: 'GET,POST,PATCH,DELETE,OPTIONS' }], body: Buffer.from(response.raw ?? JSON.stringify(response.body)).toString('base64') });
       } catch (error) {
         // CDP invalidates an interception when navigation cancels its request.
         // Keep failures for active requests and all other protocol/runtime errors.

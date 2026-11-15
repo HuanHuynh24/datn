@@ -49,7 +49,9 @@ await withBrowser(async(url,request)=>{
   assert(await evaluate('document.querySelector("dialog[open]").innerText.includes("Tải CV thành công")'));
   await click('Xem CV đã lưu');
   assert(await evaluate('document.body.innerText.includes("CV #9999999")'));
-  checks.push('Successful save plus refresh failure preserves saved CV and warns against reupload');
+  mode='success';await click('Thử tải lại danh sách CV');await until('!document.body.innerText.includes("Thử tải lại danh sách CV")');
+  assert.equal(posts,3);
+  checks.push('Successful save plus refresh failure preserves saved CV; GET retry never reuploads');
   await choose('invalid.txt');await click('Tải CV lên');
   await until('!!document.querySelector("dialog[open]")');
   assert.equal(posts,3);assert(!await evaluate('!!document.querySelector("progress")'));

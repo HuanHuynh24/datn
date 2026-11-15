@@ -4,6 +4,7 @@ import { withBrowser } from './browser-consumer.mjs';
 const checks = [];
 const calls = [];
 let role = 'COMPANY_MEMBER', approval = 'APPROVED', denied = false, conflict = false;
+let failList = true, failDownload = false;
 let record = { id: '41', candidate_id: '42', candidate_name: 'Consumer Candidate', candidate_email: 'candidate@example.com', job_id: '43', job_title: 'Consumer Job', company_id: '44', company_name: 'Consumer Company', cv_id: '45', cover_letter: '<script>window.privateLeak=true</script>', status: 'APPLIED', submitted_at: '2026-11-01T00:00:00Z', updated_at: '2026-11-01T00:00:00Z' };
 async function respond(url, request) {
   const name = url.pathname;
@@ -22,8 +23,9 @@ async function respond(url, request) {
     return { body: record };
   }
   if (name === '/api/v1/applications/41') return denied ? { status: 404, body: { detail: 'Application not found' } } : { body: record };
-  if (name === '/api/v1/applications/41/cv') return { type: 'application/pdf', raw: '%PDF-1.4\n%%EOF' };
+  if (name === '/api/v1/applications/41/cv') return failDownload ? {status:503,body:{detail:'Unavailable'}} : { type: 'application/pdf', raw: '%PDF-1.4\n%%EOF' };
   if (/\/me\/applications$/.test(name)) {
+    if (failList) return {status:503,body:{detail:'Unavailable'}};
     const status = url.searchParams.get('status');
     const items = status && status !== record.status ? [] : [record];
     return { body: { items, total: items.length ? 11 : 0, limit: 10, offset: Number(url.searchParams.get('offset')) } };
@@ -41,6 +43,13 @@ await withBrowser(respond, async ({ send, evaluate, until, fill, click }) => {
   const detail = async () => { await click('Chi tiết đơn #41'); await until('!!document.querySelector("dialog")&&!document.querySelector("dialog").innerText.includes("Đang tải chi tiết")'); };
   const close = async () => { await evaluate('document.querySelector("dialog button[aria-label]").click()'); await until('!document.querySelector("dialog")'); };
   await login('recruiter', '/recruiter/applicants?jobId=43');
+  assert(await evaluate('document.body.innerText.includes("Thử tải lại đơn ứng tuyển")'));
+  failList = false; await click('Thử tải lại đơn ứng tuyển');await until('document.body.innerText.includes("Chi tiết đơn #41")');
+  checks.push('Employer list read failure has retry and restores server results');
+  failDownload = true;await click('Tải CV đã nộp');await until('document.body.innerText.includes("Đóng thông báo tải CV")');
+  assert(await evaluate('document.body.innerText.includes("Chi tiết đơn #41")'));
+  await click('Đóng thông báo tải CV');failDownload=false;
+  checks.push('Employer row download failure keeps application list and detail controls visible');
   assert(calls.some(call => call.name === '/api/v1/companies/me/applications' && new URLSearchParams(call.query).get('job_id') === '43'));
   checks.push('Employer jobId link filters API by job');
   await detail(); assert(await evaluate('document.querySelector("dialog").innerText.includes("Consumer Candidate")'));
@@ -88,6 +97,10 @@ await withBrowser(respond, async ({ send, evaluate, until, fill, click }) => {
   assert(await evaluate('!!document.querySelector("dialog [role=alert]")'));
   assert.equal(await evaluate('document.querySelector("dialog").innerText.includes("Consumer Candidate")'), false);
   checks.push('Scoped 404 never displays previous private detail');
+  denied = false;await click('Thử tải lại chi tiết đơn');await until('document.querySelector("dialog")?.innerText.includes("Consumer Candidate")');
+  assert(!await evaluate('document.querySelector("dialog").innerText.includes("Xác nhận chuyển từ")'));
+  checks.push('Detail retry re-reads authorized server record without stale confirmation');
+  await close();
   denied = false; role = 'COMPANY_MEMBER'; approval = 'PENDING';
   await login('recruiter', '/recruiter/pipeline'); await detail();
   assert.equal(await evaluate(`[...document.querySelectorAll('dialog button')].some(button=>['Phỏng vấn','Từ chối','Đề nghị tuyển dụng'].includes(button.textContent.trim()))`), false);

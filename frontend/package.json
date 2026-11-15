@@ -32,7 +32,9 @@
     "test:job-skills": "node tests/job-skills.browser.mjs",
     "test:job-skills:mysql": "node tests/job-skills.mysql.browser.mjs",
     "test:public-loading": "node tests/public-loading.browser.mjs",
-    "profile:public-loading": "node tests/public-loading.profile.mjs"
+    "profile:public-loading": "node tests/public-loading.profile.mjs",
+    "test:salary-filters": "node tests/salary-filters.browser.mjs",
+    "test:salary-filters:live": "node tests/salary-filters.live.browser.mjs"
   },
   "dependencies": {
     "next": "16.4.2",

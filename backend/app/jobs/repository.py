@@ -105,6 +105,7 @@ class JobRepository:
         industry_id=None,
         skill_id=None,
         minimum_salary=None,
+        maximum_salary=None,
         work_type=None,
         sort="newest",
         limit=20,
@@ -139,9 +140,11 @@ class JobRepository:
                 .exists()
             )
         if minimum_salary is not None:
-            query = query.where(j.c.luongtoida >= minimum_salary)
+            query = query.where(func.coalesce(j.c.luongtoida, j.c.luongtoithieu) >= minimum_salary)
+        if maximum_salary is not None:
+            query = query.where(func.coalesce(j.c.luongtoithieu, j.c.luongtoida) <= maximum_salary)
         if work_type:
-            query = query.where(j.c.hinhthuclamviec == work_type)
+            query = query.where(func.trim(j.c.hinhthuclamviec) == work_type.strip())
         total = self.session.scalar(select(func.count()).select_from(query.subquery()))
         order = {
             "newest": j.c.idtin.desc(),
@@ -156,6 +159,19 @@ class JobRepository:
             .all()
         )
         return rows, total
+
+    def public_work_types(self):
+        j, c = self.job, self.company
+        value = func.trim(j.c.hinhthuclamviec)
+        return list(
+            self.session.scalars(
+                select(value)
+                .select_from(j.join(c, j.c.iddoanhnghiep == c.c.iddoanhnghiep))
+                .where(self.visible(), value.is_not(None), value != "")
+                .distinct()
+                .order_by(value)
+            )
+        )
 
     def detail(self, key, *, public=False, company_id=None):
         query = self.query().where(self.job.c.idtin == int(key))

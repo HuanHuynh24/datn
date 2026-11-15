@@ -63,9 +63,9 @@ async function main() {
     const navigate = async query => { await send('Page.navigate', { url: base + '/jobs' + query }); };
     const ready = () => until('!!document.querySelector(".cl-results-grid")');
     const lastQuery = () => requests.filter(url => url.pathname === '/api/v1/jobs').at(-1).searchParams;
-    await navigate('?keyword=Python&province_id=92&industry_id=91&skill_id=93&minimum_salary=100&work_type=Full-time&sort=salary_desc&page=2');
+    await navigate('?keyword=Python&province_id=92&industry_id=91&minimum_salary=100&maximum_salary=200&work_type=Full-time&sort=salary_desc&page=2');
     await ready();
-    for (const [key, value] of Object.entries({ q: 'Python', province_id: '92', industry_id: '91', skill_id: '93', minimum_salary: '100', work_type: 'Full-time', sort: 'salary_desc', limit: '15', offset: '15' })) assert.equal(lastQuery().get(key), value, key);
+    for (const [key, value] of Object.entries({ q: 'Python', province_id: '92', industry_id: '91', maximum_salary: '200', minimum_salary: '100', work_type: 'Full-time', sort: 'salary_desc', limit: '15', offset: '15' })) assert.equal(lastQuery().get(key), value, key);
     checks.push('URL maps every supported API filter and server offset');
     assert(await evaluate('document.body.innerText.includes("16 việc làm")&&document.body.innerText.includes("Hiển thị 16–16 trong 16")'));
     checks.push('Uses server total and offset for result range');
@@ -78,15 +78,14 @@ async function main() {
     await evaluate(`document.querySelector('button[aria-label="Trang 2"]').click()`);
     await until('location.search.includes("page=2")&&!!document.querySelector(".cl-results-grid")'); assert.equal(lastQuery().get('offset'), '15');
     checks.push('Pagination requests next server page');
-    await evaluate(`document.querySelector('input[name="skill_id"][value="93"]')?.click()`);
     // Dropdown contents are mounted only while open.
-    await evaluate(`([...document.querySelectorAll('.cl-filter-trigger')].find(button=>button.textContent.includes('Kỹ năng'))).click()`);
-    await until(`!!document.querySelector('input[name="skill_id"]')`);
-    await evaluate(`document.querySelector('input[name="skill_id"]').click()`);
-    assert(await evaluate('location.search.includes("skill_id=")'));
-    await evaluate(`document.querySelector('input[name="skill_id"]').closest('form').requestSubmit()`);
-    await until('!location.search.includes("skill_id=")&&!!document.querySelector(".cl-results-grid")');
-    assert.equal(lastQuery().has('skill_id'),false); assert.equal(lastQuery().get('offset'),'0');
+    await evaluate(`([...document.querySelectorAll('.cl-filter-trigger')].find(button=>button.textContent.includes('Ngành nghề'))).click()`);
+    await until(`!!document.querySelector('input[name="industry_id"]')`);
+    await evaluate(`document.querySelector('input[name="industry_id"]').click()`);
+    assert(await evaluate('location.search.includes("industry_id=")'));
+    await evaluate(`document.querySelector('input[name="industry_id"]').closest('form').requestSubmit()`);
+    await until('!location.search.includes("industry_id=")&&!!document.querySelector(".cl-results-grid")');
+    assert.equal(lastQuery().has('industry_id'),false); assert.equal(lastQuery().get('offset'),'0');
     checks.push('Catalog radio selection waits for Apply, then updates URL and resets server page');
     const returnPath=await evaluate('location.pathname+location.search');
     await evaluate('document.querySelector(".cl-job-title button").click()');

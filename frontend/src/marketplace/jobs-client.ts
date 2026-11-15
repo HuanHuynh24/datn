@@ -4,7 +4,7 @@ import { publicRead } from './public-read';
 export type JobStatus = 'DRAFT' | 'PENDING' | 'APPROVED' | 'REJECTED' | 'PAUSED' | 'CLOSED';
 export const jobStatusText: Record<JobStatus, string> = { DRAFT: 'Bản nháp', PENDING: 'Chờ duyệt', APPROVED: 'Đã duyệt', REJECTED: 'Từ chối', PAUSED: 'Tạm dừng', CLOSED: 'Đã đóng' };
 export interface CatalogItem { id: string; name: string; province_id?: string }
-export interface JobCatalog { industries: CatalogItem[]; provinces: CatalogItem[]; wards: CatalogItem[]; skills: CatalogItem[] }
+export interface JobCatalog { industries: CatalogItem[]; provinces: CatalogItem[]; wards: CatalogItem[]; skills: CatalogItem[]; work_types?: string[] }
 export interface LiveJob {
   company_logo_url?: string | null;
   id: string; company_id: string; company_name: string; title: string;

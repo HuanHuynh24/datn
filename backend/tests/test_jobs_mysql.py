@@ -214,6 +214,86 @@ def test_search_filters_pagination_and_sql_input(mysql_jobs):
     assert db.client.get(PUBLIC, params={"sort": "id; DROP TABLE"}).status_code == 422
 
 
+def test_public_salary_ranges_overlap_null_boundaries_and_pagination(mysql_jobs):
+    db = mysql_jobs
+    _, owner = auth(db)
+    ids = {}
+    for name, lower, upper in [
+        ("low", "8000000", "10000000"),
+        ("overlap", "12000000", "18000000"),
+        ("high", "30000000", "40000000"),
+        ("negotiated", None, None),
+        ("only_min", "16000000", None),
+        ("only_max", None, "14000000"),
+    ]:
+        job, _ = approve(db, owner, draft(db, owner))
+        ids[name] = job["id"]
+        db.connection.execute(
+            update(db.tables["tintuyendung"])
+            .where(db.tables["tintuyendung"].c.idtin == int(job["id"]))
+            .values(luongtoithieu=lower, luongtoida=upper)
+        )
+    for query, expected in [
+        ({}, set(ids)),
+        ({"maximum_salary": "10000000"}, {"low"}),
+        ({"minimum_salary": "15000000", "maximum_salary": "20000000"}, {"overlap", "only_min"}),
+        ({"minimum_salary": "14000000", "maximum_salary": "14000000"}, {"overlap", "only_max"}),
+        ({"minimum_salary": "10000000", "maximum_salary": "12000000"}, {"low", "overlap"}),
+        ({"minimum_salary": "50000000"}, set()),
+    ]:
+        result = db.client.get(PUBLIC, params=query)
+        assert result.status_code == 200
+        body = result.json()
+        assert {r["id"] for r in body["items"]} == {ids[name] for name in expected}
+        assert body["total"] == len(expected)
+    page = db.client.get(
+        PUBLIC,
+        params={
+            "minimum_salary": "15000000",
+            "maximum_salary": "20000000",
+            "limit": 1,
+            "offset": 1,
+        },
+    ).json()
+    assert page["total"] == 2 and len(page["items"]) == 1
+
+
+@pytest.mark.parametrize(
+    "query",
+    [
+        {"maximum_salary": "-1"},
+        {"minimum_salary": "20", "maximum_salary": "10"},
+        {"maximum_salary": "NaN"},
+        {"maximum_salary": "Infinity"},
+        {"maximum_salary": "invalid"},
+    ],
+)
+def test_invalid_public_salary_ranges_return_422(mysql_jobs, query):
+    assert mysql_jobs.client.get(PUBLIC, params=query).status_code == 422
+
+
+def test_work_type_catalog_uses_visible_jobs_and_trimmed_values(mysql_jobs):
+    db = mysql_jobs
+    _, owner = auth(db)
+    first, _ = approve(db, owner, draft(db, owner))
+    second, _ = approve(db, owner, draft(db, owner))
+    table = db.tables["tintuyendung"]
+    db.connection.execute(
+        update(table)
+        .where(table.c.idtin == int(first["id"]))
+        .values(hinhthuclamviec="  Actual type  ")
+    )
+    db.connection.execute(
+        update(table)
+        .where(table.c.idtin == int(second["id"]))
+        .values(hinhthuclamviec="Hidden type", trangthai="PAUSED")
+    )
+    values = db.client.get("/api/v1/job-catalog").json()["work_types"]
+    assert values == ["Actual type"]
+    results = db.client.get(PUBLIC, params={"work_type": values[0]}).json()
+    assert results["total"] == 1 and results["items"][0]["id"] == first["id"]
+
+
 @pytest.mark.parametrize("days,visible", [(-1, False), (0, True), (1, True)])
 def test_deadline_public_visibility(mysql_jobs, days, visible):
     db = mysql_jobs

@@ -115,6 +115,11 @@
 .actor-ui .jobs-ui-sample .cl-filter-inner { border-color:var(--ui-line); box-shadow:none; border-radius:8px; }
 .actor-ui .cl-results-page .cl-filter .cl-filter-trigger.is-selected,.actor-ui .cl-results-page .cl-filter .cl-filter-trigger[aria-expanded=true] { color:var(--color-brand); background:#eaf7ef; border-color:#b9ddc7; }
 .actor-ui .cl-filter-chips button { background:#edf8f1; color:var(--color-brand); border-color:#cbe6d5; }
+.jobs-ui-sample .job-choice-panel { width:320px; max-height:min(540px,75dvh); }
+.jobs-ui-sample :is(.job-salary-options,.job-work-type-options) .search-filter-options { display:grid; gap:2px; max-height:none; overflow:visible; }
+.jobs-ui-sample :is(.job-salary-options,.job-work-type-options) .search-filter-options label { display:flex; align-items:flex-start; gap:9px; padding:8px 2px; line-height:21px; cursor:pointer; font-size:14px; }
+.jobs-ui-sample :is(.job-salary-options,.job-work-type-options) input[type=radio] { flex-shrink:0; width:15px; height:15px; margin-top:3px; accent-color:var(--color-brand); }
+.jobs-ui-sample :is(.job-salary-options,.job-work-type-options) .search-filter-hint { margin-top:10px; }
 .actor-ui .cl-results-page .cl-filter-panel { border-color:var(--ui-line); }
 .actor-ui .cl-results-sort select { border-radius:6px; border-color:#d6dfda; }
 .actor-ui .cl-results-pagination button[aria-current=page] { background:var(--color-brand); border-color:var(--color-brand); }

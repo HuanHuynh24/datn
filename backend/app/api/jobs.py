@@ -1,7 +1,7 @@
 from decimal import Decimal
 from typing import Annotated, Literal
 
-from fastapi import APIRouter, Depends, Query, Response
+from fastapi import APIRouter, Depends, HTTPException, Query, Response
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
@@ -10,6 +10,7 @@ from app.auth.dependencies import require_admin, require_approved_company
 from app.auth.errors import AUTH_ERROR_RESPONSES
 from app.auth.schemas import AccountId, Principal
 from app.db.session import get_db
+from app.jobs.repository import JobRepository
 from app.jobs.schemas import JobContentInput, JobPage, JobResponse, JobReview, JobStatus, JobUpdate
 from app.jobs.service import JobService
 from app.models import KyNang, NganhNghe, TinhThanh, XaPhuong
@@ -51,6 +52,7 @@ def catalogs(session: Database) -> dict:
                 }
                 for r in session.execute(query.order_by(t.c[pk])).mappings()
             ]
+        data["work_types"] = JobRepository(session).public_work_types()
         return data
 
     return operation(session, act)
@@ -70,11 +72,18 @@ def public_jobs(
     industry_id: AccountId | None = None,
     skill_id: AccountId | None = None,
     minimum_salary: Annotated[Decimal | None, Query(ge=0)] = None,
+    maximum_salary: Annotated[Decimal | None, Query(ge=0)] = None,
     work_type: Annotated[str | None, Query(max_length=60)] = None,
     sort: Literal["newest", "salary_asc", "salary_desc"] = "newest",
     limit: Annotated[int, Query(ge=1, le=100)] = 20,
     offset: Annotated[int, Query(ge=0)] = 0,
 ) -> JobPage:
+    if (
+        minimum_salary is not None
+        and maximum_salary is not None
+        and minimum_salary > maximum_salary
+    ):
+        raise HTTPException(status_code=422, detail="Invalid salary range")
     return operation(
         session,
         lambda: JobService(session).listing(
@@ -84,6 +93,7 @@ def public_jobs(
             industry_id=industry_id,
             skill_id=skill_id,
             minimum_salary=minimum_salary,
+            maximum_salary=maximum_salary,
             work_type=work_type,
             sort=sort,
             limit=limit,

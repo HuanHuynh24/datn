@@ -40,7 +40,9 @@
     "test:candidate-profile": "node tests/candidate-profile.browser.mjs",
     "test:company-management": "node tests/company-management.browser.mjs",
     "test:company-management:mysql": "node tests/company-management.mysql.browser.mjs",
-    "test:cv-management": "node tests/cv-management.browser.mjs"
+    "test:cv-management": "node tests/cv-management.browser.mjs",
+    "test:admin-management": "node tests/admin-management.browser.mjs",
+    "test:admin-management:mysql": "node tests/admin-management.mysql.browser.mjs"
   },
   "dependencies": {
     "next": "16.4.2",

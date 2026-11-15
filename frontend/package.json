@@ -34,7 +34,9 @@
     "test:public-loading": "node tests/public-loading.browser.mjs",
     "profile:public-loading": "node tests/public-loading.profile.mjs",
     "test:salary-filters": "node tests/salary-filters.browser.mjs",
-    "test:salary-filters:live": "node tests/salary-filters.live.browser.mjs"
+    "test:salary-filters:live": "node tests/salary-filters.live.browser.mjs",
+    "test:account-management": "node tests/account-management.browser.mjs",
+    "test:account-management:mysql": "node tests/account-management.mysql.browser.mjs"
   },
   "dependencies": {
     "next": "16.4.2",

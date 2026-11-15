@@ -6,6 +6,13 @@ from sqlalchemy.orm import Session
 
 from app.auth.dependencies import CurrentPrincipal, get_credential_service, get_token_codec
 from app.auth.errors import AUTH_ERROR_RESPONSES, auth_unavailable, unauthorized
+from app.auth.password_change import (
+    IncorrectCurrentPassword,
+    PasswordChangeDenied,
+    PasswordChangeRequest,
+    PasswordChangeResponse,
+    PasswordChangeService,
+)
 from app.auth.policy import UnresolvedLoginPolicy
 from app.auth.registration import CandidateRegistrationService, RegistrationConflict
 from app.auth.schemas import (
@@ -21,6 +28,35 @@ from app.auth.tokens import TokenCodec
 from app.db.session import get_db
 
 router = APIRouter(prefix="/api/v1/auth", tags=["Authentication"])
+
+
+@router.post(
+    "/change-password",
+    response_model=PasswordChangeResponse,
+    summary="Change the authenticated account's password using its current password",
+    description=(
+        "All three roles may change only their own password. Argon2id, transaction/row locks. "
+        "Client signs out after success. Existing stateless JWT copies are not revoked "
+        "and expire within the existing 30-minute lifetime. No role/ID/status changes."
+    ),
+    responses={**AUTH_ERROR_RESPONSES, 400: {"description": "Incorrect current password"}},
+)
+def change_password(
+    body: PasswordChangeRequest,
+    principal: CurrentPrincipal,
+    response: Response,
+    session: Annotated[Session, Depends(get_db)],
+) -> PasswordChangeResponse:
+    try:
+        PasswordChangeService(session).change(principal.account_id, body)
+    except IncorrectCurrentPassword:
+        raise HTTPException(status_code=400, detail="Current password is incorrect") from None
+    except PasswordChangeDenied:
+        raise unauthorized() from None
+    except (SQLAlchemyError, UnresolvedLoginPolicy):
+        raise auth_unavailable() from None
+    response.headers["Cache-Control"] = "no-store"
+    return PasswordChangeResponse()
 
 
 @router.post(
@@ -65,8 +101,9 @@ def register_candidate(
     summary="Verify account credentials and issue a 30-minute access token",
     description=(
         "Requires existing ERD account tables. Role/status and specialization are checked. "
-        "No refresh, failed-attempt writes or server-side logout/revocation. "
-        "Missing database/schema or unresolved recorded lock data returns 503."
+        "Five consecutive wrong passwords lock the account for fifteen minutes in UTC. "
+        "Successful login or expiry resets the counter. "
+        "No refresh or server-side logout/revocation."
     ),
     responses=AUTH_ERROR_RESPONSES,
 )
@@ -82,8 +119,7 @@ def login(
         raise unauthorized() from None
     except (SQLAlchemyError, UnresolvedLoginPolicy):
         raise auth_unavailable() from None
-    # This login path is read-only: hash upgrades and lock/counter writes are
-    # deferred, not silently persisted with unapproved policies.
+    # Counter/lock updates have committed before issuing the access token.
     response.headers["Cache-Control"] = "no-store"
     response.headers["Pragma"] = "no-cache"
     return TokenResponse(access_token=codec.create_access_token(verified.principal.account_id))

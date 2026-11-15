@@ -3,7 +3,7 @@
 import os
 import secrets
 from dataclasses import dataclass, field
-from datetime import UTC, datetime
+from datetime import UTC, datetime, timedelta
 from decimal import Decimal
 
 import jwt
@@ -29,6 +29,384 @@ pytestmark = [
         os.getenv("RUN_AUTH_MYSQL_TESTS") != "1", reason="Explicit Auth MySQL target required"
     ),
 ]
+
+
+class RecordingAccountMailer:
+    def __init__(self):
+        self.messages = []
+
+    def ensure_configured(self):
+        pass
+
+    def deliver(self, message):
+        if message is not None:
+            self.messages.append(message)
+
+
+def record_account_mail(db):
+    from app.api.account_security import get_account_mailer
+
+    mailer = RecordingAccountMailer()
+    db.client.app.dependency_overrides[get_account_mailer] = lambda: mailer
+    db.client.app.state.settings = db.settings.model_copy(
+        update={"smtp_from_email": "sender@example.com"}
+    )
+    return mailer
+
+
+def mailed_token(message):
+    import re
+
+    return re.search(r"#token=([A-Za-z0-9_.-]+)", message.get_content()).group(1)
+
+
+@pytest.mark.parametrize("role", ["CANDIDATE", "COMPANY_MEMBER", "ADMIN"])
+def test_approved_login_lock_five_failures_expiry_and_success_reset(mysql_auth, role):
+    db = mysql_auth
+    identity = db.create_identity(role)
+    old_token = db.login(identity).json()["access_token"]
+    table = db.tables["taikhoan"]
+
+    def row():
+        return (
+            db.connection.execute(select(table).where(table.c.idtaikhoan == identity.account_id))
+            .mappings()
+            .one()
+        )
+
+    wrong = {"email": identity.email, "password": "incorrect-test-password"}
+    for _ in range(4):
+        assert db.client.post("/api/v1/auth/login", json=wrong).status_code == 401
+    assert row()["solandangsai"] == 4 and row()["khoaden"] is None
+    assert db.login(identity).status_code == 200
+    assert row()["solandangsai"] == 0
+    for _ in range(5):
+        assert db.client.post("/api/v1/auth/login", json=wrong).status_code == 401
+    locked = row()
+    now = datetime.now(UTC).replace(tzinfo=None)
+    assert locked["solandangsai"] == 5
+    assert now + timedelta(minutes=14) < locked["khoaden"] < now + timedelta(minutes=16)
+    assert db.login(identity).status_code == 401
+    assert (
+        db.client.get(
+            "/api/v1/auth/me", headers={"Authorization": "Bearer " + old_token}
+        ).status_code
+        == 401
+    )
+    db.connection.execute(
+        update(table)
+        .where(table.c.idtaikhoan == identity.account_id)
+        .values(khoaden=now - timedelta(seconds=1))
+    )
+    assert db.client.post("/api/v1/auth/login", json=wrong).status_code == 401
+    assert row()["solandangsai"] == 1 and row()["khoaden"] is None
+    assert db.login(identity).status_code == 200
+    assert row()["solandangsai"] == 0 and row()["khoaden"] is None
+
+
+@pytest.mark.parametrize("role", ["CANDIDATE", "COMPANY_MEMBER", "ADMIN"])
+def test_password_reset_mail_link_once_and_new_password(mysql_auth, role):
+    db = mysql_auth
+    identity = db.create_identity(role)
+    mailer = record_account_mail(db)
+    requested = db.client.post(
+        "/api/v1/auth/password-reset/request", json={"email": identity.email}
+    )
+    assert requested.status_code == 202 and set(requested.json()) == {"message"}
+    assert len(mailer.messages) == 1
+    token = mailed_token(mailer.messages[0])
+    assert token not in requested.text
+    assert (
+        db.client.get("/api/v1/auth/me", headers={"Authorization": "Bearer " + token}).status_code
+        == 401
+    )
+    new = secrets.token_urlsafe(28)
+    body = {"token": token, "new_password": new}
+    assert db.client.post("/api/v1/auth/password-reset/confirm", json=body).status_code == 200
+    assert db.client.post("/api/v1/auth/password-reset/confirm", json=body).status_code == 400
+    assert db.login(identity).status_code == 401
+    assert (
+        db.client.post(
+            "/api/v1/auth/login", json={"email": identity.email, "password": new}
+        ).status_code
+        == 200
+    )
+
+
+@pytest.mark.parametrize("role", ["CANDIDATE", "COMPANY_MEMBER", "ADMIN"])
+def test_verify_email_changes_only_verified_flag(mysql_auth, role):
+    db = mysql_auth
+    identity = db.create_identity(role)
+    headers = {"Authorization": "Bearer " + db.login(identity).json()["access_token"]}
+    mailer = record_account_mail(db)
+    before = db.client.get("/api/v1/auth/account", headers=headers).json()
+    assert before == {"email": identity.email, "email_verified": False}
+    table = db.tables["taikhoan"]
+    original = dict(
+        db.connection.execute(select(table).where(table.c.idtaikhoan == identity.account_id))
+        .mappings()
+        .one()
+    )
+    result = db.client.post("/api/v1/auth/email-verification/request", headers=headers)
+    assert result.status_code == 202 and len(mailer.messages) == 1
+    token = mailed_token(mailer.messages[0])
+    assert token not in result.text
+    assert (
+        db.client.post(
+            "/api/v1/auth/password-reset/confirm",
+            json={"token": token, "new_password": secrets.token_urlsafe(28)},
+        ).status_code
+        == 400
+    )
+    assert (
+        db.client.post("/api/v1/auth/email-verification/confirm", json={"token": token}).status_code
+        == 200
+    )
+    assert (
+        db.client.post("/api/v1/auth/email-verification/confirm", json={"token": token}).status_code
+        == 400
+    )
+    after = dict(
+        db.connection.execute(select(table).where(table.c.idtaikhoan == identity.account_id))
+        .mappings()
+        .one()
+    )
+    assert {key for key in original if original[key] != after[key]} == {"daxacthucemail"}
+    assert db.client.get("/api/v1/auth/account", headers=headers).json()["email_verified"] is True
+
+
+def test_reset_request_hides_unknown_disabled_and_cools_down(mysql_auth):
+    db = mysql_auth
+    identity = db.create_identity("CANDIDATE")
+    disabled = db.create_identity("ADMIN", status="DISABLED")
+    mailer = record_account_mail(db)
+    responses = [
+        db.client.post("/api/v1/auth/password-reset/request", json={"email": email})
+        for email in ["missing@example.com", disabled.email, identity.email, identity.email]
+    ]
+    assert all(response.status_code == 202 for response in responses)
+    assert all(response.json() == responses[0].json() for response in responses)
+    assert len(mailer.messages) == 1
+
+
+def test_action_link_invalidated_by_password_change(mysql_auth):
+    db = mysql_auth
+    identity = db.create_identity("CANDIDATE")
+    headers = {"Authorization": "Bearer " + db.login(identity).json()["access_token"]}
+    mailer = record_account_mail(db)
+    db.client.post("/api/v1/auth/password-reset/request", json={"email": identity.email})
+    token = mailed_token(mailer.messages[0])
+    new = secrets.token_urlsafe(28)
+    assert (
+        db.client.post(
+            "/api/v1/auth/change-password",
+            headers=headers,
+            json={"current_password": identity.password, "new_password": new},
+        ).status_code
+        == 200
+    )
+    assert (
+        db.client.post(
+            "/api/v1/auth/password-reset/confirm",
+            json={"token": token, "new_password": secrets.token_urlsafe(28)},
+        ).status_code
+        == 400
+    )
+
+
+def test_smtp_unconfigured_is_not_fake_success(mysql_auth):
+    db = mysql_auth
+    identity = db.create_identity("CANDIDATE")
+    for email in [identity.email, "missing@example.com"]:
+        result = db.client.post("/api/v1/auth/password-reset/request", json={"email": email})
+        assert result.status_code == 503 and set(result.json()) == {"detail"}
+
+
+def test_password_reset_recovers_a_locked_account(mysql_auth):
+    db = mysql_auth
+    identity = db.create_identity("ADMIN")
+    table = db.tables["taikhoan"]
+    db.connection.execute(
+        update(table)
+        .where(table.c.idtaikhoan == identity.account_id)
+        .values(
+            solandangsai=5, khoaden=datetime.now(UTC).replace(tzinfo=None) + timedelta(minutes=15)
+        )
+    )
+    mailer = record_account_mail(db)
+    assert (
+        db.client.post(
+            "/api/v1/auth/password-reset/request", json={"email": identity.email}
+        ).status_code
+        == 202
+    )
+    new = secrets.token_urlsafe(28)
+    assert (
+        db.client.post(
+            "/api/v1/auth/password-reset/confirm",
+            json={"token": mailed_token(mailer.messages[0]), "new_password": new},
+        ).status_code
+        == 200
+    )
+    row = (
+        db.connection.execute(select(table).where(table.c.idtaikhoan == identity.account_id))
+        .mappings()
+        .one()
+    )
+    assert row["solandangsai"] == 0 and row["khoaden"] is None and row["trangthai"] == "ACTIVE"
+    assert (
+        db.client.post(
+            "/api/v1/auth/login", json={"email": identity.email, "password": new}
+        ).status_code
+        == 200
+    )
+
+
+def test_reset_database_failure_keeps_password_and_link_reusable(mysql_auth, monkeypatch):
+    from sqlalchemy.exc import SQLAlchemyError
+
+    db = mysql_auth
+    identity = db.create_identity("CANDIDATE")
+    mailer = record_account_mail(db)
+    db.client.post("/api/v1/auth/password-reset/request", json={"email": identity.email})
+    body = {"token": mailed_token(mailer.messages[0]), "new_password": secrets.token_urlsafe(28)}
+
+    def fail_commit(session):
+        raise SQLAlchemyError("forced fixture commit failure")
+
+    with monkeypatch.context() as context:
+        context.setattr(Session, "commit", fail_commit)
+        assert db.client.post("/api/v1/auth/password-reset/confirm", json=body).status_code == 503
+    assert db.login(identity).status_code == 200
+    assert db.client.post("/api/v1/auth/password-reset/confirm", json=body).status_code == 200
+
+
+@pytest.mark.parametrize("role", ["CANDIDATE", "COMPANY_MEMBER", "ADMIN"])
+def test_self_password_change_updates_only_hash_and_requires_new_login(mysql_auth, role):
+    db = mysql_auth
+    identity = db.create_identity(role)
+    token = db.login(identity).json()["access_token"]
+    table = db.tables["taikhoan"]
+    before = dict(
+        db.connection.execute(select(table).where(table.c.idtaikhoan == identity.account_id))
+        .mappings()
+        .one()
+    )
+    new = secrets.token_urlsafe(28)
+    result = db.client.post(
+        "/api/v1/auth/change-password",
+        headers={"Authorization": "Bearer " + token},
+        json={"current_password": identity.password, "new_password": new},
+    )
+    assert result.status_code == 200
+    assert set(result.json()) == {"message"}
+    assert new not in result.text and identity.password not in result.text
+    after = dict(
+        db.connection.execute(select(table).where(table.c.idtaikhoan == identity.account_id))
+        .mappings()
+        .one()
+    )
+    assert {k for k in before if before[k] != after[k]} == {"matkhaubam"}
+    assert after["matkhaubam"].startswith("$argon2id$")
+    assert db.login(identity).status_code == 401
+    assert (
+        db.client.post(
+            "/api/v1/auth/login", json={"email": identity.email, "password": new}
+        ).status_code
+        == 200
+    )
+    # Existing stateless-token limit is unchanged; do not falsely claim revocation.
+    assert (
+        db.client.get("/api/v1/auth/me", headers={"Authorization": "Bearer " + token}).status_code
+        == 200
+    )
+
+
+@pytest.mark.parametrize("approval", ["PENDING", "REJECTED"])
+def test_unapproved_company_member_can_change_own_password(mysql_auth, approval):
+    db = mysql_auth
+    identity = db.create_identity("COMPANY_MEMBER", approval=approval)
+    token = db.login(identity).json()["access_token"]
+    assert (
+        db.client.post(
+            "/api/v1/auth/change-password",
+            headers={"Authorization": "Bearer " + token},
+            json={"current_password": identity.password, "new_password": secrets.token_urlsafe(28)},
+        ).status_code
+        == 200
+    )
+
+
+def test_password_change_wrong_current_and_mass_assignment_do_not_write(mysql_auth):
+    db = mysql_auth
+    identity, other = db.create_identity("CANDIDATE"), db.create_identity("ADMIN")
+    token = db.login(identity).json()["access_token"]
+    headers = {"Authorization": "Bearer " + token}
+    table = db.tables["taikhoan"]
+    before = list(
+        db.connection.execute(select(table.c.matkhaubam).order_by(table.c.idtaikhoan)).scalars()
+    )
+    new = secrets.token_urlsafe(28)
+    wrong = db.client.post(
+        "/api/v1/auth/change-password",
+        headers=headers,
+        json={"current_password": "definitely-wrong-current", "new_password": new},
+    )
+    assert wrong.status_code == 400
+    for extra in [{"account_id": str(other.account_id)}, {"role": "ADMIN"}, {"status": "ACTIVE"}]:
+        result = db.client.post(
+            "/api/v1/auth/change-password",
+            headers=headers,
+            json={"current_password": identity.password, "new_password": new, **extra},
+        )
+        assert result.status_code == 422
+        assert new not in result.text and identity.password not in result.text
+    assert before == list(
+        db.connection.execute(select(table.c.matkhaubam).order_by(table.c.idtaikhoan)).scalars()
+    )
+
+
+@pytest.mark.parametrize("role", ["CANDIDATE", "COMPANY_MEMBER", "ADMIN"])
+def test_disabled_account_old_jwt_cannot_change_password(mysql_auth, role):
+    db = mysql_auth
+    identity = db.create_identity(role)
+    token = db.login(identity).json()["access_token"]
+    table = db.tables["taikhoan"]
+    db.connection.execute(
+        update(table).where(table.c.idtaikhoan == identity.account_id).values(trangthai="DISABLED")
+    )
+    assert (
+        db.client.post(
+            "/api/v1/auth/change-password",
+            headers={"Authorization": "Bearer " + token},
+            json={"current_password": identity.password, "new_password": secrets.token_urlsafe(28)},
+        ).status_code
+        == 401
+    )
+
+
+def test_password_change_rolls_back_hash_on_database_failure(mysql_auth, monkeypatch):
+    from sqlalchemy.exc import SQLAlchemyError
+
+    from app.auth.password_change import PasswordChangeRepository
+
+    db = mysql_auth
+    identity = db.create_identity("CANDIDATE")
+    token = db.login(identity).json()["access_token"]
+    original = PasswordChangeRepository.replace_hash
+
+    def fail(repository, account_id, password_hash):
+        original(repository, account_id, password_hash)
+        raise SQLAlchemyError("forced fixture failure")
+
+    monkeypatch.setattr(PasswordChangeRepository, "replace_hash", fail)
+    result = db.client.post(
+        "/api/v1/auth/change-password",
+        headers={"Authorization": "Bearer " + token},
+        json={"current_password": identity.password, "new_password": secrets.token_urlsafe(28)},
+    )
+    assert result.status_code == 503
+    assert db.login(identity).status_code == 200
 
 
 @dataclass

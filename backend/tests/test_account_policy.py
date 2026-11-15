@@ -1,10 +1,10 @@
 from dataclasses import replace
-from datetime import UTC, datetime
+from datetime import UTC, datetime, timedelta
 
 import pytest
 
 from app.auth.accounts import AccountSnapshot
-from app.auth.policy import ApprovedAccountPolicy, UnresolvedLoginPolicy
+from app.auth.policy import ApprovedAccountPolicy
 
 
 def snapshot(role="ADMIN"):
@@ -77,6 +77,16 @@ def test_disabled_invalid_or_disjoint_violation_fails_closed(changes):
     assert ApprovedAccountPolicy().principal_for(replace(snapshot(), **changes)) is None
 
 
-def test_lock_data_remains_blocked_pending_lock_policy():
-    with pytest.raises(UnresolvedLoginPolicy):
-        ApprovedAccountPolicy().principal_for(replace(snapshot(), locked_until=datetime.now(UTC)))
+def test_active_lock_denies_and_expired_lock_allows_under_approved_policy():
+    assert (
+        ApprovedAccountPolicy().principal_for(
+            replace(snapshot(), locked_until=datetime.now(UTC) + timedelta(minutes=1))
+        )
+        is None
+    )
+    assert (
+        ApprovedAccountPolicy().principal_for(
+            replace(snapshot(), locked_until=datetime.now(UTC) - timedelta(seconds=1))
+        )
+        is not None
+    )

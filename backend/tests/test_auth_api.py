@@ -1,5 +1,5 @@
 import secrets
-from datetime import UTC, datetime
+from datetime import UTC, datetime, timedelta
 from unittest.mock import Mock
 
 import pytest
@@ -79,7 +79,7 @@ def test_login_real_service_and_current_status_reread(auth_api):
     row["status"] = "DISABLED"
     assert client.get("/api/v1/auth/me", headers=headers).status_code == 401
     assert client.post("/api/v1/auth/login", json=credentials(row, password)).status_code == 401
-    session.commit.assert_not_called()
+    session.commit.assert_called_once()
     session.add.assert_not_called()
     assert session.close.call_count >= 4
 
@@ -129,11 +129,11 @@ def test_wrong_password_missing_account_and_privilege_input(auth_api):
     )
 
 
-def test_database_or_unresolved_lock_does_not_issue_a_token(auth_api):
+def test_database_or_active_lock_does_not_issue_a_token(auth_api):
     client, row, password, session = auth_api
-    row["locked_until"] = datetime.now(UTC)
+    row["locked_until"] = datetime.now(UTC) + timedelta(minutes=1)
     locked = client.post("/api/v1/auth/login", json=credentials(row, password))
-    assert locked.status_code == 503 and "access_token" not in locked.text
+    assert locked.status_code == 401 and "access_token" not in locked.text
     session.execute.side_effect = OperationalError(
         "private sql", {}, Exception("secret DB details")
     )

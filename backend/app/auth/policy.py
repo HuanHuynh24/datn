@@ -1,3 +1,5 @@
+from datetime import UTC, datetime
+
 from app.auth.accounts import AccountSnapshot
 from app.auth.schemas import (
     AccountStatus,
@@ -11,6 +13,13 @@ from app.auth.schemas import (
 
 class UnresolvedLoginPolicy(Exception):
     """Existing lock data cannot be interpreted under an unapproved lock policy."""
+
+
+def lock_is_active(until: datetime | None) -> bool:
+    if until is None:
+        return False
+    value = until.replace(tzinfo=UTC) if until.tzinfo is None else until.astimezone(UTC)
+    return value > datetime.now(UTC)
 
 
 class ApprovedAccountPolicy:
@@ -39,10 +48,8 @@ class ApprovedAccountPolicy:
             approval = account.company_approval_status
         else:
             return None
-        # No guessed threshold, duration, timestamp convention or automatic unlock.
-        # NULL means there is no recorded lock to interpret; non-NULL needs policy.
-        if account.locked_until is not None:
-            raise UnresolvedLoginPolicy()
+        if lock_is_active(account.locked_until):
+            return None
         return Principal(
             account_id=account.account_id,
             role=account.role,

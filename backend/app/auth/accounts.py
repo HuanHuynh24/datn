@@ -22,6 +22,7 @@ class AccountSnapshot:
     member_title: str | None
     company_id: str | None
     company_approval_status: str | None = None
+    failed_login_count: int = 0
 
 
 class AccountReader(Protocol):

@@ -7,6 +7,8 @@ import Icon from './Icon';
 import Dropdown from './Dropdown';
 import Dialog from './Dialog';
 import HeaderSearch from './HeaderSearch';
+import AccountPasswordButton from './AccountPasswordButton';
+import {AccountEmailButton} from './AccountEmailActions';
 import { headerNavigation, isHeaderLinkActive, type HeaderLink, type NavMode } from './header-navigation';
 
 interface NavProps { mode: NavMode; activePage: string; onNavigate: (page: string, data?: unknown) => void }
@@ -91,6 +93,8 @@ export default function Nav({ mode, activePage, onNavigate }: NavProps) {
               {accountLinks.map(link => renderLink(link))}
               <div className="site-menu-section">{exploreLinks.map(link => renderLink(link))}</div>
               <div className="site-menu-section">{renderLink(switchLink)}</div>
+              <AccountPasswordButton/>
+              <AccountEmailButton/>
               <button className="site-menu-link" onClick={() => { logout(); navigate('signin'); }}>Đăng xuất</button>
             </Dropdown>
             {activePage !== primary.page && renderLink(primary, 'site-header-cta')}
@@ -108,6 +112,8 @@ export default function Nav({ mode, activePage, onNavigate }: NavProps) {
         {!isGuest && <section className="site-mobile-group"><h3>{isRecruiter ? 'Doanh nghiệp & cẩm nang' : 'Khám phá thêm'}</h3>{mobileAccountLinks.map(link => renderLink(link))}{exploreLinks.map(link => renderLink(link))}</section>}
       </nav>
       <div className="site-mobile-footer">
+        {!isGuest&&<AccountPasswordButton/>}
+        {!isGuest&&<AccountEmailButton/>}
         {isGuest && <div className="site-mobile-auth">{renderLink({ page: 'signin', label: 'Đăng nhập' }, 'ui-btn')}{renderLink(primary, 'site-header-cta')}</div>}
         {renderLink(switchLink, 'site-role-switch')}
         {!isGuest && <button className="site-menu-link" onClick={() => { logout(); navigate('signin'); }}>Đăng xuất</button>}

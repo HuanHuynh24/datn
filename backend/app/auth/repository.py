@@ -1,4 +1,4 @@
-from sqlalchemy import BigInteger, Boolean, DateTime, String, column, select, table
+from sqlalchemy import BigInteger, Boolean, DateTime, Integer, String, column, select, table
 from sqlalchemy.orm import Session
 
 from app.auth.accounts import AccountSnapshot
@@ -15,6 +15,7 @@ accounts = table(
     column("trangthai", String(30)),
     column("daxacthucemail", Boolean),
     column("khoaden", DateTime),
+    column("solandangsai", Integer),
 )
 candidates = table("hosoungvien", column("idungvien", BigInteger), column("idtaikhoan", BigInteger))
 members = table(
@@ -43,6 +44,7 @@ def account_projection():
         accounts.c.trangthai.label("status"),
         accounts.c.daxacthucemail.label("email_verified"),
         accounts.c.khoaden.label("locked_until"),
+        accounts.c.solandangsai.label("failed_login_count"),
         candidates.c.idungvien.label("candidate_id"),
         members.c.iddoanhnghiep.label("member_company_id"),
         members.c.trangthai.label("member_status"),
@@ -58,12 +60,14 @@ class SqlAlchemyAccountReader:
     def __init__(self, session: Session):
         self.session = session
 
-    def by_email(self, email: str) -> AccountSnapshot | None:
-        return self._read(account_projection().where(accounts.c.email == email))
+    def by_email(self, email: str, *, lock: bool = False) -> AccountSnapshot | None:
+        query = account_projection().where(accounts.c.email == email)
+        return self._read(query.with_for_update() if lock else query)
 
-    def by_id(self, account_id: str) -> AccountSnapshot | None:
+    def by_id(self, account_id: str, *, lock: bool = False) -> AccountSnapshot | None:
         validate_account_id(account_id)
-        return self._read(account_projection().where(accounts.c.idtaikhoan == int(account_id)))
+        query = account_projection().where(accounts.c.idtaikhoan == int(account_id))
+        return self._read(query.with_for_update() if lock else query)
 
     def _read(self, statement) -> AccountSnapshot | None:
         row = self.session.execute(statement).mappings().one_or_none()

@@ -5,6 +5,8 @@ import { useRouter } from 'next/navigation';
 import { apiRequest, logout, useAuthSession } from '../auth-client';
 import { reviewCompany, reviewJob } from '../jobs-client';
 import Dialog from '../components/Dialog';
+import AccountPasswordButton from '../components/AccountPasswordButton';
+import {AccountEmailButton} from '../components/AccountEmailActions';
 import { Field, Notice, Panel } from '../ui';
 import './admin-management.css';
 
@@ -57,7 +59,7 @@ export default function AdminManagement() {
   }
   if (session?.user.role !== 'ADMIN') return <p className="ui-container" role="status">Đang kiểm tra quyền quản trị…</p>;
   return <div className="admin-layout">
-    <aside className="admin-sidebar"><h1>Quản trị hệ thống</h1><nav aria-label="Chức năng Admin"><button aria-current={tab === 'dashboard' ? 'page' : undefined} onClick={() => navigate('dashboard')}>Tổng quan</button>{Object.entries(labels).map(([key, name]) => <button key={key} aria-current={tab === key ? 'page' : undefined} onClick={() => navigate(key as Resource)}>{name}</button>)}</nav><button className="ui-btn" onClick={() => { logout(); router.replace('/admin/sign-in'); }}>Đăng xuất</button></aside>
+    <aside className="admin-sidebar"><h1>Quản trị hệ thống</h1><nav aria-label="Chức năng Admin"><button aria-current={tab === 'dashboard' ? 'page' : undefined} onClick={() => navigate('dashboard')}>Tổng quan</button>{Object.entries(labels).map(([key, name]) => <button key={key} aria-current={tab === key ? 'page' : undefined} onClick={() => navigate(key as Resource)}>{name}</button>)}</nav><AccountPasswordButton className="ui-btn"/><AccountEmailButton className="ui-btn"/><button className="ui-btn" onClick={() => { logout(); router.replace('/admin/sign-in'); }}>Đăng xuất</button></aside>
     <section className="admin-content"><header className="admin-heading"><div><p>ADMIN</p><h2>{tab === 'dashboard' ? 'Tổng quan hệ thống' : labels[tab]}</h2></div><button className="ui-btn" disabled={loading} onClick={() => { setLoading(true); setError(''); setVersion(v => v + 1); }}>Tải lại</button></header>
       {error && <Notice error>{error}</Notice>}{message && <Notice>{message}</Notice>}
       {['industries', 'skills'].includes(tab) && <button className="ui-btn ui-btn-primary" disabled={loading || detailLoading} onClick={() => { setError(''); setEditor({ name: '', status: 'ACTIVE' }); }}>Thêm danh mục</button>}

@@ -8,6 +8,8 @@ export const pagePaths: Record<string, string> = {
   companies: '/companies',
   career: '/career',
   signin: '/sign-in',
+  'reset-password': '/reset-password',
+  'verify-email': '/verify-email',
   'signup-candidate': '/sign-up/candidate',
   'signup-recruiter': '/sign-up/recruiter',
   'candidate-home': '/candidate',

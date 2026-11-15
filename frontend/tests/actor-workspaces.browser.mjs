@@ -39,6 +39,8 @@ await withBrowser(async(url,request)=>{
     await until(`location.pathname===${JSON.stringify(path)}`);
   }
   async function fit(name){
+    await until('!!document.querySelector(".actor-ui")&&getComputedStyle(document.querySelector(".actor-ui")).getPropertyValue("--color-brand").trim()==="#00843d"');
+    await evaluate('document.fonts.ready');
     assert(await evaluate('document.documentElement.scrollWidth<=innerWidth'),name+' overflows');
     assert(await evaluate('getComputedStyle(document.querySelector(".actor-ui")).getPropertyValue("--color-brand").trim()==="#00843d"'),name+' missing theme');
     assert(await evaluate('getComputedStyle(document.body).fontFamily.includes("Open Sans")'));

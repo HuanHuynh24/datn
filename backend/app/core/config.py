@@ -1,7 +1,8 @@
 from pathlib import Path
+from typing import Literal
 from urllib.parse import urlsplit
 
-from pydantic import Field, SecretStr, field_validator
+from pydantic import EmailStr, Field, SecretStr, field_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -21,8 +22,20 @@ class Settings(BaseSettings):
     jwt_secret: SecretStr | None = None
     jwt_issuer: str = Field(default="recruitment-api", min_length=1)
     jwt_audience: str = Field(default="recruitment-web", min_length=1)
+    frontend_url: str = "http://localhost:3000"
+    smtp_host: str = ""
+    smtp_port: int = Field(default=587, ge=1, le=65535)
+    smtp_security: Literal["starttls", "ssl"] = "starttls"
+    smtp_username: str = Field(default="", repr=False)
+    smtp_password: SecretStr | None = Field(default=None, repr=False)
+    smtp_from_email: EmailStr | None = None
 
-    @field_validator("public_api_url")
+    @field_validator("smtp_password", "smtp_from_email", mode="before")
+    @classmethod
+    def blank_optional_smtp(cls, value):
+        return None if value == "" else value
+
+    @field_validator("public_api_url", "frontend_url")
     @classmethod
     def validate_public_api_url(cls, value: str) -> str:
         parsed = urlsplit(value)

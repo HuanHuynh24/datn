@@ -5,6 +5,7 @@ from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
+from app.api.account_security import router as account_security_router
 from app.api.admin import router as admin_router
 from app.api.admin_management import router as admin_management_router
 from app.api.auth import router as auth_router
@@ -14,6 +15,7 @@ from app.api.cv_applications import router as cv_applications_router
 from app.api.health import router as health_router
 from app.api.images import router as images_router
 from app.api.jobs import router as jobs_router
+from app.auth.account_actions import EmailCooldown
 from app.auth.documentation import install_auth_documentation
 from app.core.config import Settings
 from app.cv.upload_limit import CVUploadLimit
@@ -50,6 +52,7 @@ def create_app(settings: Settings | None = None) -> FastAPI:
     app.state.engine = engine
     app.state.settings = settings
     app.state.principal_resolver = None
+    app.state.email_cooldown = EmailCooldown()
     app.add_middleware(CVUploadLimit)
     if settings.allowed_origins:
         app.add_middleware(
@@ -61,6 +64,7 @@ def create_app(settings: Settings | None = None) -> FastAPI:
         )
     app.include_router(health_router)
     app.include_router(auth_router)
+    app.include_router(account_security_router)
     app.include_router(candidate_profile_router)
     # Static /companies/me/jobs routes must precede public /companies/{id}/jobs.
     app.include_router(jobs_router)

@@ -6,6 +6,7 @@ from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm import Session
 
 from app.auth.errors import auth_unavailable, unauthorized
+from app.auth.login_transactions import TransactionalCredentialService
 from app.auth.policy import ApprovedAccountPolicy, UnresolvedLoginPolicy
 from app.auth.repository import SqlAlchemyAccountReader
 from app.auth.schemas import AccessClaims, CompanyApprovalStatus, ConfirmedSystemRole, Principal
@@ -56,7 +57,7 @@ def get_principal_resolver(
 
 
 def get_credential_service(session: Annotated[Session, Depends(get_db)]) -> CredentialService:
-    return CredentialService(SqlAlchemyAccountReader(session), ApprovedAccountPolicy())
+    return TransactionalCredentialService(session)
 
 
 def get_current_principal(

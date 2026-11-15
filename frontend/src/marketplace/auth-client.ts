@@ -28,6 +28,9 @@ interface AuthSession {
 
 let session: AuthSession | null = null;
 let expiryTimer: ReturnType<typeof setTimeout> | undefined;
+let signInNotice = '';
+export const getSignInNotice = () => signInNotice;
+export const setSignInNotice = (message: string) => { signInNotice = message; };
 const listeners = new Set<() => void>();
 const apiBase = (process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:8000').replace(/\/$/, '');
 const snapshot = () => session;
@@ -111,6 +114,7 @@ export async function registerCandidate(email: string, fullName: string, passwor
 }
 
 export async function signIn(email: string, password: string, expectedRole: SystemRoleCode) {
+  signInNotice = '';
   // Never retain a previous identity when attempting a new login.
   logout();
   const token = await request<{ access_token: string; expires_in: number }>('/api/v1/auth/login', {
@@ -138,6 +142,7 @@ export const getCandidateProfile = () => request<CandidateProfile>('/api/v1/cand
 export { request as apiRequest };
 // Public reads never attach a session token or alter the current authentication state.
 export const publicApiRequest = <T,>(path: string) => request<T>(path, {}, null);
+export const anonymousApiRequest = <T,>(path: string, options: RequestInit = {}) => request<T>(path, options, null);
 export async function getPrivateImage(path: '/api/v1/candidates/me/avatar' | '/api/v1/companies/me/logo') {
   if (!session || session.expiresAt <= Date.now()) {
     logout(); throw new ApiError(401, 'Vui lòng đăng nhập lại.');

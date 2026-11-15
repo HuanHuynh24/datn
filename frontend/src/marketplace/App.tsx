@@ -26,6 +26,7 @@ const RecruiterHomePage = dynamic(() => import('./pages/recruiter/RecruiterHomeP
 const ApplicationsWorkspace = dynamic(() => import('./pages/ApplicationsWorkspace'), { loading: PageLoading });
 const CompanyProfilePage = dynamic(() => import('./pages/recruiter/CompanyProfilePage'), { loading: PageLoading });
 const AdminManagement = dynamic(() => import('./pages/AdminManagement'), { loading: PageLoading });
+const AccountActionPage = dynamic(() => import('./pages/AccountActionPage'), { loading: PageLoading });
 const LiveJobDetail = dynamic(() => import('./pages/LiveJobs').then(module => module.LiveJobDetail), { loading: PageLoading });
 const LiveJobEditor = dynamic(() => import('./pages/LiveJobs').then(module => module.LiveJobEditor), { loading: PageLoading });
 const LiveJobList = dynamic(() => import('./pages/LiveJobs').then(module => module.LiveJobList), { loading: PageLoading });
@@ -76,11 +77,11 @@ export default function App({ page, itemId }: { page: string; itemId?: string })
   const navMode = routeMode === 'public' ? candidateSession ? 'candidate' : recruiterSession ? 'recruiter' : 'public' : routeMode;
 
   // Pages that suppress nav
-  const noNav = ['signin-admin', 'admin', 'signin', 'signup-candidate', 'signup-recruiter'].includes(page);
+  const noNav = ['signin-admin', 'admin', 'signin', 'signup-candidate', 'signup-recruiter','reset-password','verify-email'].includes(page);
   const showMobileNav = !noNav && navMode !== 'recruiter';
 
   const showFooter = PAGES_WITH_FOOTER.has(page);
-  const actorAuth=['signin','signup-candidate','signup-recruiter'].includes(page);
+  const actorAuth=['signin','signup-candidate','signup-recruiter','reset-password','verify-email'].includes(page);
   const actorMode=actorAuth?(page==='signup-recruiter'?'recruiter':'candidate'):!noNav?(navMode==='recruiter'?'recruiter':'candidate'):null;
   const hasSidebar=requiresRecruiter&&!!actorMode;
 
@@ -116,6 +117,7 @@ export default function App({ page, itemId }: { page: string; itemId?: string })
 
         {page === 'job-detail' && itemId && <LiveJobDetail key={itemId} id={itemId} />}
         {page === 'admin' && <AdminManagement />}
+        {(page==='reset-password'||page==='verify-email')&&<AccountActionPage key={page} verify={page==='verify-email'}/>}
 
         {page === 'cv-upload' && <LiveCVs />}
 

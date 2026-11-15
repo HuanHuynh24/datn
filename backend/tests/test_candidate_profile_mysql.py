@@ -149,3 +149,44 @@ def test_mysql_profile_rolls_back_account_name_when_profile_update_fails(mysql_a
     failed = mysql_auth.client.patch(PATH, headers=headers, json={"full_name": "Must roll back"})
     assert failed.status_code == 503
     assert mysql_auth.client.get(PATH, headers=headers).json() == before
+
+
+def test_mysql_profile_partial_patch_preserves_legacy_json_and_avatar(mysql_auth):
+    _, headers = candidate(mysql_auth)
+    legacy = {"school": "Existing school", "details": ["Degree", "2020"]}
+    saved = mysql_auth.client.patch(
+        PATH,
+        headers=headers,
+        json={"education": legacy, "avatar_url": "https://example.com/avatar.png"},
+    )
+    assert saved.status_code == 200
+    changed = mysql_auth.client.patch(PATH, headers=headers, json={"phone": "0900000000"})
+    assert changed.status_code == 200
+    assert changed.json()["education"] == legacy
+    assert changed.json()["avatar_url"] == saved.json()["avatar_url"]
+    assert changed.json()["phone"] == "0900000000"
+
+
+def test_mysql_profile_can_clear_optional_fields_and_keep_zero_salary(mysql_auth):
+    _, headers = candidate(mysql_auth)
+    saved = mysql_auth.client.patch(
+        PATH,
+        headers=headers,
+        json={"minimum_salary": "0", "maximum_salary": "100", "education": ["Degree"]},
+    )
+    assert saved.status_code == 200
+    cleared = mysql_auth.client.patch(
+        PATH, headers=headers, json={"maximum_salary": None, "education": None}
+    )
+    assert cleared.status_code == 200
+    assert cleared.json()["minimum_salary"] == "0.00"
+    assert cleared.json()["maximum_salary"] is None
+    assert cleared.json()["education"] is None
+
+
+def test_mysql_profile_empty_patch_does_not_touch_timestamp(mysql_auth):
+    _, headers = candidate(mysql_auth)
+    before = mysql_auth.client.get(PATH, headers=headers).json()
+    unchanged = mysql_auth.client.patch(PATH, headers=headers, json={})
+    assert unchanged.status_code == 200
+    assert unchanged.json() == before

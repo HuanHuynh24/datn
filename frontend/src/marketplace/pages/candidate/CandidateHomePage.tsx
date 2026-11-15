@@ -5,6 +5,7 @@ import { useJobCatalog } from '../../job-catalog';
 import { useListReturn } from '../../view-state';
 import ProfilePhoto from '../../components/ProfilePhoto';
 import DashboardWelcome from '../../components/DashboardWelcome';
+import { profileCompletion } from '../../candidate-profile';
 import JobCard from '../../components/JobCard';
 import Icon from '../../components/Icon';
 import { SectionHeading } from '../../components/ReferenceSections';
@@ -24,8 +25,7 @@ export default function CandidateHomePage({ onNavigate }: { onNavigate: Navigate
   const [applicationTotal,setApplicationTotal]=useState(0);const [interviewTotal,setInterviewTotal]=useState(0);
   const [overviewLoading,setOverviewLoading]=useState(true);const [overviewError,setOverviewError]=useState('');const [overviewVersion,setOverviewVersion]=useState(0);
   useEffect(()=>{let active=true;Promise.all([apiRequest<ApplicationPage>('/api/v1/candidates/me/applications?limit=10&offset=0'),apiRequest<CV[]>('/api/v1/candidates/me/cvs'),apiRequest<ApplicationPage>('/api/v1/candidates/me/applications?status=INTERVIEW&limit=1&offset=0')]).then(([apps,items,interviews])=>{if(active){setApplications(apps.items);setApplicationTotal(apps.total);setInterviewTotal(interviews.total);setCvs(items);}}).catch(reason=>{if(active)setOverviewError(reason instanceof Error?reason.message:'Chưa tải được tổng quan hồ sơ.');}).finally(()=>{if(active)setOverviewLoading(false);});return()=>{active=false;};},[overviewVersion]);
-  const profileFields = [profile?.full_name, profile?.phone, profile?.address, profile?.introduction, profile?.desired_position, profile?.education, profile?.experience];
-  const complete = Math.round(profileFields.filter(value => typeof value === 'string' ? value.trim() : Array.isArray(value)?value.length:typeof value==='object'&&value?Object.keys(value).length:Boolean(value)).length / profileFields.length * 100);
+  const complete = profileCompletion(profile).percent;
   const {available,loading,error:jobsError,reload:reloadJobs}=useJobCatalog();
   const recommended = available.slice(0,6);
   const primaryCV=cvs.find(cv=>cv.is_primary)??cvs[0];

@@ -50,7 +50,7 @@ await withBrowser(null, async ({ send, evaluate, until, fill, click, requests, r
   await until('!!document.querySelector("dialog [role=alert]")');
   assert(await evaluate('!!document.querySelector("#profile-name")'));
   await click('Hủy');
-  checks.push('Invalid salary range rejected by MySQL-backed Backend without fake success');
+  checks.push('Invalid salary range blocked in profile editor; no fake save success');
   await follow('/candidate/cvs');
   await until('!!document.querySelector("#cv-file")&&!document.body.innerText.includes("Đang tải CV…")');
   await evaluate(`(()=>{const input=document.querySelector('#cv-file');const data=new DataTransfer();data.items.add(new File(['%PDF-1.7\\nE8 MySQL browser CV\\n%%EOF'],'resume.pdf',{type:'application/pdf'}));input.files=data.files;input.dispatchEvent(new Event('change',{bubbles:true}));document.querySelector('form').requestSubmit();})()`);
